@@ -1,0 +1,15 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+<iscomment> BlueSnap iframe fraud device data collect section </iscomment>
+<isscript>
+    var getBlueSnapPreference = require('*/cartridge/scripts/lib/bluesnapdata.js');
+    var constants = require('*/cartridge/scripts/constants.js');
+    var instance = getBlueSnapPreference('Instance') === 'production' ? constants.clientproduction + '/servlet/' : constants.clientsandbox + '/servlet/';
+    var fraudDeviceDataEnable = getBlueSnapPreference('FraudDeviceData');
+</isscript>
+<isif condition="${fraudDeviceDataEnable}" >
+    <isset name="bluesnapSessionId" value="${pdict.Basket.UUID}" scope="page"/>
+    <iframe width='1' height='1' frameborder='0' scrolling='no'
+        src="${instance + 'logo.htm?s=' + bluesnapSessionId}">
+        <img width='1' height='1' src="${instance + 'logo.gif?s=' + bluesnapSessionId}">
+    </iframe>
+</isif>

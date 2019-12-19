@@ -1,0 +1,16 @@
+<div class="tab-pane bluesnapvisacheckout-content
+    ${activePaymentMethods === paymentOption.ID ? 'active' : ''}"
+    id="bluesnapvisacheckout-content" role="tabpanel">
+        
+    <fieldset class="payment-form-fields">
+        <!--- payment method is Visa Checkout --->
+        <input type="hidden" class="form-control"
+               name="${pdict.forms.billingForm.paymentMethod.htmlName}"
+               value="BLUESNAP_VISA_CHECKOUT"
+        />
+    </fieldset>
+
+    <div class="user-bluesnapvisacheckout-instruments container">
+        ${Resource.msg('msg.visacheckout.showbtn','bluesnap',null)}
+    </div>
+</div>

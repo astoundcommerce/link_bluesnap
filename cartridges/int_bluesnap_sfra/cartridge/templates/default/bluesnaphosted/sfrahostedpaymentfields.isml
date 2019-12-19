@@ -1,0 +1,51 @@
+<isset name="getBlueSnapPreference" value="${require('*/cartridge/scripts/lib/bluesnapdata.js')}" scope="page"/>
+<span id="bsinputdata" 
+    data-token='${pdict.token}' 
+    data-instance='${pdict.instance}'
+    data-basket="${require('*/cartridge/scripts/storefrontdata/basketdata.js').basketData(dw.order.BasketMgr.getCurrentBasket())}"></span>
+<script type="text/javascript" src="${pdict.instance}/source/web-sdk/bluesnap.js"></script>
+<script src="${dw.web.URLUtils.staticURL('/js/bluesnap/bluesnaphostedfields.js')}"></script>
+<link rel="stylesheet" href="${dw.web.URLUtils.staticURL('/css/bluesnaphostedfields.css')}" />
+<div data-bluesnapsecure="${getBlueSnapPreference('3DSecure')}">
+    <div class="row required form-group">
+        <label for="card-number" class="col-12">
+            <span class="required-indicator">* </span>
+            <span>${Resource.msg('label.payment.card.number','bluesnap',null)}</span>
+            <span id="card-logo" class="input-group-addon">
+                <img src="https://files.readme.io/d1a25b4-generic-card.png" height="20px">
+            </span>
+        </label>
+        <!--Hosted Field for CC number-->
+        <div class="field-wrapper col-12">
+            <div class="input-group">
+                <div class="card-number form-control" id="card-number" data-bluesnap="ccn"></div>
+            </div>
+        </div>
+        <div class="helper-text form-caption col-12" id="ccn-help"></div>
+    </div>
+    <div class="row required form-group">
+        <!--Hosted Field for CC EXP-->
+        <label for="exp-date" class="col-12">
+            <span class="required-indicator">* </span>
+            <span>${Resource.msg('label.payment.card.date','bluesnap',null)}</span>
+        </label>
+        <div class="field-wrapper exp-date col-12" id="exp-date" data-bluesnap="exp"></div>
+        <span class="helper-text form-caption" id="exp-help"></span>
+    </div>
+    <div class="row required form-group">
+        <div class="col-sm-6">
+            <!--Hosted Field for CC CVV-->
+
+            <label for="cvv">
+                <span class="required-indicator">* </span>
+                <span>${Resource.msg('label.payment.card.code','bluesnap',null)}</span>
+            </label>
+            <div class="field-wrapper">
+                <div class="input-group">
+                    <div class="cvv form-control" id="cvv" data-bluesnap="cvv"></div>
+                </div>
+                <span class="helper-text form-caption" id='cvv-help'></span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+<isdecorate template="application/MenuFrame">
+    <iscontent type="text/html" charset="UTF-8" />
+    <isset name="reportData" value="${pdict.reportData}" scope="page"/>
+    <form class="form-horizontal form" id="report-table" name="customreport" method="post" action="${pdict.nextPageUrl}" >
+        <input type="hidden" name="csrf_token" />
+        <input type="hidden" name="report_type" value="${pdict.typeReport}" />
+        <input type="hidden" name="nextPageToken" value='${reportData.nextPageToken}'/>
+        <isloop items="${pdict.params}" var="queryParam">
+            <input type="hidden" name="${queryParam.name}" value="${queryParam.value}" />
+        </isloop>
+    
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+            <tbody>
+                <tr>
+                    <td width="100%" class="table_title aldi">
+                        ${reportData.title}
+                    </td>
+                </tr>
+                <tr>
+                   <td class="w s e"></td>
+                </tr>
+                <tr>
+                    <td class="table_title_description">
+                        <p>${Resource.msg('report.label.paramstitle', 'report', null)}</p>
+                        <table cellspacing="0" cellpadding="4">
+                            <tbody>
+                                <isloop items="${reportData.params}" var="params">
+                                    <tr>
+                                        <td class="table_header left" nowrap="nowrap">
+                                            <isprint value="${params.name}" encoding="on" />
+                                        </td>
+                                        <td class="table_header left" nowrap="nowrap">
+                                            <isprint value="${params.value}" encoding="on" />
+                                        </td>
+                                    </tr>
+                                </isloop>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="table_title_description">
+                        <p>${Resource.msg('report.label.datatitle', 'report', null)}</p>
+                        <table cellspacing="0" cellpadding="4" width="100%">
+                            <tbody>
+                                <isif condition="${pdict.tableTitle.length ===0 }" >
+                                    <tr>
+                                        ${Resource.msg('report.label.nodata', 'report', null)}
+                                    </tr>
+                                <iselse/>
+                                    <tr>
+                                        <isset name="border" value="w e s" scope="page"/>
+                                        <isloop items="${pdict.tableTitle}" var="title">
+                                            <td class="table_header center ${border}" colspan="3" nowrap="nowrap">
+                                                <isprint value="${title}" encoding="on" />
+                                            </td>
+                                            <isset name="border" value="e s" scope="page"/>
+                                        </isloop>
+                                    </tr>
+
+                                    <isloop items="${reportData.data}" var="dataRow">
+                                        <tr>
+                                            <isset name="border" value="w e s" scope="page"/>
+                                            <isloop items="${pdict.tableTitle}" var="element">
+                                                <td class="table_detail right ${border}" colspan="3" nowrap="nowrap">
+                                                    <isprint value="${dataRow[element]}" encoding="on" />
+                                                </td>
+                                                <isset name="border" value="e s" scope="page"/>
+                                            </isloop>
+                                        </tr>
+                                    </isloop>
+                                </isif>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="button">
+                        <a href="${pdict.continueUrl}" class="button">
+                            &lt;&lt;&nbsp;${Resource.msg('report.label.back', 'report', null)}
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <isif condition="${reportData.nextPageToken || reportData.totalRowCount && reportData.totalRowCount > 0}" >
+            <isinclude template="report/paging" />    
+        </isif>
+    </form>
+</isdecorate>

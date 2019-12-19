@@ -1,0 +1,92 @@
+<isset name="bluesnapACHFields" value="${pdict.forms.billingForm.BSACH}" scope="page"/>
+
+<!--- Hidden input for Vaulted Shopper ACH/ECP --->
+<input type="hidden" class="form-control" id="vaultShopperAch"
+       name="${bluesnapACHFields.vaultACH.htmlName}"
+        />
+
+<!-- ACH Routing Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapACHFields.routingNumber.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.routingNumber.htmlName}">
+            <label class="form-control-label" for="routingnumber">${bluesnapACHFields.routingNumber.label}</label>
+            <input type="text" class="form-control routingnumber" id="routingnumber"
+                value=""
+                <isprint value=${bluesnapACHFields.routingNumber.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnapRoutingNumberInvalidMessage">
+            <div class="invalid-feedback" id="bluesnapRoutingNumberInvalidMessage"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACH Account Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapACHFields.accountNumber.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.accountNumber.htmlName}">
+            <label class="form-control-label" for="accountnumber">${bluesnapACHFields.accountNumber.label}</label>
+            <input type="text" class="form-control accountnumber" id="accountnumber"
+                value=""
+                <isprint value=${bluesnapACHFields.accountNumber.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnapAccountNumberInvalidMessage">
+            <div class="invalid-feedback" id="bluesnapAccountNumberInvalidMessage"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACH Company Name for Corporate Account Type -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapACHFields.companyName.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.companyName.htmlName}">
+            <label class="form-control-label" for="companyName">${bluesnapACHFields.companyName.label}</label>
+            <input type="text" class="form-control companyname" id="companyName"
+                value=""
+                <isprint value=${bluesnapACHFields.companyName.attributes} encoding="htmlsinglequote"/>
+                >
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACH Account Type -->
+<div class="row">
+    <div class="col-6">
+        <div class="form-group
+            ${bluesnapACHFields.accountType.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.accountType.htmlName}">
+            <label class="form-control-label" for="accounttype">${bluesnapACHFields.accountType.label}</label>
+            <select class="form-control accountType custom-select" id="accounttype"
+                <isprint value=${bluesnapACHFields.accountType.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnpAccountTypeInvalidMessage">
+                <isloop items=${bluesnapACHFields.accountType.options} var="accounttype">
+                    <option id="${accounttype.id}" value="${accounttype.htmlValue}"
+                        <isif condition="${accounttype.value === "CONSUMER_SAVINGS"}">
+                            selected
+                        </isif>
+                    >
+                        ${accounttype.label}
+                    </option>
+                </isloop>
+            </select>
+            <div class="invalid-feedback" id="bluesnpAccountTypeInvalidMessage"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <isif condition="${pdict.customer.registeredUser}">
+            <div class="save-credit-card custom-control custom-checkbox ">
+                <input type="checkbox" class="custom-control-input" id="${bluesnapACHFields.storeInBluesnapVault.htmlName}" name="${bluesnapACHFields.storeInBluesnapVault.htmlName}" value="true" checked />
+                <label class="custom-control-label" for="${bluesnapACHFields.storeInBluesnapVault.htmlName}">
+                    ${bluesnapACHFields.storeInBluesnapVault.label}
+                </label>
+            </div>
+        </isif>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<isdecorate template="application/MenuFrame">
+    <iscontent type="text/html" charset="UTF-8" />
+    <input type="hidden" name="csrf_token" />
+    
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td width="100%" class="table_title aldi">
+                    ${pdict.typeReport}
+                </td>
+            </tr>
+            <tr>
+               <td class="w s e"></td>
+            </tr>
+            <tr>
+                <td class="table_title_description">
+                    <p><b>
+                        ${Resource.msg('report.label.reporterror', 'report', null)}
+                    </b></p>
+                    <table cellspacing="0" cellpadding="4">
+                        <tbody>
+                            <isloop items="${pdict.reportData.message}" var="message">
+                                <tr>
+                                    <td class="table_title_description">
+                                        <isprint value="${message.errorName}" encoding="on" />
+                                    </td>
+                                    <td class="table_title_description">
+                                        <isif condition="${!empty(message.code)}" >
+                                            (<isprint value="${message.code}" encoding="on" />)
+                                        </isif>
+                                   </td>
+                                    <td class="table_title_description">
+                                        <isprint value="${message.description}" encoding="on" />
+                                    </td>
+                                </tr>
+                            </isloop>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="button">
+                    <a href="${pdict.continueUrl}" class="button">
+                        &lt;&lt;&nbsp;${Resource.msg('report.label.back', 'report', null)}
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</isdecorate>

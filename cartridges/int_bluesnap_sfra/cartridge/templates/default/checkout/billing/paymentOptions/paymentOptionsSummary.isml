@@ -1,0 +1,31 @@
+<div class="payment-details">
+    <isloop items="${pdict.order.billing.payment.selectedPaymentInstruments}" var="payment">
+        <isif condition="${payment.paymentMethod === 'CREDIT_CARD'}">
+            <isinclude template="checkout/billing/paymentOptions/creditCardSummary" />
+        </isif>
+        <isif condition="${payment.paymentMethod === 'BLUESNAP_CREDIT_DEBIT' || payment.paymentMethod === 'BLUESNAP_LATAM'}">
+            <isinclude template="checkout/billing/paymentOptions/bluesnapcreditcardSummary" />
+        </isif>
+        <isif condition="${payment.paymentMethod === 'BLUESNAP_ACH_PAYMENT'}">
+            <isinclude template="checkout/billing/paymentOptions/bluesnapAchSummary" />
+        </isif>
+        <isif condition="${payment.paymentMethod === 'BLUESNAP_SEPA_PAYMENT'}">
+            <isinclude template="checkout/billing/paymentOptions/bluesnapSepaSummary" />
+        </isif>
+        <isif condition="${payment.paymentMethod === 'BLUESNAP_GOOGLE_PAY'}">
+            <div class="credit-card-type">
+                <span>${Resource.msg('msg.payment.googlepay', 'bluesnap', null)}</span>
+            </div>
+        </isif>
+        <isif condition="${payment.paymentMethod === 'BLUESNAP_APPLE_PAY'}">
+            <div class="credit-card-type">
+                <span>${Resource.msg('msg.payment.applepay', 'bluesnap', null)}</span>
+            </div>
+        </isif>
+        <isif condition="${payment.paymentMethod === 'BLUESNAP_VISA_CHECKOUT'}">
+            <div class="credit-card-type">
+                <span>${Resource.msg('msg.payment.visacheckout', 'bluesnap', null)}</span>
+            </div>
+        </isif>
+    </isloop>
+</div>

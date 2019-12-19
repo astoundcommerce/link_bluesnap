@@ -1,0 +1,54 @@
+<!--- TEMPLATENAME: ${preference.values} bmext.isml --->
+<isdecorate template="application/MenuFrame">
+    <iscontent type="text/html" charset="UTF-8" />
+<isset name="sitepref" value="${pdict.sitepref}" scope="page" />
+
+<h1>${pdict.group}</h1>
+<form class="form-horizontal" class="form" name="custom" method="post">
+    <input type="hidden" name="csrf_token" />
+    <table>
+        <tbody>
+            <isloop items="${pdict.preferences}" var="preference"> 
+                <tr>
+                    <td valign="top">
+                                ${preference.displayName}
+                    </td>
+                    <td>
+                        <isif condition="${preference.valueTypeCode === 8}"> 
+                        <!--- boolean --->
+                            <input type="checkbox" ${sitepref[preference.ID] ? "checked" : ""} id="${preference.getID()}" name="${'custom_' + preference.getID()}" />
+                        </isif>
+                        <isif condition="${preference.valueTypeCode === 3}"> 
+                        <!--- string --->
+                            <isif condition="${preference.getID() === 'bluesnap_FraudUDFs'}"> 
+                                <isinclude template="bmextudfs" />
+                            <iselse/>
+                                <input type="text" id="${preference.getID()}" name="${'custom_' + preference.getID()}" value="${sitepref[preference.ID] ? sitepref[preference.ID] : ''}" />
+                            </isif>
+                        </isif>
+                        <isif condition="${preference.valueTypeCode === 4}"> 
+                        <!--- text --->
+                            <textarea id="${preference.getID()}" name="${'custom_' + preference.getID()}" >${sitepref[preference.ID] ? sitepref[preference.ID] : ''}</textarea>
+                        </isif>
+                        <isif condition="${preference.valueTypeCode === 33}"> 
+                        <!--- set of strings --->
+                            <select id="${preference.getID()}" name="${'custom_' + preference.getID()}" >
+                                <isloop items="${preference.getValues()}" var="opt" status="status">
+                                    <isif condition="${opt.getValue()!=='' && opt.getValue()!==null}"> 
+                                        <option value='${opt.getValue()}'  ${sitepref[preference.ID] == opt.getValue() ? 'selected' : ''} >${opt.getValue()}</option>
+                                    </isif>	
+                                </isloop>
+                            </select>
+                        </isif>
+                        <isif condition="${preference.valueTypeCode === 23}"> 
+                        <!--- enum of strings --->
+                            <textarea id="${preference.getID()}" name="${'custom_' + preference.getID()}" >${sitepref[preference.ID].join() ? sitepref[preference.ID].join() : ''}</textarea>
+                        </isif>
+                    </td>
+                </tr>
+            </isloop>
+        </tbody>
+    </table>
+    <button type='submit' name='custom_submit' value='save'> ${Resource.msg('label.save.changes','report',null)} </button>
+</form>
+</isdecorate>

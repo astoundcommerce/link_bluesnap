@@ -1,0 +1,34 @@
+<isset name="bluesnapSEPAFields" value="${pdict.forms.billingForm.BSSEPA}" scope="page"/>
+
+<!--- Hidden input for Vaulted Shopper SEPA --->
+<input type="hidden" class="form-control" id="vaultShopperSepa"
+       name="${bluesnapSEPAFields.vaultSEPA.htmlName}"
+        />
+
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapSEPAFields.iban.mandatory === true ? 'required' : ''}
+            ${bluesnapSEPAFields.iban.htmlName}">
+            <label class="form-control-label" for="iban">${bluesnapSEPAFields.iban.label}</label>
+            <input type="text" class="form-control iban" id="iban"
+                value=""
+                <isprint value=${bluesnapSEPAFields.iban.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnapIbanInvalidMessage">
+            <div class="invalid-feedback" id="bluesnapIbanInvalidMessage"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <isif condition="${pdict.customer.registeredUser}">
+            <div class="save-credit-card custom-control custom-checkbox ">
+                <input type="checkbox" class="custom-control-input" id="${bluesnapSEPAFields.storeInBluesnapVault.htmlName}" name="${bluesnapSEPAFields.storeInBluesnapVault.htmlName}" value="true" checked />
+                <label class="custom-control-label" for="${bluesnapSEPAFields.storeInBluesnapVault.htmlName}">
+                    ${bluesnapSEPAFields.storeInBluesnapVault.label}
+                </label>
+            </div>
+        </isif>
+    </div>
+</div>

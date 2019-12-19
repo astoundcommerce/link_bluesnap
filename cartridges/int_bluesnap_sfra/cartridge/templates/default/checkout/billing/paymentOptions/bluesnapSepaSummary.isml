@@ -1,0 +1,6 @@
+<div class="credit-card-type">
+    <span>${Resource.msg('msg.payment.type.sepa', 'bluesnap', null)}</span>
+</div>
+<div class="credit-card-number">
+    <span>${Resource.msg('msg.payment.bank.iban', 'bluesnap', null)} ${payment.iban}</span>
+</div>

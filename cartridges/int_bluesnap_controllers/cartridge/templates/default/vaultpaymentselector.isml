@@ -1,0 +1,15 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+<isif condition="${(pdict.paymentsources && pdict.paymentsources.length > 0)}">
+    <select 
+        id="${pdict.select_id}"
+        name="${pdict.select_id}"
+        class="input-select js-bluesnap-vault-payment-selector"
+        aria-invalid="false"
+        data-parentselector='${pdict.parentselector}'
+    >
+        <option value='none'>${Resource.msg('vault.tip.choosevaultpayment', 'bluesnap', null)}</option>
+        <isloop items="${pdict.paymentsources}" var="ps" status="loopstatus">
+            <option value='${ps.paymentData}'>${ps.paymentSignature}</option>
+        </isloop>
+    </select>
+</isif>

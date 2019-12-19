@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+    <field formid="iban" 
+        label="SEPA.iban"
+        type="string"
+        mandatory="true"
+        min-length="14"
+        max-length="34"
+        binding="iban"
+	    missing-error="SEPA.iban.error.missing"
+        value-error="SEPA.iban.error.value"
+        range-error="SEPA.iban.error.range"/>
+	
+    <field formid="authorizeSEPA"
+        label="SEPA.authorize"
+        type="boolean"
+        mandatory="true" />
+
+    <field formid="vaultSEPA" 
+        type="string" 
+        mandatory="false" 
+        default-value="none" />
+
+    <field formid="storeInBluesnapVault"
+        label="sepa.storeInBluesnapVault.label"
+        binding="storeInBluesnapVault"
+        type="boolean"
+        mandatory="false"
+        checked="false" />
+
+</form>

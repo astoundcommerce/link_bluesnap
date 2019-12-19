@@ -1,0 +1,22 @@
+<isif condition="${pdict.hasOwnProperty('vaultedShopper')}">
+    <isloop items="${pdict.vaultedShopper.sepa}" var="paymentInstrument" status="loopState">
+        <div class="row saved-vaultedshoppersepa-instrument ${loopState.first ? 'selected-payment' : ''}"
+            data-vaultsepa="${paymentInstrument.sepaDirectDebit.ibanFirstFour + '-' + paymentInstrument.sepaDirectDebit.ibanLastFour}"
+        >
+            <div class="form-group required saved-security-code col-6 col-md-2">
+                <div class="saved-credit-card-type">
+                    <span>
+                        ${Resource.msg('msg.payment.bank.iban', 'bluesnap', null)}
+                    </span>
+                </div>
+            </div>
+            <div class="saved-payment-information col-6 col-md-10">
+                <div class="saved-credit-card-number">
+                    <span>
+                        ${paymentInstrument.sepaDirectDebit.ibanFirstFour + '****' + paymentInstrument.sepaDirectDebit.ibanLastFour}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </isloop>
+</isif>

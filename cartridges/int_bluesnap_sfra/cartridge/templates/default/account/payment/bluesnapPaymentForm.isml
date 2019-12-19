@@ -1,0 +1,90 @@
+<form action="${URLUtils.url('BluesnapVault-SavePayment', 'UUID', pdict.UUID)}"
+    class="payment-form-bluesnap"
+    method="POST"
+    name="payment-form-bluesnap" ${pdict.paymentForm.attributes}>
+
+    <!-- Select Payment Method -->
+    <div class="form-group custom-control custom-radio radio-payment">
+        <div class="form-radio">
+            <input type="radio" class="custom-control-input"
+                id="paymentoption_credit"
+                name="${pdict.paymentForm.paymentMethod.htmlName}"
+                value="BLUESNAP_CREDIT_DEBIT"
+                checked />
+            <label for="paymentoption_credit" class="custom-control-label">
+                <span>${Resource.msg('vault.creditcard.title', 'bluesnap', null)}</span>
+            </label>
+        </div>
+
+        <div class="form-radio">
+            <input type="radio" class="custom-control-input"
+                id="paymentoption_latamcredit"
+                name="${pdict.paymentForm.paymentMethod.htmlName}"
+                value="BLUESNAP_LATAM"
+                />
+            <label for="paymentoption_latamcredit" class="custom-control-label">
+                <span>${Resource.msg('vault.latam.creditcard.title', 'bluesnap', null)}</span>
+            </label>
+        </div>
+
+        <div class="form-radio">
+            <input type="radio" class="custom-control-input"
+                id="paymentoption_ecp"
+                name="${pdict.paymentForm.paymentMethod.htmlName}"
+                value="BLUESNAP_ACH_PAYMENT"
+                />
+            <label for="paymentoption_ecp" class="custom-control-label">
+                <span>${Resource.msg('vault.ecp.title', 'bluesnap', null)}</span>
+            </label>
+        </div>
+
+        <div class="form-radio">
+            <input type="radio" class="custom-control-input"
+                id="paymentoption_sepa"
+                name="${pdict.paymentForm.paymentMethod.htmlName}"
+                value="BLUESNAP_SEPA_PAYMENT"
+                />
+            <label for="paymentoption_sepa" class="custom-control-label">
+                <span>${Resource.msg('vault.sepa.title', 'bluesnap', null)}</span>
+            </label>
+        </div>
+
+        <div class="invalid-feedback"></div>
+    </div>
+
+    <div id="form_credit" style="display: none;">
+        <fieldset disabled>
+            <isinclude template="account/payment/bluesnapCardForm" />
+        </fieldset>
+    </div>
+    <div id="form_latamcredit" style="display: none;">
+        <fieldset disabled>
+            <isinclude template="account/payment/bluesnapLatamCardForm" />
+        </fieldset>
+    </div>
+    <div id="form_ecp" style="display: none;">
+        <fieldset disabled>
+            <isinclude template="account/payment/bluesnapAchForm" />
+        </fieldset>
+    </div>
+    <div id="form_sepa" style="display: none;">
+        <fieldset disabled>
+            <isinclude template="account/payment/bluesnapSepaForm" />
+        </fieldset>
+    </div>
+
+    <input type="hidden" name="${pdict.csrf.tokenName}" value="${pdict.csrf.token}" />
+
+    <!-- Cancel and Save Buttons -->
+    <div class="row">
+        <div class="col">
+            <a href="${URLUtils.url('BluesnapVault-List')}" class="btn btn-block btn-outline-primary">
+                ${Resource.msg('button.cancel', 'account', null)}</a>
+        </div>
+        <div class="col">
+            <button type="submit" name="save" class="btn btn-save btn-block btn-primary">
+                ${Resource.msg('button.save', 'account', null)}</button>
+        </div>
+    </div>
+
+</form>

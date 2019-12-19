@@ -1,0 +1,17 @@
+<isset name="bluesnapSEPAFields" value="${pdict.paymentForm.BSSEPA}" scope="page"/>
+
+<!-- SEPA Iban Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapSEPAFields.iban.mandatory === true ? 'required' : ''}
+            ${bluesnapSEPAFields.iban.htmlName}">
+            <label class="form-control-label" for="iban">${bluesnapSEPAFields.iban.label}</label>
+            <input type="text" class="form-control iban" id="iban"
+                value=""
+                <isprint value=${bluesnapSEPAFields.iban.attributes} encoding="htmlsinglequote"/>
+                >
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>

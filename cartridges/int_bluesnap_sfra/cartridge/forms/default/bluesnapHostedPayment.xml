@@ -1,0 +1,8 @@
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+    <field formid="hostedData" type="string" mandatory="true" binding="BSHostedPayment"/>
+    
+	<!-- field for saved Vault Shopper card -->
+	<field formid="vaultCreditCard" type="string" mandatory="false" default-value="none" />
+
+    <field formid="storeInBluesnapVault" label="card.storeInBluesnapVault.label" binding="storeInBluesnapVault" type="boolean" mandatory="false" checked="false" />
+</form>

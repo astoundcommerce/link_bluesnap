@@ -1,0 +1,41 @@
+<isdecorate template="application/MenuFrame">
+    <iscontent type="text/html" charset="UTF-8" />
+    <link rel="stylesheet" href="${dw.web.URLUtils.staticURL('/css/bluesnap.css')}" />
+    <script src="${dw.web.URLUtils.staticURL('/js/bluesnap.js')}"></script>
+
+    <isset name="reportConfig" value="${pdict.reportConfig}" scope="page"/>
+
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td width="100%" class="table_title aldi">
+                    ${Resource.msg('report.label.reporttitle', 'report', null)}
+                </td>
+            </tr>
+            <tr>
+               <td class="w s e"></td>
+            </tr>
+            <tr>
+                <td class="table_title_description w e">
+                    <p>${Resource.msg('report.label.reportdescription', 'report', null)}</p>
+                </td>
+            </tr>            
+        </tbody>
+    </table>
+
+    <div class="tabs">
+        <isloop items="${reportConfig}" var="tabFormConfig" status="status">
+            <div class="tab">
+                <isset name="formname" value="${'form-' + tabFormConfig.name.toLowerCase()}" scope="page"/>
+
+                <input type="radio" name="css-tabs" id="${'tab-' + status.index}" ${status.index == 0 ? 'checked' : ''} class="tab-switch" />
+                <label for="${'tab-' + status.index}" class="tab-label">
+                    <isprint value="${tabFormConfig.tabName}" encoding="on" />
+                </label>
+                <div class="tab-content">
+                    <isinclude template="report/attributeforms" />
+                </div>
+            </div>
+        </isloop>
+    </div>
+</isdecorate>

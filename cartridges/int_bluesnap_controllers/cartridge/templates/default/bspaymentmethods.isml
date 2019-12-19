@@ -1,0 +1,166 @@
+<!--- TEMPLATENAME: bspaymentmethods.isml --->
+
+<iscomment>
+    Get the list of payment methods stored in vault for _isvaultpaymentselector_ component </iscomment>
+<isif condition="${session.customerAuthenticated}">
+    <isset name="vaultPaymentsList" value="${require('*/cartridge/scripts/api/vaultedShoppers').getVaultedPaymentsList()}" scope="page" />
+</isif>
+
+<iscomment>
+    ***** Aple Pay(bluesnap) </iscomment>
+
+<div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_APPLE_PAY'}">payment-method-expanded</isif>" data-method="BLUESNAP_APPLE_PAY">
+    ${Resource.msg('msg.applepay.showbtn', 'bluesnap', null)}
+</div>
+
+<iscomment>
+    ***** SEPA Payment</iscomment>
+
+<div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_SEPA_PAYMENT'}">payment-method-expanded</isif>" data-method="BLUESNAP_SEPA_PAYMENT">
+    <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
+        <isvaultpaymentselector select_id="${pdict.CurrentForms.billing.paymentMethods.BSSEPA.vaultSEPA.htmlName}" paymentsources="${vaultPaymentsList.sepa}" parentselector="div.payment-method"/>
+        <div class='vault-help-text' style="display: none;">
+            <p>${Resource.msg('vault.tip.sepa', 'bluesnap', null)}</p>
+        </div>
+    </isif>
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSSEPA.iban}" type="input" />
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSSEPA.authorizeSEPA}" type="checkbox" rowclass="vault-required" />
+
+    <isif condition="${pdict.CurrentCustomer.authenticated}">
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSSEPA.storeInBluesnapVault}" type="checkbox" value="true"/>
+    </isif>
+</div>
+
+<iscomment>
+    ***** ACH Payment </iscomment>
+
+<div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_ACH_PAYMENT'}">payment-method-expanded</isif>" data-method="BLUESNAP_ACH_PAYMENT">
+    <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
+        <isvaultpaymentselector select_id="${pdict.CurrentForms.billing.paymentMethods.BSACH.vaultACH.htmlName}" paymentsources="${vaultPaymentsList.ecp}" parentselector="div.payment-method" />
+        <div class='vault-help-text' style="display: none;">
+            <p>${Resource.msg('vault.tip.ach', 'bluesnap', null)}</p>
+        </div>
+    </isif>
+    
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSACH.routingNumber}" type="input" />
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSACH.accountNumber}" type="input"/>
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSACH.accountType}"  type="select" rowclass="js-bluesnap-ach-type"/>
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSACH.companyName}" type="input" rowclass="js-bluesnap-company hide" />
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSACH.authorizeACH}"  type="checkbox" rowclass="vault-required" />
+
+    <isif condition="${pdict.CurrentCustomer.authenticated}">
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSACH.storeInBluesnapVault}" type="checkbox" value="true"/>
+    </isif>
+</div>
+
+<iscomment>
+    ***** CREDIT DEBIT Payment ****** </iscomment>
+
+<div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_CREDIT_DEBIT'}">payment-method-expanded</isif>" data-method="BLUESNAP_CREDIT_DEBIT">
+   
+    <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
+            <isvaultpaymentselector select_id="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.vaultCreditCard.htmlName}" paymentsources="${vaultPaymentsList.creditCards}" parentselector="div.payment-method" />
+            <div class='vault-help-text' style="display: none;">
+                <p>${Resource.msg('vault.tip.creditcard', 'bluesnap', null)}</p>
+            </div>
+   </isif>
+   
+   
+    <isif condition="${dw.system.Site.getCurrent().getCustomPreferenceValue("bluesnap_HostedPayment")}">
+        <iscomment> 
+            BlueSnap Hosted payment fields	
+         </iscomment>
+        <div id="hostedarea">
+            <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.ownerFirstName}" type="input"/>
+            <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.ownerLastName}" type="input"/>
+            <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.ownerZip}" type="input"/>
+            <isinclude url="${URLUtils.url('Bluesnap-HostedFields')}"/>
+        </div>
+    <iselse/>
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.ownerFirstName}" type="input"/>
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.ownerLastName}" type="input"/>
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.ownerZip}" type="input"/>
+        <iscomment>
+            maybe we will need to show type but seems like bluesnap makes it automatic
+            <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.type}" type="select"/></iscomment>
+
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.number}" type="input" dynamicname="true"/>
+        
+        <div class="form-row required">
+            <label>
+                <span class="required-indicator">${Resource.msg('billing.requiredindicator','checkout',null)}</span>
+                <span>${Resource.msg('billing.creditcardlistexpdate', 'checkout', null)}</span>
+            </label>
+            <isscript>
+                var currentCountry = require('*/cartridge/scripts/util/Countries').getCurrent(pdict);
+            </isscript>
+
+            <isdynamicform formobject="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.expiration}" formdata="${currentCountry.dynamicForms.expirationInfo}"/>
+
+        </div>
+
+        <isscript>
+            var help = {
+                label: Resource.msg('billing.linkcvn', 'checkout', null),
+                cid: 'checkout-security-code'
+            };
+        </isscript>
+    </isif>
+    
+    <isif condition="${pdict.CurrentCustomer.authenticated}">
+            <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.storeInBluesnapVault}" type="checkbox" value="true"/>
+    </isif>
+    
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.cvn}" type="input" rowclass="cvn vault-required" dynamicname="true" help="${help}"/>
+    
+</div>
+
+<iscomment>
+    ****** LATAM payments(credit/debit card) ***** </iscomment>
+
+<div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_LATAM'}">payment-method-expanded</isif>" data-method="BLUESNAP_LATAM">
+    <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
+        <isvaultpaymentselector  select_id="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.vaultLatamCard.htmlName}" paymentsources="${vaultPaymentsList.creditCards}" parentselector="div.payment-method" />
+        <div class='vault-help-text' style="display: none;">
+            <p>${Resource.msg('vault.tip.creditcard', 'bluesnap', null)}</p>
+        </div>
+    </isif>
+
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.ownerFirstName}" type="input"/>
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.ownerLastName}" type="input"/>
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.ownerZip}" type="input"/>
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.personalIdentificationNumber}" type="input"/>
+
+    <iscomment>
+        maybe we will need to show type but seems like bluesnap makes it automatic
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.type}" type="select"/> </iscomment>
+
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.number}" type="input" dynamicname="true"/>
+    
+    <div class="form-row required">
+        <label>
+            <span class="required-indicator">${Resource.msg('billing.requiredindicator','checkout',null)}</span>
+            <span>${Resource.msg('billing.creditcardlistexpdate', 'checkout', null)}</span>
+        </label>
+        <isscript>
+            var currentCountry = require('*/cartridge/scripts/util/Countries').getCurrent(pdict);
+        </isscript>
+
+        <isdynamicform formobject="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.expiration}" formdata="${currentCountry.dynamicForms.expirationInfo}"/>
+
+    </div>
+
+    <isscript>
+        var help = {
+            label: Resource.msg('billing.linkcvn', 'checkout', null),
+            cid: 'checkout-security-code'
+        };
+    </isscript>
+            
+    <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.cvn}" type="input" rowclass="cvn vault-required" dynamicname="true" help="${help}"/>
+
+    <isif condition="${pdict.CurrentCustomer.authenticated}">
+        <isinputfield formfield="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.storeInBluesnapVault}" type="checkbox" value="true"/>
+    </isif>
+    
+</div>

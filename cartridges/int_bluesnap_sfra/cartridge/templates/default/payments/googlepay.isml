@@ -1,0 +1,35 @@
+<div id="bluesnap-googlepay-button">
+    <div id="googlePayContainer" 
+        data-tokenurl='${dw.web.URLUtils.http("PaymentCalls-GoogleToken")}'
+        data-checkouturl='${dw.web.URLUtils.http("CheckoutServices-PlaceOrder")}'
+        data-basket='${require('*/cartridge/scripts/storefrontdata/basketdata.js').basketData(pdict.Basket)}'
+        data-sitetype='SFRA'
+    >
+    </div>
+
+    <script>
+        function loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback) {
+            if (scriptsCollection[startIndex]) {
+                var fileref = document.createElement('script');
+                fileref.setAttribute("type","text/javascript");
+                fileref.setAttribute("src", scriptsCollection[startIndex]);
+                fileref.onload = function(){
+                    startIndex = startIndex + 1;
+                    loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback)
+                };
+ 
+                document.getElementById("googlePayContainer").appendChild(fileref)
+            } else {
+                librariesLoadedCallback();
+            }
+        }
+ 
+        var scriptLibrary = [];
+        scriptLibrary.push("${dw.web.URLUtils.staticURL('/js/bluesnap/googlepay.js')}");
+        scriptLibrary.push("https://pay.google.com/gp/p/js/pay.js");
+ 
+        loadJsFilesSequentially(scriptLibrary, 0, function(){
+            onGooglePayLoaded();
+        });    
+    </script>
+</div>

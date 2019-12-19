@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="${dw.web.URLUtils.staticURL('/css/applepay.css')}" />
+<button id="apple-pay-button" 
+    data-cwalleturl='${dw.web.URLUtils.http("PaymentCalls-CreateWallet")}' 
+    data-procesurl='${dw.web.URLUtils.http("PaymentCalls-ProccessTransaction")}'
+    data-basket='${require('*/cartridge/scripts/storefrontdata/basketdata.js').basketData(pdict.Basket)}'
+    data-checkouturl='${dw.web.URLUtils.http("CheckoutServices-PlaceOrder")}'>
+</button>
+
+<script>
+    function loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback) {
+        if (scriptsCollection[startIndex]) {
+            var fileref = document.createElement('script');
+            fileref.setAttribute("type","text/javascript");
+            fileref.setAttribute("src", scriptsCollection[startIndex]);
+            fileref.onload = function(){
+                startIndex = startIndex + 1;
+                loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback)
+            };
+ 
+            document.getElementById("apple-pay-button").appendChild(fileref)
+        } else {
+            librariesLoadedCallback();
+        }
+    }
+        
+    var scriptLibrary = [];
+    scriptLibrary.push("${dw.web.URLUtils.staticURL('/js/bluesnap/applepay.js')}");
+ 
+    loadJsFilesSequentially(scriptLibrary, 0, function() {
+        if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+            $('#apple-pay-button').css('visibility', 'visible');
+        }
+        $('#apple-pay-button').on('click', applePayClicked);
+    });
+</script>

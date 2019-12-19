@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+
+	<!-- field for saved Vault Shopper ACH/ECP -->
+	<field formid="vaultSEPA" type="string" mandatory="false" default-value="none" />
+
+    <field formid="iban" label="SEPA.iban" type="string" mandatory="true" min-length="15" max-length="34" binding="iban"
+	    missing-error="SEPA.iban.error.missing" value-error="SEPA.iban.error.value"/>
+
+    <field formid="storeInBluesnapVault" label="sepa.storeInBluesnapVault.label" binding="storeInBluesnapVault" type="boolean" mandatory="false" checked="true" />
+	<field formid="authorizeSEPA" label="SEPA.authorize" binding="authorizeSEPA" type="boolean" mandatory="true" checked="false" value-error="SEPA.authorize.error.value" />
+
+</form>

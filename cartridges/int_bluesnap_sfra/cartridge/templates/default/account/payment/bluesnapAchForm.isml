@@ -1,0 +1,71 @@
+<isset name="bluesnapACHFields" value="${pdict.paymentForm.BSACH}" scope="page"/>
+
+<!-- ACH Routing Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapACHFields.routingNumber.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.routingNumber.htmlName}">
+            <label class="form-control-label" for="routingnumber">${bluesnapACHFields.routingNumber.label}</label>
+            <input type="text" class="form-control routingnumber" id="routingnumber"
+                value=""
+                <isprint value=${bluesnapACHFields.routingNumber.attributes} encoding="htmlsinglequote"/>
+                >
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACH Account Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapACHFields.accountNumber.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.accountNumber.htmlName}">
+            <label class="form-control-label" for="accountnumber">${bluesnapACHFields.accountNumber.label}</label>
+            <input type="text" class="form-control accountnumber" id="accountnumber"
+                value=""
+                <isprint value=${bluesnapACHFields.accountNumber.attributes} encoding="htmlsinglequote"/>
+                >
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACH Company Name for Corporate Account Type -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapACHFields.companyName.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.companyName.htmlName}">
+            <label class="form-control-label" for="companyName">${bluesnapACHFields.companyName.label}</label>
+            <input type="text" class="form-control companyname" id="companyName"
+                value=""
+                <isprint value=${bluesnapACHFields.companyName.attributes} encoding="htmlsinglequote"/>
+                >
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACH Account Type -->
+<div class="row">
+    <div class="col-6">
+        <div class="form-group
+            ${bluesnapACHFields.accountType.mandatory === true ? 'required' : ''}
+            ${bluesnapACHFields.accountType.htmlName}">
+            <label class="form-control-label" for="accounttype">${bluesnapACHFields.accountType.label}</label>
+            <select class="form-control accountType custom-select" id="accounttype"
+                <isprint value=${bluesnapACHFields.accountType.attributes} encoding="htmlsinglequote"/>
+                >
+                <isloop items=${bluesnapACHFields.accountType.options} var="accounttype">
+                    <option id="${accounttype.id}" value="${accounttype.htmlValue}"
+                        ${accounttype.value === "CONSUMER_SAVINGS" ? 'selected' : ''}>
+                        ${accounttype.label}
+                    </option>
+                </isloop>
+            </select>
+           <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>

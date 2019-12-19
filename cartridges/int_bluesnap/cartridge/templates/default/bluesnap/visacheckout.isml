@@ -1,0 +1,26 @@
+<isloop items="${pdict.Basket.getPaymentInstruments('BLUESNAP_VISA_CHECKOUT').toArray()}" var="PaymentInstrument">
+
+<isset name="getPreference" value="${require('*/cartridge/scripts/lib/bluesnapdata.js')}" scope="page" />
+<isset name="imageEnvironment" value="${getPreference('Instance') == 'sandbox' ? 'https://sandbox.' : 'https://' }" scope="page" />
+<isset name="scriptEnvironment" value="${getPreference('Instance') == 'sandbox' ? 'https://sandbox-' : 'https://' }" scope="page" />
+
+    
+    <isif condition="${PaymentInstrument}">
+    <div
+    id="visacheckout"
+    data-apiurl='${dw.web.URLUtils.https("PaymentCalls-VisaCheckoutApiKeyRequest")}'
+    data-walleturl='${dw.web.URLUtils.https("PaymentCalls-VisaCheckoutCreateWallet")}'
+    data-checkouturl='${dw.web.URLUtils.https("PaymentCalls-Checkout")}'
+    data-basket='${require('*/cartridge/scripts/storefrontdata/basketdata.js').basketData(pdict.Basket)}'
+    >       
+   
+        <img alt="Visa Checkout" 
+        class="v-button" 
+        role="button" 
+        src="${imageEnvironment}secure.checkout.visa.com/wallet-services-web/xo/button.png" />
+      <script type="text/javascript" src="${scriptEnvironment}assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js"></script>
+      <script src="${dw.web.URLUtils.staticURL('/js/bluesnap/visacheckout.js')}"></script>
+    
+    </div>
+    </isif>
+</isloop>

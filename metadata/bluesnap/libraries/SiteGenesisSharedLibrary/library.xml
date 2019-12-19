@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.demandware.com/xml/impex/library/2006-10-31" library-id="SiteGenesisSharedLibrary">
+ 
+   <content content-id="account-nav-registered">
+        <display-name xml:lang="x-default">My Account Registered User Left Nav</display-name>
+        <display-name xml:lang="fr-FR">Mon compte - Utilisateur enregistré - nav. gauche</display-name>
+        <display-name xml:lang="it-IT">Navigazione sinistra Il mio account per utenti registrati</display-name>
+        <display-name xml:lang="ja-JP">マイアカウント登録ユーザー左ナビゲーション</display-name>
+        <display-name xml:lang="zh-CN">我的账户注册用户左侧导航</display-name>
+        <online-flag>true</online-flag>
+        <searchable-flag>false</searchable-flag>
+        <page-attributes/>
+        <custom-attributes>
+            <custom-attribute attribute-id="body" xml:lang="x-default">&lt;span class="toggle"&gt;My Account&lt;/span&gt;&#13;
+&lt;ul&gt;&#13;
+&lt;li&gt;&lt;a title="Show or update your personal information" href="$httpsUrl(Account-EditProfile)$"&gt;Personal Data&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;a title="Manage your billing and shipping addresses" href="$httpsUrl(Address-List)$"&gt;Addresses&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;a title="Manage credit cards" href="$httpsUrl(PaymentInstruments-List)$"&gt;Payment Settings&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;a title="Manage credit cards" href="$httpsUrl(BluesnapVault-List)$"&gt;Bluesnap Vault &lt;/a&gt;&lt;/li&gt;&#13;
+&lt;/ul&gt;&#13;
+&#13;
+&lt;span class="toggle"&gt;Order Information&lt;/span&gt;&#13;
+&lt;ul&gt;&#13;
+&lt;li&gt;&lt;a title="Order History" href="$httpsUrl(Order-History)$"&gt;Order History&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;/ul&gt;&#13;
+&#13;
+&lt;span class="toggle"&gt;Wish List&lt;/span&gt;&#13;
+&lt;ul&gt;&#13;
+&lt;li&gt;&lt;a title="Modify your wish list" href="$httpsUrl(Wishlist-Show)$"&gt;Modify Wish List&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;a title="Search for wish lists" href="$httpsUrl(Wishlist-Search)$"&gt;Search Wish Lists&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;/ul&gt;&#13;
+&#13;
+&lt;span class="toggle"&gt;Gift Registries&lt;/span&gt;&#13;
+&lt;ul&gt;&#13;
+&lt;li&gt;&lt;a title="Create gift registries" href="$httpsUrl(GiftRegistry-Start)$"&gt;Create Registry&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;a title="Search for gift registries" href="$httpsUrl(GiftRegistry-Start)$"&gt;Search Registries&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;a title="View and modify your gift registries" href="$httpsUrl(GiftRegistry-Start)$"&gt;Modify Registries&lt;/a&gt;&lt;/li&gt;&#13;
+&lt;/ul&gt;&#13;
+&#13;
+$include(Page-Include, cid, account-nav-service)$</custom-attribute>
+        </custom-attributes>
+    </content>
+
+</library>

@@ -1,0 +1,34 @@
+<iscomment>
+    Template allows to display and edit BlueSnap USFs object
+</iscomment>
+<table>
+    <tbody>
+        <tr>
+            <td align="center">
+                ${Resource.msg('label.udf.name','report',null)}
+            </td>
+            <td align="center">
+                ${Resource.msg('label.udf.value','report',null)}
+            </td>
+        </tr>
+
+        <isloop items="${pdict.udfs.udf}" var="udf" status="idx"> 
+            <tr>
+                <td>
+                    <input type="text" name="${'custom_udf_' + idx.index + '_name'}" value="${udf.udfName}" />
+                </td>
+                <td>
+                    <input type="text" name="${'custom_udf_' + idx.index + '_value'}" value="${udf.udfValue}" />
+                </td>
+                <td>
+                    <button type='submit' name='custom_submit' value='${idx.index}'> ${Resource.msg('label.delete','report',null)} </button>
+                </td>
+            </tr>
+        </isloop>
+        <tr>
+            <td>
+                <button type='submit' name='custom_submit' value='add'> ${Resource.msg('label.udf.add','report',null)} </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

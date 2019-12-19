@@ -1,0 +1,52 @@
+<div class="tab-pane bluesnapach-content
+    ${activePaymentMethods === paymentOption.ID ? 'active' : ''}"
+    id="bluesnapach-content" role="tabpanel">
+    
+    <fieldset class="payment-form-fields">
+        
+        <!--- payment method is bluesnap ACH --->
+        <input type="hidden" class="form-control"
+               name="${pdict.forms.billingForm.paymentMethod.htmlName}"
+               value="BLUESNAP_ACH_PAYMENT"
+        />
+            
+        <!--- register/authenticated user --->
+        <isif condition="${pdict.customer.registeredUser}">
+            <div class="user-bluesnapach-instruments container ${pdict.hasOwnProperty('vaultedShopper') && pdict.vaultedShopper.ecp.length ? '' : 'checkout-hidden'}">
+                <!--- Stored Vaulted Shopper ACH/ECP payment --->
+                <div class="stored-payments-bluesnapach">
+                    <isinclude template="checkout/billing/storedVaultedAch" />
+                </div>
+
+                <!--- Add new BlueSnap ACH/ECP payment button --->
+                <div class="row">
+                    <button class="btn btn-block add-payment-vaultedshopperach btn-outline-primary" type="button">${Resource.msg('button.add.payment', 'checkout', null)}</button>
+                </div>
+            </div>
+        </isif>
+
+        <fieldset class="bluesnapach-form ${pdict.hasOwnProperty('vaultedShopper') && pdict.vaultedShopper.ecp.length ? 'checkout-hidden' : ''}">
+            <isinclude template="checkout/billing/bluesnapachForm" />
+                <isif condition="${pdict.customer.registeredUser}">
+                    <button class="btn btn-block cancel-new-bluesnapach-payment btn-outline-primary
+                        ${pdict.hasOwnProperty('vaultedShopper') && pdict.vaultedShopper.ecp.length ? '' : 'checkout-hidden'}"
+                        type="button">${Resource.msg('button.back.to.stored.payments', 'checkout', null)}
+                    </button>
+                </isif>
+        </fieldset>
+
+        <div class="row" style='margin-top: 15px;'>
+            <div class="col">
+                    <div class="save-credit-card custom-control custom-checkbox" style='padding-top: 5px; border-top: 1px solid #ccc;'>
+                        <input type="checkbox" class="custom-control-input form-control" id="authorizeACH" name="${pdict.forms.billingForm.BSACH.authorizeACH.htmlName}" value="true" />
+                        <label class="custom-control-label" for="authorizeACH">
+                            ${pdict.forms.billingForm.BSACH.authorizeACH.label}
+                        </label>
+                        <div class="invalid-feedback"></div>
+                    </div>
+            </div>
+        </div>
+
+    </fieldset>
+
+</div>

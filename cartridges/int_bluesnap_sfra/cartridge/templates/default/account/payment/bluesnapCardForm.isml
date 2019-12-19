@@ -1,0 +1,93 @@
+<isset name="bluesnapcreditcardFields" value="${pdict.paymentForm.bluesnapcreditcardFields}" scope="page"/>
+
+<!--- Hidden Credit Card Type --->
+<input type="hidden" class="form-control" id="cardType" value=""
+    <isprint value="${bluesnapcreditcardFields.type.attributes}" encoding="htmlsinglequote" />
+    autocomplete="cc-type"/>
+
+<!-- Card Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapcreditcardFields.number.mandatory === true ? 'required' : ''}
+            ${bluesnapcreditcardFields.number.htmlName}">
+            <label class="form-control-label" for="cardNumber">${Resource.msg('field.credit.card.number','creditCard',null)}</label>
+            <div class="card-number-wrapper">
+                <input type="text" class="form-control" id="cardNumber"
+                    <isprint value="${bluesnapcreditcardFields.number.attributes}" encoding="htmlsinglequote"/>
+                    autocomplete="cc-number" />
+                <div class="invalid-feedback"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Card Expiration Month-->
+    <div class="col-6">
+        <div class="form-group
+            ${bluesnapcreditcardFields.expiration.month.mandatory === true ? 'required' : ''}
+            ${bluesnapcreditcardFields.expiration.month.htmlName}">
+            <label class="form-control-label" for="${bluesnapcreditcardFields.expiration.month.htmlName}">
+                ${Resource.msg('field.credit.card.expiration.month','creditCard',null)}
+            </label>
+            <select class="form-control expirationMonth custom-select" id="${bluesnapcreditcardFields.expiration.month.htmlName}"
+            <isprint value=${bluesnapcreditcardFields.expiration.month.attributes} encoding="htmlsinglequote"/>
+            autocomplete="cc-exp-month">
+                <isloop items=${bluesnapcreditcardFields.expiration.month.options} var="month">
+                    <option id="${month.id}" value="${month.htmlValue}">
+                        ${month.label}
+                    </option>
+                </isloop>
+            </select>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+    
+    <!-- Card Expiration Year-->
+    <div class="col-6">
+        <div class="form-group
+            ${bluesnapcreditcardFields.expiration.year.mandatory === true ? 'required' : ''}
+            ${bluesnapcreditcardFields.expiration.year.htmlName}">
+            <label class="form-control-label" for="${bluesnapcreditcardFields.expiration.year.htmlName}">
+                ${Resource.msg('field.credit.card.expiration.year','creditCard',null)}
+            </label>
+            <select class="form-control expirationYear custom-select" id="${bluesnapcreditcardFields.expiration.year.htmlName}"
+            <isprint value=${bluesnapcreditcardFields.expiration.year.attributes} encoding="htmlsinglequote"/>
+            autocomplete="cc-exp-year">
+            <option value="${bluesnapcreditcardFields.expiration.year.options[0].htmlValue}">${bluesnapcreditcardFields.expiration.year.options[0].label}</option>
+                <isloop items=${pdict.expirationYears} var="year">
+                    <option id="${year}" value="${year}">
+                        ${year}
+                    </option>
+                </isloop>
+            </select>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Card CVV -->
+<div class="row">
+    <div class="col-sm-6">
+        <div class="form-group
+            ${bluesnapcreditcardFields.cvn.mandatory === true ? 'required' : ''}
+            ${bluesnapcreditcardFields.cvn.htmlName}">
+            <label class="form-control-label" for="${bluesnapcreditcardFields.cvn.htmlName}">
+                ${Resource.msg('field.credit.card.security.code','creditCard',null)}
+            </label>
+            <span class="info-icon">
+                <span class="icon" aria-hidden="true">i</span>
+                <div class="tooltip d-none">
+                    ${Resource.msg('tooltip.security.code','creditCard',null)}
+                </div>
+            </span>
+
+            <input type="text" class="form-control securityCode" id="${bluesnapcreditcardFields.cvn.htmlName}"
+                <isprint value=${bluesnapcreditcardFields.cvn.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnapSecurityCodeInvalidMessage" >
+            <div class="invalid-feedback" id="bluesnapSecurityCodeInvalidMessage"></div>
+        </div>
+    </div>
+</div>

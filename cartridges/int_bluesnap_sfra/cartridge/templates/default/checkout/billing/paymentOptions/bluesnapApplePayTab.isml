@@ -1,0 +1,22 @@
+<li class="nav-item" data-method-id="${paymentOption.ID}">
+    <a class="nav-link bluesnapapplepay-content
+        ${activePaymentMethods === paymentOption.ID ? 'active' : ''}"
+        data-toggle="tab" href="#bluesnapapplepay-content" role="tab">
+        <img class="credit-card-option"
+                src="${URLUtils.staticURL('/images/apple-pay.svg')}"
+                height="32"
+                alt="${paymentOption.name}"
+                title="${paymentOption.name}"
+        />
+    </a>
+</li>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) {
+        var applePayLi = document.querySelector('li[data-method-id="BLUESNAP_APPLE_PAY"]');
+        if (applePayLi) {
+            applePayLi.style.display = 'none';
+        }
+    }
+});
+</script>

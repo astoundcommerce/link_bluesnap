@@ -1,0 +1,41 @@
+<div class="tab-pane bluesnaplatam-content
+    ${activePaymentMethods === paymentOption.ID ? 'active' : ''}"
+    id="bluesnaplatam-content" role="tabpanel">
+    
+    <div>${Resource.msg('label.payment.card.latam','bluesnap',null)}</div>
+
+    <fieldset class="payment-form-fields">
+        
+        <!--- payment method is bluesnap credit card --->
+        <input type="hidden" class="form-control"
+               name="${pdict.forms.billingForm.paymentMethod.htmlName}"
+               value="BLUESNAP_LATAM"
+        />
+            
+        <!--- register/authenticated user --->
+        <isif condition="${pdict.customer.registeredUser}">
+            <div class="user-bluesnaplatamcard-instruments container ${pdict.hasOwnProperty('vaultedShopper') && pdict.vaultedShopper.creditCards.length ? '' : 'checkout-hidden'}">
+                <!--- Stored Vaulted Shopper Latam Cards payment --->
+                <div class="stored-payments-bluesnaplatamcard">
+                    <isinclude template="checkout/billing/storedVaultedShopperLatam" />
+                </div>
+
+                <!--- Add new BlueSnap credit card button --->
+                <div class="row">
+                    <button class="btn btn-block add-payment-vaultedshopperlatam btn-outline-primary" type="button">${Resource.msg('button.add.payment', 'checkout', null)}</button>
+                </div>
+            </div>
+        </isif>
+
+        <fieldset class="bluesnaplatamcard-form ${pdict.hasOwnProperty('vaultedShopper') && pdict.vaultedShopper.creditCards.length ? 'checkout-hidden' : ''}">
+            <isinclude template="checkout/billing/bluesnapLatamForm" />
+            <isif condition="${pdict.customer.registeredUser}">
+                <button class="btn btn-block cancel-new-bluesnaplatamcard-payment btn-outline-primary
+                    ${pdict.hasOwnProperty('vaultedShopper') && pdict.vaultedShopper.creditCards.length ? '' : 'checkout-hidden'}"
+                    type="button">${Resource.msg('button.back.to.stored.payments', 'checkout', null)}
+                </button>
+            </isif>
+        </fieldset>
+
+    </fieldset>
+</div>

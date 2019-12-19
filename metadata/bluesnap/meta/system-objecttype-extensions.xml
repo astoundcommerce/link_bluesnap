@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns="http://www.demandware.com/xml/impex/metadata/2006-10-31">
+    <type-extension type-id="Profile">
+        
+        <custom-attribute-definitions>
+            <attribute-definition attribute-id="bsVaultedShopperId">
+                <display-name xml:lang="x-default">Bluesnap vaultedShopperId</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="BLUE_SNAP">
+                <display-name xml:lang="x-default">BlueSnap</display-name>
+                <attribute attribute-id="bsVaultedShopperId"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+
+    <type-extension type-id="SitePreferences">
+        <custom-attribute-definitions>
+           <attribute-definition attribute-id="bluesnap_3DSecure">
+                <display-name xml:lang="x-default">Enable 3D Secure Payments</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_ACH">
+                <display-name xml:lang="x-default">Enable ACH Payment</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_ApplePay">
+                <display-name xml:lang="x-default">Enable Bluesnap Apple Pay</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_CreditDebit">
+                <display-name xml:lang="x-default">Credit/Debit Cards Payment processing type</display-name>
+                <description xml:lang="x-default">Credit/Debit Cards Payment processing. Auth and capture / auth only</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition>
+                        <display xml:lang="x-default">Auth and Capture</display>
+                        <value>AUTH_CAPTURE</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">Auth only</display>
+                        <value>AUTH_ONLY</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_Enable">
+                <display-name xml:lang="x-default">Enable BlueSnap</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_FraudDeviceData">
+                <display-name xml:lang="x-default">Enable fraud device data check</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_FraudEnterprise">
+                <display-name xml:lang="x-default">Enable  Enterprise level fraud prevention service</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_FraudUDFs">
+                <display-name xml:lang="x-default">User-defined fields for Enterprise fraud service</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_GooglePay">
+                <display-name xml:lang="x-default">Enable Bluesnap Google Pay</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_HostedPayment">
+                <display-name xml:lang="x-default">Enable  Hosted Payment</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_IPNs">
+                <display-name xml:lang="x-default">Enable IPNs</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_Instance">
+                <display-name xml:lang="x-default">BlueSnap instance type</display-name>
+                <description xml:lang="x-default">sandbox/production</description>
+                <type>enum-of-string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <value-definitions>
+                    <value-definition>
+                        <display xml:lang="x-default">sandbox</display>
+                        <value>sandbox</value>
+                    </value-definition>
+                    <value-definition>
+                        <display xml:lang="x-default">production</display>
+                        <value>production</value>
+                    </value-definition>
+                </value-definitions>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_LATAM">
+                <display-name xml:lang="x-default">Enable LATAM Payments</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_Level">
+                <display-name xml:lang="x-default">Level 2/3 Data</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_Reporting">
+                <display-name xml:lang="x-default">Enable BlueSnap Reporting</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_SEPA">
+                <display-name xml:lang="x-default">Enable SEPA Payment</display-name>
+                <type>boolean</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <default-value>false</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_SiteId">
+                <display-name xml:lang="x-default">BlueSnap Site IDs for Enterprise level fraud prevention service</display-name>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+                <field-length>8</field-length>
+                <default-value>SiteID</default-value>
+            </attribute-definition>
+            <attribute-definition attribute-id="bluesnap_VisaCheckout">
+				<display-name xml:lang="x-default">Enable Visa Checkout</display-name>
+				<type>boolean</type>
+				<mandatory-flag>false</mandatory-flag>
+				<externally-managed-flag>false</externally-managed-flag>
+				<default-value>false</default-value>
+			</attribute-definition>
+			<attribute-definition attribute-id="bluesnap_softDescriptor">
+                <display-name xml:lang="x-default">Soft Descriptor</display-name>
+                <description xml:lang="x-default">Description of the transaction, which appears on the shopper's credit card statement. Maximum 20 characters.</description>
+                <type>string</type>
+                <mandatory-flag>false</mandatory-flag>
+                <externally-managed-flag>false</externally-managed-flag>
+                <min-length>0</min-length>
+            </attribute-definition>
+        </custom-attribute-definitions>
+        <group-definitions>
+            <attribute-group group-id="BLUESNAP">
+                <display-name xml:lang="x-default">BlueSnap</display-name>
+                <attribute attribute-id="bluesnap_Enable"/>
+                <attribute attribute-id="bluesnap_Instance"/>
+                <attribute attribute-id="bluesnap_CreditDebit"/>
+                <attribute attribute-id="bluesnap_ACH"/>
+                <attribute attribute-id="bluesnap_ApplePay"/>
+                <attribute attribute-id="bluesnap_GooglePay"/>
+                <attribute attribute-id="bluesnap_SEPA"/>
+                <attribute attribute-id="bluesnap_HostedPayment"/>
+                <attribute attribute-id="bluesnap_VisaCheckout"/>
+                <attribute attribute-id="bluesnap_LATAM"/>
+                <attribute attribute-id="bluesnap_3DSecure"/>
+                <attribute attribute-id="bluesnap_Reporting"/>
+                <attribute attribute-id="bluesnap_Level"/>
+                <attribute attribute-id="bluesnap_FraudDeviceData"/>
+                <attribute attribute-id="bluesnap_FraudEnterprise"/>
+                <attribute attribute-id="bluesnap_FraudUDFs"/>
+                <attribute attribute-id="bluesnap_SiteId"/>
+				<attribute attribute-id="bluesnap_softDescriptor"/>
+                <attribute attribute-id="bluesnap_IPNs"/>
+            </attribute-group>
+        </group-definitions>
+    </type-extension>
+</metadata>

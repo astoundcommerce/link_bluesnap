@@ -1,0 +1,12 @@
+<li class="nav-item" data-method-id="${paymentOption.ID}">
+    <a class="nav-link bluesnapsepa-content
+        ${activePaymentMethods === paymentOption.ID ? 'active' : ''}"
+        data-toggle="tab" href="#bluesnapsepa-content" role="tab">
+        <img class="credit-card-option"
+                src="${URLUtils.staticURL('/images/sepa-32px.png')}"
+                height="32"
+                alt="${paymentOption.name}"
+                title="${paymentOption.name}"
+        />
+    </a>
+</li>

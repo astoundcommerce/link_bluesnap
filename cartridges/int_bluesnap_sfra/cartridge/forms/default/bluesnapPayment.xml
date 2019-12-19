@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+
+    <field formid="paymentMethod" type="string" mandatory="true" />
+
+    <!-- fields for BlueSnapCreditCard selection -->
+    <include formid="bluesnapcreditcardFields" name="bluesnapcreditcard"/>
+
+    <!-- fields for BlueSnapACH selection -->
+	<include formid="BSACH" name="bluesnapACH"/>
+
+	<!-- fields for BlueSnap SEPA selection -->
+	<include formid="BSSEPA" name="bluesnapSEPA"/>
+    
+    <!-- fields for BlueSnap LATAM selection -->
+	<include formid="BSlatAm" name="bluesnaplatamcreditcard"/>
+
+    <field formid="saveCard" label="label.save.card" binding="saveCard" type="boolean" mandatory="false" checked="true" />
+
+    <field formid="subscribe" type="boolean" checked="false" default-value="false" mandatory="false" />
+
+</form>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<payment-settings xmlns="http://www.demandware.com/xml/impex/paymentsettings/2009-09-15">
+    <payment-method method-id="BLUESNAP_CREDIT_DEBIT">
+        <name xml:lang="x-default">Credit Card</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+    </payment-method>
+
+    <payment-method method-id="BLUESNAP_ACH_PAYMENT">
+        <name xml:lang="x-default">ACH Payment</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+    </payment-method>
+
+    <payment-method method-id="BLUESNAP_SEPA_PAYMENT">
+        <name xml:lang="x-default">SEPA Payment</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+    </payment-method>
+
+    <payment-method method-id="BLUESNAP_APPLE_PAY">
+        <name xml:lang="x-default">Apple Pay</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+    </payment-method>
+
+    <payment-method method-id="BLUESNAP_GOOGLE_PAY">
+        <name xml:lang="x-default">Google Pay</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+    </payment-method>
+
+    <payment-method method-id="BLUESNAP_VISA_CHECKOUT">
+        <name xml:lang="x-default">Visa Checkout</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+    </payment-method>
+
+    <payment-method method-id="BLUESNAP_LATAM">
+        <name xml:lang="x-default">Credit Card(Latin America)</name>
+        <enabled-flag>true</enabled-flag>
+        <processor-id>BLUESNAP</processor-id>
+        <currencies>
+            <currency>BRL</currency>
+        </currencies>
+    </payment-method>
+
+</payment-settings>

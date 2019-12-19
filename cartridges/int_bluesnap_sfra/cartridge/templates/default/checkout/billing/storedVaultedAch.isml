@@ -1,0 +1,40 @@
+<isif condition="${pdict.hasOwnProperty('vaultedShopper')}">
+    <isloop items="${pdict.vaultedShopper.ecp}" var="paymentInstrument" status="loopState">
+        <div class="row saved-vaultedshopperach-instrument ${loopState.first ? 'selected-payment' : ''}"
+            data-vaultach="${paymentInstrument.ecp.accountType + '-' + paymentInstrument.ecp.publicAccountNumber + '-' + paymentInstrument.ecp.publicRoutingNumber}"
+        >
+            <div class="form-group required saved-security-code col-6 col-md-4">
+                <div class="saved-credit-card-type">
+                    <span>
+                        ${Resource.msg('msg.payment.bank.accountnumber', 'bluesnap', null)}
+                    </span>
+                </div>
+                <div class="saved-credit-card-type">
+                    <span>
+                        ${Resource.msg('msg.payment.bank.routingnumber', 'bluesnap', null)}
+                    </span>
+                </div>
+                <div class="saved-credit-card-type">
+                    <span>
+                        ${Resource.msg('msg.payment.bank.routingtype', 'bluesnap', null)}
+                    </span>
+                </div>
+            </div>
+            <div class="saved-payment-information col-6 col-md-8">
+                <div class="saved-credit-card-number">
+                    <span>
+                        ${paymentInstrument.ecp.publicAccountNumber}
+                    </span>
+                </div>
+                <div class="saved-credit-card-number">
+                    ${paymentInstrument.ecp.publicRoutingNumber}
+                </div>
+                <div class="saved-credit-card-number">
+                    <span>
+                        ${paymentInstrument.ecp.accountType}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </isloop>
+</isif>

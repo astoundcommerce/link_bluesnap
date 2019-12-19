@@ -1,0 +1,44 @@
+<iscontent type="text/html" charset="UTF-8" />
+<table class="pagecursor" border="0" cellspacing="1" cellpadding="10">
+    <tbody>
+        <tr>
+            <td class="pagecursortxt top" align="left" width="40%" nowrap="nowrap">
+                &nbsp;${Resource.msg('report.label.showing', 'report', null)}&nbsp;
+                <span class="pagecursoritem bold">
+                    <isprint value="${reportData.startRow}" encoding="on" />
+               </span>&nbsp;-&nbsp;
+                <span class="pagecursoritem bold">
+                    <isprint value="${reportData.endRow}" encoding="on" />
+                </span>&nbsp;${Resource.msg('report.label.of', 'report', null)}&nbsp;
+                <span class="pagecursoritem bold">
+                    <isprint value="${reportData.totalRowCount}" encoding="on" />
+                </span>&nbsp;${Resource.msg('report.label.items', 'report', null)}
+            </td>
+            <td class="pagecursortxt" width="1">
+                <button type="submit" name="pageFirst" class="pagecursorbtn perm_not_disabled" value="First">
+                    &lt;&lt;&nbsp;${Resource.msg('report.label.firstpage', 'report', null)}
+                </button>
+            </td>
+            <td class="pagecursortxt top" nowrap="nowrap">
+                ${Resource.msg('report.label.show', 'report', null)}
+                <span class="pagecursortxt">
+                    <button type="submit" name="newPageSize" class="pagecursorbtn perm_not_disabled" value="20">20</button>
+                </span>
+                <span class="pagecursortxt">
+                    <button type="submit" name="newPageSize" class="pagecursorbtn perm_not_disabled" value="50">50</button>
+                </span>
+                <span class="pagecursortxt">
+                    <button type="submit" name="newPageSize" class="pagecursorbtn perm_not_disabled" value="100">100</button>
+                </span>
+                ${Resource.msg('report.label.items', 'report', null)}
+            </td>
+            <td class="pagecursortxt" width="1">
+                <isif condition="${reportData.nextPageToken}" >
+                    <button type="submit" name="pageNext" class="pagecursorbtn perm_not_disabled" value="Next">
+                        ${Resource.msg('report.label.nextpage', 'report', null)}&nbsp;&gt;&gt;
+                    </button>
+                </isif>
+            </td>
+        </tr>
+    </tbody>
+</table>

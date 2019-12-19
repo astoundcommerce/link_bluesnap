@@ -1,0 +1,3 @@
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+    <field formid="hostedData" type="string" mandatory="true" binding="BSHostedPayment"/>
+</form>

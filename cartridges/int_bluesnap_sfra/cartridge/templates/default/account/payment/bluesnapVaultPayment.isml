@@ -1,0 +1,132 @@
+<isdecorate template="common/layout/page">
+    <isscript>
+        var assets = require('*/cartridge/scripts/assets.js');
+        assets.addJs('/js/bluesnapVault.js');
+        assets.addCss('/css/account/payment.css');
+    </isscript>
+    <isinclude template="account/payment/deletePaymentModal"/>
+    <div class="hero slant-down account-image">
+        <h1 class="page-title">${Resource.msg('global.settings', 'bluesnap', null)}</h1>
+    </div>
+    <div class="container">
+        <!---Breadcrumbs--->
+        <isinclude template="components/breadcrumbs/pageBreadcrumbs"/>
+        <div class="row justify-content-center vaultedshopper-instruments">
+            <isif condition="${!pdict.vaultedShopper}">
+                <div>
+                    <h3>${Resource.msg('myaccount.vault.nopaymentinstruments','bluesnap',null)}</h3>
+                </div>
+            </isif>
+       </div>
+        <!-- Rows for Credit Cards -->
+        <isloop items="${pdict.vaultedShopper.creditCards}" var="paymentInstrument" status="status">
+            <div class="row justify-content-center" id="uuid-cc-${status.index}">
+                <div class="col-sm-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="pull-left">${pdict.vaultedShopper.firstName} ${pdict.vaultedShopper.lastName}</h2>
+                        </div>
+                        <div class="card-body card-body-positioning">
+                            <div class="card-info-group">
+                                <p>${Resource.msg('label.payment.credit','account',null)} ${paymentInstrument.creditCard.cardType}</p>
+                                <p>************${paymentInstrument.creditCard.cardLastFourDigits}</p>
+                                <p>${Resource.msg('label.payment.ending','account',null)} ${paymentInstrument.creditCard.expirationMonth}/${paymentInstrument.creditCard.expirationYear}</p>
+                            </div>
+                            <button
+                                type="button"
+                                class="remove-btn remove-payment btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                data-id="uuid-cc-${status.index}"
+                                data-type="card"
+                                data-cardtype='${paymentInstrument.creditCard.cardType}'
+                                data-lastfour="${paymentInstrument.creditCard.cardLastFourDigits}"
+                                data-url="${pdict.deleteUrl}"
+                                aria-label="${Resource.msg('label.payment.deletepayment','payment',null)}">
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </isloop>
+        <!-- Rows for ACH/ECP -->
+        <isloop items="${pdict.vaultedShopper.ecp}" var="paymentInstrument" status="status">
+            <div class="row justify-content-center" id="uuid-ecp-${status.index}">
+                <div class="col-sm-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="pull-left">${pdict.vaultedShopper.firstName} ${pdict.vaultedShopper.lastName}</h2>
+                        </div>
+                        <div class="card-body card-body-positioning">
+                            <div class="card-info-group">
+                                <p>${Resource.msg('vault.ecp.title', 'bluesnap', null)}</p>
+                                <p>${Resource.msg('msg.payment.bank.accountnumber', 'bluesnap', null)} ${paymentInstrument.ecp.publicAccountNumber}</p>
+                                <p>${Resource.msg('msg.payment.bank.routingnumber', 'bluesnap', null)} ${paymentInstrument.ecp.publicRoutingNumber}</p>
+                            </div>
+                            <button
+                                type="button"
+                                class="remove-btn remove-payment btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                data-id="uuid-ecp-${status.index}"
+                                data-type="ecp"
+                                data-publicaccountnumber ="${paymentInstrument.ecp.publicAccountNumber}"
+                                data-publicroutingnumber ="${paymentInstrument.ecp.publicRoutingNumber}"
+                                data-accounttype ="${paymentInstrument.ecp.accountType}"
+                                data-url="${pdict.deleteUrl}"
+                                aria-label="${Resource.msg('label.payment.deletepayment','payment',null)}">
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </isloop>
+        <!-- Rows for SEPA -->
+        <isloop items="${pdict.vaultedShopper.sepa}" var="paymentInstrument" status="status">
+            <div class="row justify-content-center" id="uuid-sepa-${status.index}">
+                <div class="col-sm-8 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="pull-left">${pdict.vaultedShopper.firstName} ${pdict.vaultedShopper.lastName}</h2>
+                        </div>
+                        <div class="card-body card-body-positioning">
+                            <div class="card-info-group">
+                                <p>${Resource.msg('vault.sepa.title', 'bluesnap', null)}</p>
+                                <p>${paymentInstrument.sepaDirectDebit.ibanFirstFour + '*****' + paymentInstrument.sepaDirectDebit.ibanLastFour}</p>
+                            </div>
+                            <button
+                                type="button"
+                                class="remove-btn remove-payment btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                data-id="uuid-sepa-${status.index}"
+                                data-type="sepa"
+                                data-firstfour="${paymentInstrument.sepaDirectDebit.ibanFirstFour}"
+                                data-lastfour="${paymentInstrument.sepaDirectDebit.ibanLastFour}"
+                                data-url="${pdict.deleteUrl}"
+                                aria-label="${Resource.msg('label.payment.deletepayment','payment',null)}">
+                                <i class="fa fa-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </isloop>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col">
+                        <a href="${URLUtils.url('Account-Show')}">
+                            <p class="text-center back-to-account-link" aria-label="${Resource.msg('label.addressbook.myaccount','account',null)}">${Resource.msg('link.profile.backtomyaccount','account',null)}</p>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="${URLUtils.url('BluesnapVault-AddPayment')}" class="btn btn-save btn-block btn-primary" aria-label="${Resource.msg('label.payment.addnewpayment','payment',null)}">${Resource.msg('button.addnew','payment',null)}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</isdecorate>

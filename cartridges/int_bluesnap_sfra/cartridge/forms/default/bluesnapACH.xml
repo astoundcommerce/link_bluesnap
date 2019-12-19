@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+
+	<!-- field for saved Vault Shopper ACH/ECP -->
+	<field formid="vaultACH" type="string" mandatory="false" default-value="none" />
+
+    <field formid="routingNumber" label="ACH.routingNumber" type="string" mandatory="true" min-length="9" max-length="9" binding="routingNumber"
+	    missing-error="ACH.routingNumber.error.missing" range-error="ACH.routingNumber.error.range"/>
+
+	<field formid="accountNumber" label="ACH.accountNumber" type="string" mandatory="true" masked="4" min-length="4" max-length="17" binding="routingNumber"
+	    missing-error="ACH.accountNumber.error.missing" range-error="ACH.accountNumber.error.range"/>
+
+	<field formid="accountType" label="ACH.type" type="string" default="CONSUMER_SAVINGS" binding="accountType">      
+	    <options>
+	            <option optionid="CONSUMER_CHECKING"  label="ACH.CONSUMER.CHECKING" 	value="CONSUMER_CHECKING"/>
+	            <option optionid="CONSUMER_SAVINGS"   label="ACH.CONSUMER.SAVINGS" 	    value="CONSUMER_SAVINGS"/>
+				<option optionid="CORPORATE_CHECKING" label="ACH.CORPORATE.CHECKING" 	value="CORPORATE_CHECKING"/>
+	            <option optionid="CORPORATE_SAVINGS"  label="ACH.CORPORATE.SAVINGS" 	value="CORPORATE_SAVINGS"/>
+	    </options>
+    </field>
+
+	<field formid="companyName" label="ACH.companyName" type="string" mandatory="true" max-length="17" binding="companyName"
+	    missing-error="ACH.companyName.error.missing" range-error="ACH.companyName.error.range"/>
+
+	<field formid="storeInBluesnapVault" label="ach.storeInBluesnapVault.label" binding="storeInBluesnapVault" type="boolean" mandatory="false" checked="false" />
+    <field formid="authorizeACH" label="ACH.authorize" binding="authorizeACH" type="boolean" mandatory="true" checked="false" value-error="ACH.authorize.error.value" />
+
+</form>

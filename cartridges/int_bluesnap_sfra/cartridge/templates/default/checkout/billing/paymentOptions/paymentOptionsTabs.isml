@@ -1,0 +1,26 @@
+<isloop items="${pdict.order.billing.payment.applicablePaymentMethods}" var="paymentOption">
+    <isif condition="${paymentOption.ID === 'CREDIT_CARD'}">
+        <isinclude template="checkout/billing/paymentOptions/creditCardTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_CREDIT_DEBIT' && getBlueSnapPreference('Enable')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapcreditcardTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_ACH_PAYMENT' && getBlueSnapPreference('Enable') && getBlueSnapPreference('ACH')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapAchTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_SEPA_PAYMENT' && getBlueSnapPreference('Enable') && getBlueSnapPreference('SEPA')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapSepaTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_GOOGLE_PAY' && getBlueSnapPreference('Enable') && getBlueSnapPreference('GooglePay')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapGooglePayTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_VISA_CHECKOUT' && getBlueSnapPreference('Enable') && getBlueSnapPreference('VisaCheckout')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapVisaCheckoutTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_APPLE_PAY' && getBlueSnapPreference('Enable') && getBlueSnapPreference('ApplePay')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapApplePayTab" />
+    </isif>
+    <isif condition="${paymentOption.ID === 'BLUESNAP_LATAM' && getBlueSnapPreference('Enable') && getBlueSnapPreference('LATAM')}">
+        <isinclude template="checkout/billing/paymentOptions/bluesnapLatamTab" />
+    </isif>
+</isloop>

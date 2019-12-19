@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-header clearfix">
+        <h2 class="pull-left">${Resource.msg('global.settings', 'bluesnap', null)}</h2>
+        <isif condition="${pdict.hasOwnProperty('vaultedShopper')}">
+            <a href="${URLUtils.url('BluesnapVault-List')}" class="pull-right" aria-label="${Resource.msg('label.payment.viewsavedpaymentmethods','account',null)}">${Resource.msg('link.view','account',null)}</a>
+        </isif>
+    </div>
+    <isif condition="${pdict.hasOwnProperty('vaultedShopper')}">
+        <div class="card-body card-info-group">
+            <p>${Resource.msg('vault.creditcard.title', 'bluesnap', null)} - ${pdict.vaultedShopper.creditCards.length.toFixed(0)}</p>
+            <p>${Resource.msg('vault.ecp.title', 'bluesnap', null)} - ${pdict.vaultedShopper.ecp.length.toFixed(0)}</p>
+            <p>${Resource.msg('vault.sepa.title', 'bluesnap', null)} - ${pdict.vaultedShopper.sepa.length.toFixed(0)}</p>
+        </div>
+    <iselse/>
+        <div class="card-body card-info-group">
+            <p>${Resource.msg('msg.instruments.nopayment', 'bluesnap', null)}</p>
+        </div>
+    </isif>
+    <div class="card-footer card-footer-border text-center">
+        <a href="${URLUtils.url('BluesnapVault-AddPayment')}" class="card-link" aria-label="${Resource.msg('label.payment.addnewpayment','payment',null)}">${Resource.msg('link.addnew','account',null)}</a>
+    </div>
+</div>

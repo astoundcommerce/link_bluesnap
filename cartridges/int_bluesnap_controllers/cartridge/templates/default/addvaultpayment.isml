@@ -1,0 +1,258 @@
+<iscontent type="text/html" charset="UTF-8" compact="true" />
+<isinclude template="util/modules" />
+
+<isset name="DecoratorTemplate" value="account/pt_account" scope="page" />
+<isif condition="${pdict.CurrentHttpParameterMap.format.stringValue == 'ajax'}">
+    <isset name="DecoratorTemplate" value="util/pt_empty" scope="page" />
+</isif>
+
+<isdecorate template="${DecoratorTemplate}">
+
+<isif condition="${pdict.Action == 'add'}">
+    <h1>${Resource.msg('myaccount.vault.addsource', 'bluesnap', null)}</h1>
+<iselse/>
+    <h1>${Resource.msg('myaccount.vault.editsource', 'bluesnap', null)}</h1>
+</isif>
+
+<isif condition="${pdict.errorMessages}">
+    <div class='operation-error' style='background-color: #9A9; padding: 10px;'>
+        <isloop items="${pdict.errorMessages}" var="message">
+            <p>${message}</p>
+        </isloop>
+    </div>
+</isif>
+
+<div class="">
+    <label class="" for="bluesnapPaymentType">
+        ${Resource.msg('myaccount.payment.title', 'bluesnap', null)}
+    </label>
+    <select class="input-select js-bluesnap-payment-selector" id="bluesnapPaymentType" name='bluesnapPaymentType' aria-invalid="false">
+        <option value='vaultCreditCard' ${pdict.activeForm == 'vaultCreditCard' ? 'selected="true"' : ''}>
+            ${Resource.msg('myaccount.payment.creditcard', 'bluesnap', null)}
+        </option>
+        <option value='vaultLatAmCreditCard' ${pdict.activeForm == 'vaultLatAmCreditCard' ? 'selected="true"' : ''}>
+            ${Resource.msg('myaccount.payment.latamcreditcard', 'bluesnap', null)}
+        </option>
+        <option value='vaultACH' ${pdict.activeForm == 'vaultACH' ? 'selected="true"' : ''}>
+            ${Resource.msg('myaccount.payment.ecp', 'bluesnap', null)}
+        </option>
+        <option value='vaultSEPA' ${pdict.activeForm == 'vaultSEPA' ? 'selected="true"' : ''}>
+            ${Resource.msg('myaccount.payment.sepa', 'bluesnap', null)}
+        </option>
+    </select>
+</div>
+
+<div class='js-vaultPayments' data-activeform='${pdict.activeForm}'>
+    <div class="${pdict.activeForm == pdict.CurrentForms.vaultCreditCard.formId ? 'payment-method-expanded' : 'payment-method'}" id='${pdict.CurrentForms.vaultCreditCard.formId}'>
+        <form action='${URLUtils.https('BluesnapVault-HandleCreditCard')}' method='post'
+            class='form-horizontal'
+            id='${pdict.CurrentForms.vaultCreditCard.htmlName}'
+            name='${pdict.CurrentForms.vaultCreditCard.htmlName}'
+        >
+
+            <fieldset>
+                    <h3>${Resource.msg('myaccount.payment.creditcard', 'bluesnap', null)}</h3>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultCreditCard.data.ownerFirstName}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultCreditCard.data.ownerLastName}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultCreditCard.data.ownerZip}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultCreditCard.data.number}" type="input" dynamicname="true" />
+
+                    <div class="form-row required">
+                        <label>
+                            <span class="required-indicator">${Resource.msg('billing.requiredindicator', 'checkout', null)}</span>
+                            <span>${Resource.msg('billing.creditcardlistexpdate', 'checkout', null)}</span>
+                        </label>
+                        <isscript>
+                            var currentCountry = require('*/cartridge/scripts/util/Countries').getCurrent(pdict);
+                        </isscript>
+
+                        <isdynamicform 
+                            formobject="${pdict.CurrentForms.vaultCreditCard.data.expiration}"
+                            formdata="${currentCountry.dynamicForms.expirationInfo}"
+                        />
+
+                    </div>
+
+                    <isscript>
+                        var help = {
+                            label: Resource.msg('billing.linkcvn', 'checkout', null),
+                            cid: 'checkout-security-code'
+                        };
+                    </isscript>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultCreditCard.data.cvn}" type="input" rowclass="cvn" dynamicname="true" help="${help}" />
+            </fieldset>
+            <iscomment>
+                        Action Buttons
+            </iscomment>
+            <div class="form-row form-row-button">
+                <button class="apply-button" 
+                    type="submit"
+                    name="${pdict.Action == 'add' ? pdict.CurrentForms.vaultCreditCard.create.htmlName : pdict.CurrentForms.vaultCreditCard.edit.htmlName}"
+                    value="${Resource.msg('global.apply', 'locale', null)}">
+                    ${Resource.msg('global.apply', 'locale', null)}
+                </button>
+                <button class="cancel cancel-button simple"
+                    type="submit"
+                    name="${pdict.CurrentForms.vaultCreditCard.cancel.htmlName}"
+                    value="${Resource.msg('global.cancel', 'locale', null)}">
+                    ${Resource.msg('global.cancel', 'locale', null)}
+                </button>
+            </div>
+
+            <input type="hidden" 
+                name="${pdict.csrfTokenName}"
+                value="${pdict.csrfToken}"
+            />
+        </form>
+    </div>
+
+    <iscomment>
+    Lat Am Credit Card </iscomment>
+
+    <div class="${pdict.activeForm == pdict.CurrentForms.vaultLatAmCreditCard.formId ? 'payment-method-expanded' : 'payment-method'}" id='${pdict.CurrentForms.vaultLatAmCreditCard.formId}'>
+        <form action='${URLUtils.https('BluesnapVault-HandleLatAmCreditCard')}' method='post'
+            class='form-horizontal'
+            id='${pdict.CurrentForms.vaultLatAmCreditCard.htmlName}'
+            name='${pdict.CurrentForms.vaultLatAmCreditCard.htmlName}'
+        >
+
+            <fieldset>
+                    <h3>${Resource.msg('myaccount.payment.creditcard', 'bluesnap', null)}</h3>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultLatAmCreditCard.data.ownerFirstName}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultLatAmCreditCard.data.ownerLastName}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultLatAmCreditCard.data.ownerZip}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultLatAmCreditCard.data.personalIdentificationNumber}" type="input"/>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultLatAmCreditCard.data.number}" type="input" dynamicname="true" />
+
+                    <div class="form-row required">
+                        <label>
+                            <span class="required-indicator">${Resource.msg('billing.requiredindicator', 'checkout', null)}</span>
+                            <span>${Resource.msg('billing.creditcardlistexpdate', 'checkout', null)}</span>
+                        </label>
+                        <isscript>
+                            var currentCountry = require('*/cartridge/scripts/util/Countries').getCurrent(pdict);
+                        </isscript>
+
+                        <isdynamicform 
+                            formobject="${pdict.CurrentForms.vaultLatAmCreditCard.data.expiration}"
+                            formdata="${currentCountry.dynamicForms.expirationInfo}"
+                        />
+
+                    </div>
+
+                    <isscript>
+                        var help = {
+                            label: Resource.msg('billing.linkcvn', 'checkout', null),
+                            cid: 'checkout-security-code'
+                        };
+                    </isscript>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultLatAmCreditCard.data.cvn}" type="input" rowclass="cvn" dynamicname="true" help="${help}" />
+            </fieldset>
+            <iscomment>
+                        Action Buttons
+            </iscomment>
+            <div class="form-row form-row-button">
+                <button class="apply-button" 
+                    type="submit"
+                    name="${pdict.Action == 'add' ? pdict.CurrentForms.vaultLatAmCreditCard.create.htmlName : pdict.CurrentForms.vaultLatAmCreditCard.edit.htmlName}"
+                    value="${Resource.msg('global.apply', 'locale', null)}">
+                    ${Resource.msg('global.apply', 'locale', null)}
+                </button>
+                <button class="cancel cancel-button simple"
+                    type="submit"
+                    name="${pdict.CurrentForms.vaultLatAmCreditCard.cancel.htmlName}"
+                    value="${Resource.msg('global.cancel', 'locale', null)}">
+                    ${Resource.msg('global.cancel', 'locale', null)}
+                </button>
+            </div>
+
+            <input type="hidden" 
+                name="${pdict.csrfTokenName}"
+                value="${pdict.csrfToken}"
+            />
+        </form>
+    </div>
+
+    <div class="${pdict.activeForm == pdict.CurrentForms.vaultACH.formId ? 'payment-method-expanded' : 'payment-method'}"
+        id='${pdict.CurrentForms.vaultACH.formId}'
+    >
+        <form action='${URLUtils.https('BluesnapVault-HandleACH')}' method='post'
+            class='form-horizontal'
+            id='${pdict.CurrentForms.vaultACH.htmlName}'
+            name='${pdict.CurrentForms.vaultACH.htmlName}'
+        >
+            <fieldset>
+                    <h3>${Resource.msg('myaccount.payment.ecp', 'bluesnap', null)}</h3>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultACH.data.routingNumber}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultACH.data.accountNumber}" type="input" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultACH.data.companyName}" type="input" rowclass="js-bluesnap-company hide" />
+                    <isinputfield formfield="${pdict.CurrentForms.vaultACH.data.accountType}" type="select" rowclass="js-bluesnap-ach-type"/>
+            </fieldset>
+            <iscomment>
+                        Action Buttons
+            </iscomment>
+            <div class="form-row form-row-button">
+                <button class="apply-button" 
+                    type="submit"
+                    name="${pdict.Action == 'add' ? pdict.CurrentForms.vaultACH.create.htmlName : pdict.CurrentForms.vaultACH.edit.htmlName}"
+                    value="${Resource.msg('global.apply', 'locale', null)}">
+                    ${Resource.msg('global.apply', 'locale', null)}
+                </button>
+                <button class="cancel cancel-button simple"
+                    type="submit"
+                    name="${pdict.CurrentForms.vaultACH.cancel.htmlName}"
+                    value="${Resource.msg('global.cancel', 'locale', null)}">
+                    ${Resource.msg('global.cancel', 'locale', null)}
+                </button>
+            </div>
+
+            <input type="hidden" 
+                name="${pdict.csrfTokenName}"
+                value="${pdict.csrfToken}"
+            />
+        </form>
+    </div>
+
+    <div class="${pdict.activeForm == pdict.CurrentForms.vaultSEPA.formId ? 'payment-method-expanded' : 'payment-method'}"
+        id='${pdict.CurrentForms.vaultSEPA.formId}'
+    >
+        <form action='${URLUtils.https('BluesnapVault-HandleSEPA')}' method='post'
+            class='form-horizontal'
+            id='${pdict.CurrentForms.vaultSEPA.htmlName}'
+            name='${pdict.CurrentForms.vaultSEPA.htmlName}'
+        >
+            <fieldset>
+                    <h3>${Resource.msg('myaccount.payment.sepa', 'bluesnap', null)}</h3>
+                    <isinputfield formfield="${pdict.CurrentForms.vaultSEPA.data.iban}" type="input" />
+            </fieldset>
+            <iscomment>
+                        Action Buttons
+            </iscomment>
+            <div class="form-row form-row-button">
+                <button class="apply-button" 
+                    type="submit"
+                    name="${pdict.Action == 'add' ? pdict.CurrentForms.vaultSEPA.create.htmlName : pdict.CurrentForms.vaultSEPA.edit.htmlName}"
+                    value="${Resource.msg('global.apply', 'locale', null)}">
+                    ${Resource.msg('global.apply', 'locale', null)}
+                </button>
+                <button class="cancel cancel-button simple"
+                    type="submit"
+                    name="${pdict.CurrentForms.vaultSEPA.cancel.htmlName}"
+                    value="${Resource.msg('global.cancel', 'locale', null)}">
+                    ${Resource.msg('global.cancel', 'locale', null)}
+                </button>
+            </div>
+
+            <input type="hidden" 
+                name="${pdict.csrfTokenName}"
+                value="${pdict.csrfToken}"
+            />
+        </form>
+    </div>
+    <div class="dialog-required">
+        <span class="required-indicator">&#8226; <em>${Resource.msg('global.requiredfield', 'locale', null)}</em>
+        </span>
+    </div>
+</div>
+
+</isdecorate>

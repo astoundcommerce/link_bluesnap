@@ -1,0 +1,44 @@
+<isset name="getPreference" value="${require('*/cartridge/scripts/lib/bluesnapdata.js')}" scope="page" /> 
+<isset name="imageEnvironment" value="${getPreference('Instance') == 'sandbox' ? 'https://sandbox.' : 'https://' }" scope="page" />
+<isset name="scriptEnvironment" value="${getPreference('Instance') == 'sandbox' ? 'https://sandbox-' : 'https://' }" scope="page" />
+
+<div
+    id="visacheckout"
+    data-apiurl='${dw.web.URLUtils.https("PaymentCalls-VisaCheckoutApiKeyRequest")}'
+    data-walleturl='${dw.web.URLUtils.https("PaymentCalls-VisaCheckoutCreateWallet")}'
+    data-checkouturl='${dw.web.URLUtils.https("CheckoutServices-PlaceOrder")}'
+    data-basket='${require('*/cartridge/scripts/storefrontdata/basketdata.js').basketData(pdict.Basket)}'
+    data-sitetype='SFRA'
+>       
+   
+    <img alt="Visa Checkout" 
+        class="v-button" 
+        role="button" 
+        src="${imageEnvironment}secure.checkout.visa.com/wallet-services-web/xo/button.png" />
+
+    <script>
+        function loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback) {
+            if (scriptsCollection[startIndex]) {
+                var fileref = document.createElement('script');
+                fileref.setAttribute("type","text/javascript");
+                fileref.setAttribute("src", scriptsCollection[startIndex]);
+                fileref.onload = function(){
+                    startIndex = startIndex + 1;
+                    loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback)
+                };
+ 
+                document.getElementById("visacheckout").appendChild(fileref);
+            } else {
+                librariesLoadedCallback();
+            }
+        }
+ 
+        var scriptLibrary = [];
+        scriptLibrary.push("${scriptEnvironment}assets.secure.checkout.visa.com/checkout-widget/resources/js/integration/v1/sdk.js");
+        scriptLibrary.push("${dw.web.URLUtils.staticURL('/js/bluesnap/visacheckout.js')}");
+ 
+        loadJsFilesSequentially(scriptLibrary, 0, function(){
+            onVisaCheckoutReady();
+        });    
+    </script>
+</div>

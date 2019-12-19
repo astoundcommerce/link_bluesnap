@@ -1,0 +1,16 @@
+<div class="tab-pane bluesnapgooglepay-content
+    ${activePaymentMethods === paymentOption.ID ? 'active' : ''}"
+    id="bluesnapgooglepay-content" role="tabpanel">
+        
+    <fieldset class="payment-form-fields">
+        <!--- payment method is Googl Pay --->
+        <input type="hidden" class="form-control"
+               name="${pdict.forms.billingForm.paymentMethod.htmlName}"
+               value="BLUESNAP_GOOGLE_PAY"
+        />
+    </fieldset>
+
+    <div class="user-bluesnapgooglepay-instruments container">
+        ${Resource.msg('msg.googlepay.showbtn','bluesnap',null)}
+    </div>
+</div>

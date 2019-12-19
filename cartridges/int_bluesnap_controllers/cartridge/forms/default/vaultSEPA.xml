@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<form xmlns="http://www.demandware.com/xml/form/2008-04-19">
+
+    <!-- fields for BlueSnapCreditCard selection -->
+	<include formid="data" name="bluesnapSEPA"/>
+
+	<action formid="cancel" valid-form="false"/>
+	<action formid="create" valid-form="true"/>
+</form>

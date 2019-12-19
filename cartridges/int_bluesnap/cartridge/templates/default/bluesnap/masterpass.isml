@@ -1,0 +1,16 @@
+<isloop items="${pdict.Basket.getPaymentInstruments('BLUESNAP_MASTERPASS').toArray()}" var="PaymentInstrument">
+    <isif condition="${PaymentInstrument}">
+        <div id="masterpass" 
+        data-walleturl='${dw.web.URLUtils.http("PaymentCalls-MasterpassWallet")}'
+        >
+    <a href="#"> 
+        <img src="https://static.masterpass.com/dyn/img/btn/global/mp_chk_btn_126x030px.svg" alt="Buy with Masterpass">
+    </a>
+    </div>
+    <script src="${dw.web.URLUtils.staticURL('/js/bluesnap/masterpass.js')}"></script>
+    <meta http-equiv="Content-Type"	content="text/html; charset=windows-1255">
+    <script type="text/javascript" src="https://sandbox.masterpass.com/lightbox/Switch/integration/MasterPass.client.js"></script>
+    
+
+    </isif>
+</isloop>

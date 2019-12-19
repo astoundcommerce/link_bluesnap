@@ -1,0 +1,108 @@
+<isset name="bluesnapLatamFields" value="${pdict.paymentForm.BSlatAm}" scope="page"/>
+
+<!--- Hidden Credit Card Type --->
+<input type="hidden" class="form-control" id="latamCardType" value=""
+    <isprint value="${bluesnapLatamFields.type.attributes}" encoding="htmlsinglequote" />
+    autocomplete="cc-type"/>
+
+<!-- Card Number -->
+<div class="row">
+    <div class="col-12">
+        <div class="form-group
+            ${bluesnapLatamFields.number.mandatory === true ? 'required' : ''}
+            ${bluesnapLatamFields.number.htmlName}">
+            <label class="form-control-label" for="latamCardNumber">${Resource.msg('field.credit.card.number','creditCard',null)}</label>
+            <div class="card-number-wrapper">
+                <input type="text" class="form-control" id="latamCardNumber"
+                    <isprint value="${bluesnapLatamFields.number.attributes}" encoding="htmlsinglequote"/>
+                    autocomplete="cc-number" />
+                <div class="invalid-feedback"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Card Expiration Month-->
+    <div class="col-6">
+        <div class="form-group
+            ${bluesnapLatamFields.expiration.month.mandatory === true ? 'required' : ''}
+            ${bluesnapLatamFields.expiration.month.htmlName}">
+            <label class="form-control-label" for="${bluesnapLatamFields.expiration.month.htmlName}">
+                ${Resource.msg('field.credit.card.expiration.month','creditCard',null)}
+            </label>
+            <select class="form-control expirationMonth custom-select" id="${bluesnapLatamFields.expiration.month.htmlName}"
+            <isprint value=${bluesnapLatamFields.expiration.month.attributes} encoding="htmlsinglequote"/>
+            autocomplete="cc-exp-month">
+                <isloop items=${bluesnapLatamFields.expiration.month.options} var="month">
+                    <option id="${month.id}" value="${month.htmlValue}">
+                        ${month.label}
+                    </option>
+                </isloop>
+            </select>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+    
+    <!-- Card Expiration Year-->
+    <div class="col-6">
+        <div class="form-group
+            ${bluesnapLatamFields.expiration.year.mandatory === true ? 'required' : ''}
+            ${bluesnapLatamFields.expiration.year.htmlName}">
+            <label class="form-control-label" for="${bluesnapLatamFields.expiration.year.htmlName}">
+                ${Resource.msg('field.credit.card.expiration.year','creditCard',null)}
+            </label>
+            <select class="form-control expirationYear custom-select" id="year"
+            <isprint value=${bluesnapLatamFields.expiration.year.attributes} encoding="htmlsinglequote"/>
+            autocomplete="cc-exp-year">
+            <option value="${bluesnapLatamFields.expiration.year.options[0].htmlValue}">${bluesnapLatamFields.expiration.year.options[0].label}</option>
+                <isloop items=${pdict.expirationYears} var="year">
+                    <option id="${year}" value="${year}">
+                        ${year}
+                    </option>
+                </isloop>
+            </select>
+            <div class="invalid-feedback"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Card CVV -->
+    <div class="col-sm-6">
+        <div class="form-group
+            ${bluesnapLatamFields.cvn.mandatory === true ? 'required' : ''}
+            ${bluesnapLatamFields.cvn.htmlName}">
+            <label class="form-control-label" for="${bluesnapLatamFields.cvn.htmlName}">
+                ${Resource.msg('field.credit.card.security.code','creditCard',null)}
+            </label>
+            <span class="info-icon">
+                <span class="icon" aria-hidden="true">i</span>
+                <div class="tooltip d-none">
+                    ${Resource.msg('tooltip.security.code','creditCard',null)}
+                </div>
+            </span>
+
+            <input type="text" class="form-control securityCode" id="${bluesnapLatamFields.cvn.htmlName}"
+                <isprint value=${bluesnapLatamFields.cvn.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnapLatamCvvInvalidMessage" >
+            <div class="invalid-feedback" id="bluesnapLatamCvvInvalidMessage"></div>
+        </div>
+    </div>
+
+    <!-- Personal ID number -->
+    <div class="col-sm-6">
+        <div class="form-group
+            ${bluesnapLatamFields.personalIdentificationNumber.mandatory === true ? 'required' : ''}
+            ${bluesnapLatamFields.personalIdentificationNumber.htmlName}">
+            <label class="form-control-label" for="${bluesnapLatamFields.personalIdentificationNumber.htmlName}">
+                <isprint value=${bluesnapLatamFields.personalIdentificationNumber.label} encoding="htmlcontent"/>
+            </label>
+
+            <input type="text" class="form-control" id="${bluesnapLatamFields.personalIdentificationNumber.htmlName}"
+                <isprint value=${bluesnapLatamFields.personalIdentificationNumber.attributes} encoding="htmlsinglequote"/>
+                aria-describedby="bluesnapPersonalIdentificationNumber" >
+            <div class="invalid-feedback" id="bluesnapPersonalIdentificationNumber"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,3 @@
+<div>
+    ${Resource.msg('msg.payment.load.error', 'bluesnap', null)}
+</div>

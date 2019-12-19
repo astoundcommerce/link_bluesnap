@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<extensions xmlns="http://www.demandware.com/xml/bmmodules/2007-12-11" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.demandware.com/xml/bmmodules/2007-12-11 bmext.xsd">
+    <menuitem id="test" site="true"  position="100">
+    	<name xml:lang="x-default">BlueSnap Settings</name>
+    	<short_description xml:lang="x-default">BlueSnap Settings short DESCRIPTION</short_description>
+        <description xml:lang="x-default">BlueSnap Settings DESCRIPTION</description>
+    	<icon></icon>
+    </menuitem>
+    <menuaction id="customsubmenu" menupath="test" position="100" site="true">
+      <name xml:lang="x-default">BlueSnap Settings</name>
+      <short_description xml:lang="x-default">Short Description</short_description>
+      <description xml:lang="x-default">Description</description>
+      <exec pipeline="BlueSnapBM" node="Start"/>
+      <sub-pipelines>
+      	<pipeline name="BlueSnapBM-Start"/>
+      </sub-pipelines>
+      <parameters>
+         <parameter name="menuname" value="BlueSnapBM"/>
+         <parameter name="mainmenuname" value="BlueSnapBM"/>
+      </parameters>
+      <icon></icon>
+    </menuaction>
+    <menuaction id="customsubmenu_id01" menupath="test" position="110" site="true">
+      <name xml:lang="x-default">BlueSnap Report</name>
+      <short_description xml:lang="x-default">Short Description</short_description>
+      <description xml:lang="x-default">Description</description>
+      <exec pipeline="BluesnapBMreport" node="Start"/>
+      <sub-pipelines>
+      	<pipeline name="BluesnapBMreport-Start"/>
+        <pipeline name="BluesnapBMreport-HandleFormAttribure"/>
+      </sub-pipelines>
+      <parameters>
+         <parameter name="menuname" value="BluesnapBMreport"/>
+         <parameter name="mainmenuname" value="BluesnapBMreport"/>
+      </parameters>
+      <icon></icon>
+    </menuaction>
+</extensions>

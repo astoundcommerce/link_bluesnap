@@ -1,0 +1,128 @@
+<iscontent type="text/html" charset="UTF-8" compact="true"/>
+<isdecorate template="account/pt_account">
+    <isinclude template="util/modules"/>
+    <isset name="bctext2" value="${Resource.msg('global.settings','bluesnap',null)}" scope="pdict"/>
+    <isslot id="account-banner" description="Banner for My Account pages" context="global" />
+
+    <h1>${Resource.msg('myaccount.vault.title','bluesnap',null)}</h1>
+
+    <isif condition="${pdict.vaultMessage}">
+        <div>
+            <h3><isprint value="${pdict.vaultMessage}" encoding="on" /></h3>
+        </div>
+    </isif>
+
+    <isif condition="${pdict.errorMessage}">
+        <div class="error-message">
+            <isprint value="${pdict.errorMessage}" encoding="on" />
+        </div>
+    </isif>
+
+    <isif condition="${pdict.vaultedShopper == null}">
+        <p>${Resource.msg('msg.vault.willcreate', 'bluesnap', null)}</p>
+        <div>
+            <a class="button" 
+            href="${URLUtils.url('BluesnapVault-Add')}"
+            title="${Resource.msg('myaccount.vault.addsource.label','bluesnap',null)}"
+            >
+                ${Resource.msg('myaccount.vault.addsource','bluesnap',null)}
+            </a>
+        </div>
+    <iselse/>
+        <div class='js-add-source'>
+            <a href="${URLUtils.url('BluesnapVault-Add')}" class="button" aria-label="Add New Payment">${Resource.msg('myaccount.vault.addsource','bluesnap',null)}</a>
+            <p>${Resource.msg('myaccount.vault.addsourcehelp','bluesnap',null)}</p>
+        </div>
+
+        <isinclude url="${URLUtils.url('BluesnapVault-VaultPaymentsSelector')}"/>
+
+        <isif condition="${pdict.creditCards.length > 0}">
+            <iscomment>
+                        CREDIT CARDS --------------
+            </iscomment>
+            <div class='paymentsourceslist'>
+                <h2>${Resource.msg('vault.creditcard.title','bluesnap',null)}</h2>
+                <isloop items="${pdict.creditCards}" var="creditCard" status="loopstatus">
+                <h3>
+                    <isprint value="${creditCard.firstName}" encoding="on" />
+                    <isprint value="${creditCard.lastName}" encoding="on" />
+                </h3>
+                    <isset name="bluesnapCardId" value="${creditCard.cardType + creditCard.cardLastFourDigits}" scope="page" />
+                    
+                    <div class='cardInfo'>
+                        <p>${Resource.msg('label.card.type','bluesnap',null) +': '+creditCard.cardType}</p>
+                        <p>${Resource.msg('label.card.lastfour','bluesnap',null) +': '+creditCard.cardLastFourDigits}</p>
+                        <p>${Resource.msg('label.card.exp','bluesnap',null) +': '+creditCard.expirationYear+'/'+creditCard.expirationMonth}</p>
+                        <div class='action'>
+                            <a href="${URLUtils.url('BluesnapVault-Delete', 'type', 'card', 'lastFour', creditCard.cardLastFourDigits,'cardType', creditCard.cardType)}"
+                                class="button btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                data-id="${bluesnapCardId}"
+                                data-card="${bluesnapCardId}"
+                                data-url="${URLUtils.url('BluesnapVault-Delete', 'type', 'card', 'lastFour', creditCard.cardLastFourDigits,'cardType', creditCard.cardType)}"
+                                aria-label="Delete Payment">
+                                ${Resource.msg('label.btn.delete','bluesnap',null)}
+                            </a>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+        <iscomment>
+                    ACH/ECP --------------
+        </iscomment>
+        <isif condition="${pdict.ecpDetails.length > 0}">
+            <div class='paymentsourceslist'>
+                <h2>${Resource.msg('vault.ecp.title','bluesnap',null)}</h2>
+                <isloop items="${pdict.ecpDetails}" var="item" status="loopstatus">
+                <h3>
+                    <isprint value="${item.firstName}" encoding="on" />
+                    <isprint value="${item.lastName}" encoding="on" />
+                </h3>
+                    <div class='cardInfo'>
+                        <p>${Resource.msg('label.card.type','bluesnap',null) +': '+item.accountType}</p>
+                        <p>${Resource.msg('label.ach.accountnumber','bluesnap',null) +': '+item.publicAccountNumber}</p>
+                        <p>${Resource.msg('label.ach.routingnumber','bluesnap',null) +': '+item.publicRoutingNumber}</p>
+                        <div class='action'>
+                            <a href="${URLUtils.url('BluesnapVault-Delete', 'type', 'ecp', 'publicAccountNumber', item.publicAccountNumber,'publicRoutingNumber', item.publicRoutingNumber, 'accountType', item.accountType)}"
+                                class="button btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                aria-label="Delete Payment">
+                                ${Resource.msg('label.btn.delete','bluesnap',null)}
+                            </a>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+        <iscomment>
+                    SEPA --------------
+        </iscomment>
+        <isif condition="${pdict.sepaDirect.length > 0}">
+            <div class='paymentsourceslist'>
+                <h2>${Resource.msg('vault.sepa.title','bluesnap',null)}</h2>
+                <isloop items="${pdict.sepaDirect}" var="item" status="loopstatus">
+                <h3>
+                    <isprint value="${item.firstName}" encoding="on" />
+                    <isprint value="${item.lastName}" encoding="on" />
+                </h3>
+                    <div class='cardInfo'>
+                        <p>${Resource.msg('label.iban.firsfour','bluesnap',null) +': '+item.ibanFirstFour}</p>
+                        <p>${Resource.msg('label.iban.firsfour','bluesnap',null) +': '+item.ibanLastFour}</p>
+                        <div class='action'>
+                            <a href="${URLUtils.url('BluesnapVault-Delete', 'type', 'sepa', 'ibanFirstFour', item.ibanFirstFour,'ibanLastFour', item.ibanLastFour)}"
+                                class="button btn-light"
+                                data-toggle="modal"
+                                data-target="#deletePaymentModal"
+                                aria-label="Delete Payment">
+                                ${Resource.msg('label.btn.delete','bluesnap',null)}
+                            </a>
+                        </div>
+                    </div>
+                </isloop>
+            </div>
+        </isif>
+    </isif>
+</isdecorate>

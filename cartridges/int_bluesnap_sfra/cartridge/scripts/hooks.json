@@ -1,0 +1,12 @@
+{
+	"hooks": [
+       	{
+			"name": "app.payment.processor.bluesnap",
+			"script": "./payment/processor/bluesnap"
+		},
+		{
+            "name": "app.payment.form.processor.bluesnap",
+            "script": "./payment/processor/bluesnap_form_processor"
+        }
+	]
+}

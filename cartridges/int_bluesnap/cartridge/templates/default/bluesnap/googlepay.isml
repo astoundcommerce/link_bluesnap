@@ -1,0 +1,17 @@
+<isloop items="${pdict.Basket.getPaymentInstruments('BLUESNAP_GOOGLE_PAY').toArray()}" var="PaymentInstrument">
+    <isif condition="${PaymentInstrument}">
+        <script src="${dw.web.URLUtils.staticURL('/js/bluesnap/googlepay.js')}"></script>
+        <div id="googlePayContainer" 
+        data-tokenurl='${dw.web.URLUtils.http("PaymentCalls-GoogleToken")}'
+        data-checkouturl='${dw.web.URLUtils.http("PaymentCalls-Checkout")}'
+        data-basket='${require('*/cartridge/scripts/storefrontdata/basketdata.js').basketData(pdict.Basket)}'
+        >
+        </div>
+        <script async  src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>
+    </isif>
+</isloop>
+
+
+
+
+
