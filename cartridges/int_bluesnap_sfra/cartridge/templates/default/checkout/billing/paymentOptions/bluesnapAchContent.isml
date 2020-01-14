@@ -35,9 +35,9 @@
                 </isif>
         </fieldset>
 
-        <div class="row" style='margin-top: 15px;'>
+        <div class="row custom-agreement">
             <div class="col">
-                    <div class="save-credit-card custom-control custom-checkbox" style='padding-top: 5px; border-top: 1px solid #ccc;'>
+                    <div class="save-credit-card custom-control custom-checkbox custom-checkbox-agreement">
                         <input type="checkbox" class="custom-control-input form-control" id="authorizeACH" name="${pdict.forms.billingForm.BSACH.authorizeACH.htmlName}" value="true" />
                         <label class="custom-control-label" for="authorizeACH">
                             ${pdict.forms.billingForm.BSACH.authorizeACH.label}

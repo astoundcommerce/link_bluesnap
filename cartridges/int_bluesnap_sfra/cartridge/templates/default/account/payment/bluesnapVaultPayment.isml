@@ -29,7 +29,7 @@
                         <div class="card-body card-body-positioning">
                             <div class="card-info-group">
                                 <p>${Resource.msg('label.payment.credit','account',null)} ${paymentInstrument.creditCard.cardType}</p>
-                                <p>************${paymentInstrument.creditCard.cardLastFourDigits}</p>
+                                <p>${'************' + paymentInstrument.creditCard.cardLastFourDigits}</p>
                                 <p>${Resource.msg('label.payment.ending','account',null)} ${paymentInstrument.creditCard.expirationMonth}/${paymentInstrument.creditCard.expirationYear}</p>
                             </div>
                             <button

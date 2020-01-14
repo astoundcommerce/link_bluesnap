@@ -104,7 +104,7 @@
                 <isprint value="${pdict.paymentForm.saveToBluesnapVault.attributes}" encoding="htmlsinglequote" />
             >
             <label class="custom-control-label" for="saveToBluesnapVault">
-                Add to BlueSnap Vault for one-click checkout
+                ${Resource.msg('label.vault.savetovault', 'bluesnap', null)}
             </label>
         </div>
     </div>

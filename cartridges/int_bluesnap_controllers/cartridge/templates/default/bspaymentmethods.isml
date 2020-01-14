@@ -19,7 +19,7 @@
 <div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_SEPA_PAYMENT'}">payment-method-expanded</isif>" data-method="BLUESNAP_SEPA_PAYMENT">
     <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
         <isvaultpaymentselector select_id="${pdict.CurrentForms.billing.paymentMethods.BSSEPA.vaultSEPA.htmlName}" paymentsources="${vaultPaymentsList.sepa}" parentselector="div.payment-method"/>
-        <div class='vault-help-text' style="display: none;">
+        <div class='vault-help-text'>
             <p>${Resource.msg('vault.tip.sepa', 'bluesnap', null)}</p>
         </div>
     </isif>
@@ -37,7 +37,7 @@
 <div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_ACH_PAYMENT'}">payment-method-expanded</isif>" data-method="BLUESNAP_ACH_PAYMENT">
     <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
         <isvaultpaymentselector select_id="${pdict.CurrentForms.billing.paymentMethods.BSACH.vaultACH.htmlName}" paymentsources="${vaultPaymentsList.ecp}" parentselector="div.payment-method" />
-        <div class='vault-help-text' style="display: none;">
+        <div class='vault-help-text'>
             <p>${Resource.msg('vault.tip.ach', 'bluesnap', null)}</p>
         </div>
     </isif>
@@ -60,7 +60,7 @@
    
     <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
             <isvaultpaymentselector select_id="${pdict.CurrentForms.billing.paymentMethods.BScreditCard.vaultCreditCard.htmlName}" paymentsources="${vaultPaymentsList.creditCards}" parentselector="div.payment-method" />
-            <div class='vault-help-text' style="display: none;">
+            <div class='vault-help-text'>
                 <p>${Resource.msg('vault.tip.creditcard', 'bluesnap', null)}</p>
             </div>
    </isif>
@@ -121,7 +121,7 @@
 <div class="payment-method <isif condition="${!empty(pdict.selectedPaymentID) && pdict.selectedPaymentID=='BLUESNAP_LATAM'}">payment-method-expanded</isif>" data-method="BLUESNAP_LATAM">
     <isif condition="${session.customerAuthenticated && vaultPaymentsList}">
         <isvaultpaymentselector  select_id="${pdict.CurrentForms.billing.paymentMethods.BSlatAm.vaultLatamCard.htmlName}" paymentsources="${vaultPaymentsList.creditCards}" parentselector="div.payment-method" />
-        <div class='vault-help-text' style="display: none;">
+        <div class='vault-help-text'>
             <p>${Resource.msg('vault.tip.creditcard', 'bluesnap', null)}</p>
         </div>
     </isif>

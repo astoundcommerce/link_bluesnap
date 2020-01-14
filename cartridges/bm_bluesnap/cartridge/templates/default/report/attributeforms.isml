@@ -52,14 +52,18 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <table id="${idSelectTag + '_custom_date'}" cellspacing="0" cellpadding="4" width="100%" class="infobox" style="display: none;">
+                                                <table id="${idSelectTag + '_custom_date'}" cellspacing="0" cellpadding="4" width="100%" class="infobox custom-hide">
                                                     <tbody>
                                                         <tr>
-                                                            <td class="infobox_item_search" nowrap="nowrap">From:</td>  
+                                                            <td class="infobox_item_search" nowrap="nowrap">
+                                                                ${Resource.msg('report.label.from', 'report', null)}
+                                                            </td>  
                                                             <td class="infobox_item_search">
                                                                 <input form="${formname}" type="date" name="from_date" value='${pdict.customFromDate}' disabled />
                                                             </td>
-                                                            <td class="infobox_item_search" nowrap="nowrap">To:</td>  
+                                                            <td class="infobox_item_search" nowrap="nowrap">
+                                                                ${Resource.msg('report.label.to', 'report', null)}
+                                                            </td>  
                                                             <td class="infobox_item_search">
                                                                 <input form="${formname}" type="date" name="to_date" value='${pdict.customToDate}' disabled/>
                                                             </td>       

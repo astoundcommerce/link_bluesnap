@@ -52,22 +52,22 @@
         <div class="invalid-feedback"></div>
     </div>
 
-    <div id="form_credit" style="display: none;">
+    <div id="form_credit" class="custom-hide">
         <fieldset disabled>
             <isinclude template="account/payment/bluesnapCardForm" />
         </fieldset>
     </div>
-    <div id="form_latamcredit" style="display: none;">
+    <div id="form_latamcredit" class="custom-hide">
         <fieldset disabled>
             <isinclude template="account/payment/bluesnapLatamCardForm" />
         </fieldset>
     </div>
-    <div id="form_ecp" style="display: none;">
+    <div id="form_ecp" class="custom-hide">
         <fieldset disabled>
             <isinclude template="account/payment/bluesnapAchForm" />
         </fieldset>
     </div>
-    <div id="form_sepa" style="display: none;">
+    <div id="form_sepa" class="custom-hide">
         <fieldset disabled>
             <isinclude template="account/payment/bluesnapSepaForm" />
         </fieldset>

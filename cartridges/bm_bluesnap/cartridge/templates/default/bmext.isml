@@ -4,7 +4,7 @@
 <isset name="sitepref" value="${pdict.sitepref}" scope="page" />
 
 <h1>${pdict.group}</h1>
-<form class="form-horizontal" class="form" name="custom" method="post">
+<form class="form-horizontal form" name="custom" method="post">
     <input type="hidden" name="csrf_token" />
     <table>
         <tbody>

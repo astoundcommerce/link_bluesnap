@@ -1,2 +1,3 @@
 <!-- Bluesnap Vault UI Scripts -->
+<link rel="stylesheet" type="text/css" href="${dw.web.URLUtils.staticURL("/css/bluesnapcustom.css")}">
 <script src="${dw.web.URLUtils.staticURL('/js/bluesnap-account.js')}"></script>

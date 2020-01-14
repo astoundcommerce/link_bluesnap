@@ -15,7 +15,7 @@
 </isif>
 
 <isif condition="${pdict.errorMessages}">
-    <div class='operation-error' style='background-color: #9A9; padding: 10px;'>
+    <div class='operation-error'>
         <isloop items="${pdict.errorMessages}" var="message">
             <p>${message}</p>
         </isloop>
