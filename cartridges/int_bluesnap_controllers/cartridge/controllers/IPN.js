@@ -13,7 +13,7 @@ function Handle() {
     var inputData = request.httpParameterMap;
     var log = {};
     if (inputData.transactionType) {
-        var setOfNames = inputData.getParameterNames().iterator();
+        var setOfNames = inputData.getParameterNames().iterator(); // Method return an Object of type {dw.util.Iterator} that doesn't have a close() method
         while (setOfNames.hasNext()) {
             var param = setOfNames.next();
             log[param] = inputData[param].stringValue;

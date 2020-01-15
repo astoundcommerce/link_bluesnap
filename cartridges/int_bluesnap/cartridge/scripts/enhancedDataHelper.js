@@ -31,7 +31,7 @@ function bluesnapGetlevel3Data(cart) {
     level3Data.taxAmount = cart.getTotalTax().getValue();
 
     var level3DataItems = [];
-    var productLlineItems = cart.getProductLineItems().iterator();
+    var productLlineItems = cart.getProductLineItems().iterator(); // Method return an Object of type {dw.util.Iterator} that doesn't have a close() method
     var discountCartTotal = new Money(0, cart.getCurrencyCode());
     var zeroMoney = new Money(0, cart.getCurrencyCode());
 

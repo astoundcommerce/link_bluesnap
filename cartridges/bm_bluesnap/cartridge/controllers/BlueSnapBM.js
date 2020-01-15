@@ -96,7 +96,7 @@ function Start() {
  */
 function handleForm(params) {
     if (params.getParameterCount() > 1) {
-        var prefs = preferences.iterator();
+        var prefs = preferences.iterator(); // Method return an Object of type {dw.util.Iterator} that doesn't have a close() method
         while (prefs.hasNext()) {
             var pref = prefs.next();
             var id = pref.getID();

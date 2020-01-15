@@ -42,7 +42,7 @@ function handleFormAttribure() {
     var nextPageButton = !!nameOfParamsSet.contains('pageNext');
     nameOfParamsSet.remove('pageNext');
 
-    var names = nameOfParamsSet.iterator();
+    var names = nameOfParamsSet.iterator(); // Method return an Object of type {dw.util.Iterator} that doesn't have a close() method
     var queryParams = [];
 
     while (names.hasNext()) {

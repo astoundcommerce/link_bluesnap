@@ -77,7 +77,7 @@
                 <tr>
                     <td class="button">
                         <a href="${pdict.continueUrl}" class="button">
-                            &lt;&lt;&nbsp;${Resource.msg('report.label.back', 'report', null)}
+                            ${Resource.msg('report.label.back', 'report', null)}
                         </a>
                     </td>
                 </tr>

@@ -2,14 +2,14 @@
 <extensions xmlns="http://www.demandware.com/xml/bmmodules/2007-12-11" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.demandware.com/xml/bmmodules/2007-12-11 bmext.xsd">
     <menuitem id="test" site="true"  position="100">
     	<name xml:lang="x-default">BlueSnap Settings</name>
-    	<short_description xml:lang="x-default">BlueSnap Settings short DESCRIPTION</short_description>
-        <description xml:lang="x-default">BlueSnap Settings DESCRIPTION</description>
+    	<short_description xml:lang="x-default">Customisation BlueSnap service and get reports</short_description>
+        <description xml:lang="x-default">Customisation BlueSnap service and get reports</description>
     	<icon></icon>
     </menuitem>
     <menuaction id="customsubmenu" menupath="test" position="100" site="true">
       <name xml:lang="x-default">BlueSnap Settings</name>
-      <short_description xml:lang="x-default">Short Description</short_description>
-      <description xml:lang="x-default">Description</description>
+      <short_description xml:lang="x-default">Enable/Disable and customisation BlueSnap service</short_description>
+      <description xml:lang="x-default">Enable/Disable and customisation BlueSnap service</description>
       <exec pipeline="BlueSnapBM" node="Start"/>
       <sub-pipelines>
       	<pipeline name="BlueSnapBM-Start"/>
@@ -22,8 +22,8 @@
     </menuaction>
     <menuaction id="customsubmenu_id01" menupath="test" position="110" site="true">
       <name xml:lang="x-default">BlueSnap Report</name>
-      <short_description xml:lang="x-default">Short Description</short_description>
-      <description xml:lang="x-default">Description</description>
+      <short_description xml:lang="x-default">Get BlueSnap client and transaction reports</short_description>
+      <description xml:lang="x-default">Get BlueSnap client and transaction reports</description>
       <exec pipeline="BluesnapBMreport" node="Start"/>
       <sub-pipelines>
       	<pipeline name="BluesnapBMreport-Start"/>
