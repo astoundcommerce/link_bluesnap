@@ -1,17 +1,18 @@
 .helper-text {
-    color: #990000;
-    font-size: 12px;
-    /* margin-top: 5px; */
-    height: 12px;
+    color: #990;
+    font-size: 0.75rem;
+    height: 0.75rem;
     display: block;
 }
+
 .helper-text-green {
     color: green;
 }
-/* Hosted Payment Fields styles*/
+
+/* Hosted Payment Fields styles */
 .hosted-field-focus {
-    border: 1px solid #66afe9;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    border: 0.0625rem solid #66afe9;
+    box-shadow: inset 0 0.0625rem 0.0625rem rgba(0, 0, 0, 0.075), 0 0 0.5rem rgba(102, 175, 233, 0.6);
 }
 
 .card-number,
@@ -22,15 +23,15 @@
 
 .card-number,
 .cvv {
-    border: 1px solid #aaa;
+    border: 0.0625rem solid #aaa;
 }
 
 .hosted-field-invalid {
     background-color: #faeded;
-    border-color: #990000;
-    color: #990000;
+    border-color: #990;
+    color: #990;
 }
 
 .hosted-field-valid {
-    border: 1px solid #14ba57;
+    border: 0.0625rem solid #14ba57;
 }

@@ -52,7 +52,7 @@ function bluesnapCardRetrieve(transactionId) {
     var service = bluesnapService.init();
 
     service.setRequestMethod('GET');
-    service.setURL(instance + '/transactions/' + transactionId);
+    service.setURL(instance + '/alt-transactions/' + transactionId);
     retrieveInfo = serviceHelper.callJsonService('bluesnapCardRetrieve', service, param);
 
     return retrieveInfo;

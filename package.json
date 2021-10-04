@@ -1,4 +1,7 @@
 {
+    "name": "int_bluesnap_sfra",
+    "version": "21.1.0",
+    "description": "BlueSnap SFRA Link Cartridge",
     "scripts": {
         "test": "sgmf-scripts --test test/unit/**/*.js",
         "test:integration": "sgmf-scripts --integration 'test/integration/**/*.js'",
@@ -53,6 +56,10 @@
         "sgmf-scripts": "^2.1.1",
         "shelljs": "^0.8.2"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com:SalesforceCommerceCloud/link_bluesnap.git"
+    },
     "dependencies": {
         "autoprefixer": "^9.6.0",
         "bootstrap": "4.3.1",
@@ -70,7 +77,6 @@
             "env"
         ]
     },
-    "packageName": "int_bluesnap_sfra",
     "paths": {
         "base": "../storefront-reference-architecture/cartridges/app_storefront_base/"
     }

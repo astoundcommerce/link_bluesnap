@@ -384,6 +384,24 @@ function savePaymentInformation(req, basket, billingData) {
     vaultedShopper.setPaymentSources(paymentSources);
     vaultedShopper.setFirstName(customer.profile.firstName);
     vaultedShopper.setLastName(customer.profile.lastName);
+
+    // for local LatAm processing method vaultedShopper object should contain two mandatory fields - email and personalIdentificationNumber
+    var personalIdentificationNumber = billingData.paymentInformation.personalIdentificationNumber.value;
+
+    vaultedShopper.setEmail(customer.profile.email);
+
+    if (personalIdentificationNumber) {
+        vaultedShopper.setPersonalIdentificationNumber(personalIdentificationNumber);
+    } else {
+        // check if vaultedShopper on BluesSnap side already contains personalIdentificationNumber
+        var bsVaultedShopper = vaultHelper.getVaultedShopper(customer.profile.custom.bsVaultedShopperId);
+        var bsPersonalIdentificationNumber = bsVaultedShopper.personalIdentificationNumber;
+
+        if (bsPersonalIdentificationNumber) {
+            vaultedShopper.setPersonalIdentificationNumber(bsPersonalIdentificationNumber);
+        }
+    }
+
     if (companyName) {
         vaultedShopper.setCompanyName(companyName);
     }

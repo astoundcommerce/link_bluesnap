@@ -1,14 +1,14 @@
 .tabs {
     position: relative;
-    text-align: left; 
+    text-align: left;
 }
-  
+
 .tab {
     display: inline-block;
 }
-  
+
 .tab .tab-switch {
-    display: none; 
+    display: none;
 }
 
 .tab .tab-switch:checked + .tab-label {
@@ -23,21 +23,21 @@
     opacity: 1;
     z-index: 2;
     display: block;
-}  
-  
+}
+
 .tab .tab-label {
-    border-left: 2px solid #f5f5f5;
-    border-right: 2px solid #f5f5f5;
+    border-left: 0.125rem solid #f5f5f5;
+    border-right: 0.125rem solid #f5f5f5;
     display: block;
     font-weight: normal;
-    margin: 0 -5px 0 0;
+    margin: 0 -0.325em 0 0;
     position: relative;
     cursor: pointer;
-    padding: 5px 12px; 
+    padding: 0.325em 0.75em;
 }
 
 .tab .tab-label:hover {
-    background:#eee;
+    background: #eee;
 }
 
 .tab .tab-content {
@@ -51,6 +51,7 @@
     width: 100%;
     display: none;
 }
+
 .custom-hide {
     display: none;
 }

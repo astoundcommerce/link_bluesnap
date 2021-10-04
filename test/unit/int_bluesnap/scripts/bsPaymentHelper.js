@@ -178,10 +178,10 @@ describe('bsPaymentHelper module - Test helper to handle BlueSnap payment method
                 },
                 cardTransactionType : 'Auth and Capture',
                 creditCard          : {
-                    cardNumber       : '4111111111111111',
-                    cardSecurityCode : '421',
-                    expirationMonth  : '05',
-                    expirationYear   : '21',
+                    cardNumber      : '4111111111111111',
+                    securityCode    : '421',
+                    expirationMonth : '05',
+                    expirationYear  : '21',
                 },
                 currency   : 'USD',
                 level3Data : {
@@ -464,10 +464,10 @@ describe('bsPaymentHelper module - Test helper to handle BlueSnap payment method
                 },
                 cardTransactionType : 'Auth and Capture',
                 creditCard          : {
-                    cardNumber       : '4111111111111111',
-                    cardSecurityCode : '421',
-                    expirationMonth  : '05',
-                    expirationYear   : '21',
+                    cardNumber      : '4111111111111111',
+                    securityCode    : '421',
+                    expirationMonth : '05',
+                    expirationYear  : '21',
                 },
                 currency   : 'USD',
                 level3Data : {

@@ -70,7 +70,7 @@ function paymentCreditDebit(creditCardForm, hostedDataToken, cart) {
             result = paymentsApi.bluesnapHostedFieldsPaymentCall(cart, hostedData, creditCardForm.getValue('storeInBluesnapVault'));
         } else {
             creditCard.cardNumber = creditCardForm.getValue('number');
-            creditCard.cardSecurityCode = creditCardForm.getValue('cvn');
+            creditCard.securityCode = creditCardForm.getValue('cvn');
             creditCard.expirationMonth = creditCardForm.getValue('expiration.month');
             creditCard.expirationYear = creditCardForm.getValue('expiration.year');
             creditCard.ownerInfo = {
@@ -111,7 +111,7 @@ function paymentLatAM(creditCardForm, hostedDataToken, cart) {
 
     if (empty(vaultCardData) || vaultCardData == 'none') {
         creditCard.cardNumber = creditCardForm.getValue('number');
-        creditCard.cardSecurityCode = creditCardForm.getValue('cvn');
+        creditCard.securityCode = creditCardForm.getValue('cvn');
         creditCard.expirationMonth = creditCardForm.getValue('expiration.month');
         creditCard.expirationYear = creditCardForm.getValue('expiration.year');
 

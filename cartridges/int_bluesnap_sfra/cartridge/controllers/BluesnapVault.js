@@ -277,6 +277,7 @@ server.post('SavePayment', csrfProtection.validateAjaxRequest, function (req, re
                 break;
             case 'BLUESNAP_LATAM':
                 shopperData = _getCCFormData(paynentForm.BSlatAm);
+                shopperData.email = customer.profile.email;
                 shopperData.personalIdentificationNumber = paynentForm.BSlatAm.personalIdentificationNumber.value;
                 break;
             default:
@@ -319,7 +320,8 @@ server.get('DeletePayment', userLoggedIn.validateLoggedInAjax, function (req, re
     var uuid = req.querystring.UUID;
     var vaultedShopper = new PaymentModels.VaultedShopperModel();
     var paymentSources = new PaymentModels.PaymentSourcesModel();
-    switch (req.querystring.type) {
+    var paymentType = req.querystring.type;
+    switch (paymentType) {
     case 'card':
         var creditCardInfo = new PaymentModels.CreditCardInfoModel();
         var lastFour = req.querystring.lastFour;
@@ -359,6 +361,18 @@ server.get('DeletePayment', userLoggedIn.validateLoggedInAjax, function (req, re
     vaultedShopper.setPaymentSources(paymentSources);
     vaultedShopper.setFirstName(customer.profile.firstName);
     vaultedShopper.setLastName(customer.profile.lastName);
+    vaultedShopper.setEmail(customer.profile.email);
+
+    // while saved LaTAm cards exist in the vault, vaultedShopper object should contain two mandatory fields - email and personalIdentificationNumber
+    var bsVaultedShopper = vaultHelper.getVaultedShopper(customer.profile.custom.bsVaultedShopperId);
+    var bsPersonalIdentificationNumber = bsVaultedShopper.personalIdentificationNumber;
+    var bsPaymentSources = bsVaultedShopper.paymentSources;
+    var isLastSavedCard = Object.keys(bsPaymentSources).length === 1;
+
+    // no need in personalIdentificationNumber field if there are no saved cards in the vault
+    if (!isLastSavedCard) {
+        vaultedShopper.setPersonalIdentificationNumber(bsPersonalIdentificationNumber);
+    }
 
     var result = vaultHelper.updateVaultedShopper(customer.profile.custom.bsVaultedShopperId, vaultedShopper.getData());
 

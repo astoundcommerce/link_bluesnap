@@ -1,7 +1,8 @@
 .vault-help-text {
     display: none;
 }
+
 .operation-error {
-    background-color: #9A9;
-    padding: 10px;
+    background-color: #9a9;
+    padding: 0.625rem;
 }

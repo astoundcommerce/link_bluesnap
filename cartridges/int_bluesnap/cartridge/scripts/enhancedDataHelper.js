@@ -37,7 +37,7 @@ function bluesnapGetlevel3Data(cart) {
 
     while (productLlineItems.hasNext()) {
         var productLine = productLlineItems.next();
-        var discountProductAmount = productLine.getPrice().subtract(productLine.getAdjustedPrice());
+        var discountProductAmount = productLine.getPrice().subtract(productLine.getAdjustedPrice(true));
         discountCartTotal = discountCartTotal.add(discountProductAmount);
 
         var level3DataItem = {};

@@ -302,6 +302,7 @@ function vaultedShopperModel(_data) {
     this.getSoftDescriptor = function () { return this.data.softDescriptor; };
     this.getCompanyName = function () { return this.data.companyName; };
     this.getPersonalIdentificationNumber = function () { return this.data.personalIdentificationNumber; };
+    this.getEmail = function () { return this.data.email; };
 
     this.getCreditCardsList = function () {
         var cards = [];
@@ -378,6 +379,7 @@ function vaultedShopperModel(_data) {
     };
     this.setCompanyName = function (_companyName) { this.data.companyName = _companyName; };
     this.setPersonalIdentificationNumber = function (_pin) { this.data.personalIdentificationNumber = _pin; };
+    this.setEmail = function (_email) { this.data.email = _email; };
 
 
     /* Wallet */
