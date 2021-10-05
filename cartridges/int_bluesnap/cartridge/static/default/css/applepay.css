@@ -1,17 +1,17 @@
 #apple-pay-button {
-    -webkit-appearance: -apple-pay-button; 
+    -webkit-appearance: -apple-pay-button;
     -apple-pay-button-type: plain;
-    visibility: hidden; /* button is hidden by default */ 
+    visibility: hidden; /* button is hidden by default */
     display: inline-block;
-    width: 200px;
-    min-height: 30px;
+    width: 12.5rem;
+    min-height: 1.875rem;
     border: 1px solid black;
     background-image: -webkit-named-image(apple-pay-logo-white);
-    background-size: 100% calc(60% + 2px);
+    background-size: 100% calc(60% + 0.125rem);
     background-repeat: no-repeat;
     background-color: black;
     background-position: 50% 50%;
-    border-radius: 5px;
-    padding: 0px;
-    margin: 5px auto;
+    border-radius: 0.3125rem;
+    padding: 0;
+    margin: 0.3125rem auto;
 }

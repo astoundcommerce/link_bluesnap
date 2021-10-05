@@ -95,11 +95,11 @@ describe('payment module - Test BlueSnap API function', function () {
             };
             cart = new OrderMock();
             creditCard = {
-                cardNumber       : '4111111111111111',
-                cardSecurityCode : '421',
-                expirationMonth  : '05',
-                expirationYear   : '21',
-                ownerInfo        : {
+                cardNumber      : '4111111111111111',
+                securityCode    : '421',
+                expirationMonth : '05',
+                expirationYear  : '21',
+                ownerInfo       : {
                     firstName : 'ownerFirstName',
                     lastName  : 'ownerLastName',
                     zip       : '12456',
@@ -117,10 +117,10 @@ describe('payment module - Test BlueSnap API function', function () {
                 },
                 cardTransactionType : 'Auth and Capture',
                 creditCard          : {
-                    cardNumber       : '4111111111111111',
-                    cardSecurityCode : '421',
-                    expirationMonth  : '05',
-                    expirationYear   : '21',
+                    cardNumber      : '4111111111111111',
+                    securityCode    : '421',
+                    expirationMonth : '05',
+                    expirationYear  : '21',
                 },
                 currency   : 'USD',
                 level3Data : {
@@ -426,11 +426,11 @@ describe('payment module - Test BlueSnap API function', function () {
             };
             cart = new OrderMock();
             creditCard = {
-                cardNumber       : '4111111111111111',
-                cardSecurityCode : '421',
-                expirationMonth  : '05',
-                expirationYear   : '21',
-                ownerInfo        : {
+                cardNumber      : '4111111111111111',
+                securityCode    : '421',
+                expirationMonth : '05',
+                expirationYear  : '21',
+                ownerInfo       : {
                     firstName : 'ownerFirstName',
                     lastName  : 'ownerLastName',
                     zip       : '12456',
@@ -456,11 +456,11 @@ describe('payment module - Test BlueSnap API function', function () {
                 },
                 cardTransactionType : 'Auth and Capture',
                 creditCard          : {
-                    cardNumber       : '4111111111111111',
-                    cardSecurityCode : '421',
-                    expirationMonth  : '05',
-                    expirationYear   : '21',
-                    ownerInfo        : {
+                    cardNumber      : '4111111111111111',
+                    securityCode    : '421',
+                    expirationMonth : '05',
+                    expirationYear  : '21',
+                    ownerInfo       : {
                         email     : 'ustomer@email.com',
                         firstName : 'ownerFirstName',
                         lastName  : 'ownerLastName',

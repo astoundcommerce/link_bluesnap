@@ -1,1 +1,4935 @@
-!function(e){var t={};function n(a){if(t[a])return t[a].exports;var i=t[a]={i:a,l:!1,exports:{}};return e[a].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=e,n.c=t,n.d=function(e,t,a){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:a})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(n.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)n.d(a,i,function(t){return e[t]}.bind(null,i));return a},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=10)}([function(e,t,n){"use strict";var a=n(2).default;e.exports={handleCreditCardNumber:function(e,t){var n=new a(e,{creditCard:!0,onCreditCardTypeChanged:function(e){var n={visa:"Visa",mastercard:"Master Card",amex:"Amex",discover:"Discover",unknown:"Unknown"},a=n[Object.keys(n).indexOf(e)>-1?e:"unknown"];$(t).val(a),$(".card-number-wrapper").attr("data-type",e),"visa"===e||"mastercard"===e||"discover"===e?$("#securityCode").attr("maxlength",3):$("#securityCode").attr("maxlength",4)}});$(e).data("cleave",n)},serializeData:function(e){var t=e.serializeArray();return t.forEach(function(e){e.name.indexOf("cardNumber")>-1&&(e.value=$("#cardNumber").data("cleave").getRawValue())}),$.param(t)}}},function(e,t,n){"use strict";e.exports=function(e){"function"==typeof e?e():"object"==typeof e&&Object.keys(e).forEach(function(t){"function"==typeof e[t]&&e[t]()})}},function(e,t,n){"use strict";n.r(t),function(e){var n="undefined"!=typeof window?window:void 0!==e?e:"undefined"!=typeof self?self:{},a=function(e,t,n,i,r,s,o,d,l){this.numeralDecimalMark=e||".",this.numeralIntegerScale=t>0?t:0,this.numeralDecimalScale=n>=0?n:2,this.numeralThousandsGroupStyle=i||a.groupStyle.thousand,this.numeralPositiveOnly=!!r,this.stripLeadingZeroes=!1!==s,this.prefix=o||""===o?o:"",this.signBeforePrefix=!!d,this.delimiter=l||""===l?l:",",this.delimiterRE=l?new RegExp("\\"+l,"g"):""};a.groupStyle={thousand:"thousand",lakh:"lakh",wan:"wan",none:"none"},a.prototype={getRawValue:function(e){return e.replace(this.delimiterRE,"").replace(this.numeralDecimalMark,".")},format:function(e){var t,n,i,r,s="";switch(e=e.replace(/[A-Za-z]/g,"").replace(this.numeralDecimalMark,"M").replace(/[^\dM-]/g,"").replace(/^\-/,"N").replace(/\-/g,"").replace("N",this.numeralPositiveOnly?"":"-").replace("M",this.numeralDecimalMark),this.stripLeadingZeroes&&(e=e.replace(/^(-)?0+(?=\d)/,"$1")),n="-"===e.slice(0,1)?"-":"",i=void 0!==this.prefix?this.signBeforePrefix?n+this.prefix:this.prefix+n:n,r=e,e.indexOf(this.numeralDecimalMark)>=0&&(r=(t=e.split(this.numeralDecimalMark))[0],s=this.numeralDecimalMark+t[1].slice(0,this.numeralDecimalScale)),"-"===n&&(r=r.slice(1)),this.numeralIntegerScale>0&&(r=r.slice(0,this.numeralIntegerScale)),this.numeralThousandsGroupStyle){case a.groupStyle.lakh:r=r.replace(/(\d)(?=(\d\d)+\d$)/g,"$1"+this.delimiter);break;case a.groupStyle.wan:r=r.replace(/(\d)(?=(\d{4})+$)/g,"$1"+this.delimiter);break;case a.groupStyle.thousand:r=r.replace(/(\d)(?=(\d{3})+$)/g,"$1"+this.delimiter)}return i+r.toString()+(this.numeralDecimalScale>0?s.toString():"")}};var i=a,r=function(e,t,n){this.date=[],this.blocks=[],this.datePattern=e,this.dateMin=t.split("-").reverse().map(function(e){return parseInt(e,10)}),2===this.dateMin.length&&this.dateMin.unshift(0),this.dateMax=n.split("-").reverse().map(function(e){return parseInt(e,10)}),2===this.dateMax.length&&this.dateMax.unshift(0),this.initBlocks()};r.prototype={initBlocks:function(){var e=this;e.datePattern.forEach(function(t){"Y"===t?e.blocks.push(4):e.blocks.push(2)})},getISOFormatDate:function(){var e=this.date;return e[2]?e[2]+"-"+this.addLeadingZero(e[1])+"-"+this.addLeadingZero(e[0]):""},getBlocks:function(){return this.blocks},getValidatedDate:function(e){var t=this,n="";return e=e.replace(/[^\d]/g,""),t.blocks.forEach(function(a,i){if(e.length>0){var r=e.slice(0,a),s=r.slice(0,1),o=e.slice(a);switch(t.datePattern[i]){case"d":"00"===r?r="01":parseInt(s,10)>3?r="0"+s:parseInt(r,10)>31&&(r="31");break;case"m":"00"===r?r="01":parseInt(s,10)>1?r="0"+s:parseInt(r,10)>12&&(r="12")}n+=r,e=o}}),this.getFixedDateString(n)},getFixedDateString:function(e){var t,n,a,i=this,r=i.datePattern,s=[],o=0,d=0,l=0,c=0,u=0,p=0,m=!1;return 4===e.length&&"y"!==r[0].toLowerCase()&&"y"!==r[1].toLowerCase()&&(u=2-(c="d"===r[0]?0:2),t=parseInt(e.slice(c,c+2),10),n=parseInt(e.slice(u,u+2),10),s=this.getFixedDate(t,n,0)),8===e.length&&(r.forEach(function(e,t){switch(e){case"d":o=t;break;case"m":d=t;break;default:l=t}}),p=2*l,c=o<=l?2*o:2*o+2,u=d<=l?2*d:2*d+2,t=parseInt(e.slice(c,c+2),10),n=parseInt(e.slice(u,u+2),10),a=parseInt(e.slice(p,p+4),10),m=4===e.slice(p,p+4).length,s=this.getFixedDate(t,n,a)),4!==e.length||"y"!==r[0]&&"y"!==r[1]||(p=2-(u="m"===r[0]?0:2),n=parseInt(e.slice(u,u+2),10),a=parseInt(e.slice(p,p+2),10),m=2===e.slice(p,p+2).length,s=[0,n,a]),6!==e.length||"Y"!==r[0]&&"Y"!==r[1]||(p=2-.5*(u="m"===r[0]?0:4),n=parseInt(e.slice(u,u+2),10),a=parseInt(e.slice(p,p+4),10),m=4===e.slice(p,p+4).length,s=[0,n,a]),s=i.getRangeFixedDate(s),i.date=s,0===s.length?e:r.reduce(function(e,t){switch(t){case"d":return e+(0===s[0]?"":i.addLeadingZero(s[0]));case"m":return e+(0===s[1]?"":i.addLeadingZero(s[1]));case"y":return e+(m?i.addLeadingZeroForYear(s[2],!1):"");case"Y":return e+(m?i.addLeadingZeroForYear(s[2],!0):"")}},"")},getRangeFixedDate:function(e){var t=this.datePattern,n=this.dateMin||[],a=this.dateMax||[];return!e.length||n.length<3&&a.length<3?e:t.find(function(e){return"y"===e.toLowerCase()})&&0===e[2]?e:a.length&&(a[2]<e[2]||a[2]===e[2]&&(a[1]<e[1]||a[1]===e[1]&&a[0]<e[0]))?a:n.length&&(n[2]>e[2]||n[2]===e[2]&&(n[1]>e[1]||n[1]===e[1]&&n[0]>e[0]))?n:e},getFixedDate:function(e,t,n){return e=Math.min(e,31),t=Math.min(t,12),n=parseInt(n||0,10),(t<7&&t%2==0||t>8&&t%2==1)&&(e=Math.min(e,2===t?this.isLeapYear(n)?29:28:30)),[e,t,n]},isLeapYear:function(e){return e%4==0&&e%100!=0||e%400==0},addLeadingZero:function(e){return(e<10?"0":"")+e},addLeadingZeroForYear:function(e,t){return t?(e<10?"000":e<100?"00":e<1e3?"0":"")+e:(e<10?"0":"")+e}};var s=r,o=function(e,t){this.time=[],this.blocks=[],this.timePattern=e,this.timeFormat=t,this.initBlocks()};o.prototype={initBlocks:function(){var e=this;e.timePattern.forEach(function(){e.blocks.push(2)})},getISOFormatTime:function(){var e=this.time;return e[2]?this.addLeadingZero(e[0])+":"+this.addLeadingZero(e[1])+":"+this.addLeadingZero(e[2]):""},getBlocks:function(){return this.blocks},getTimeFormatOptions:function(){return"12"===String(this.timeFormat)?{maxHourFirstDigit:1,maxHours:12,maxMinutesFirstDigit:5,maxMinutes:60}:{maxHourFirstDigit:2,maxHours:23,maxMinutesFirstDigit:5,maxMinutes:60}},getValidatedTime:function(e){var t=this,n="";e=e.replace(/[^\d]/g,"");var a=t.getTimeFormatOptions();return t.blocks.forEach(function(i,r){if(e.length>0){var s=e.slice(0,i),o=s.slice(0,1),d=e.slice(i);switch(t.timePattern[r]){case"h":parseInt(o,10)>a.maxHourFirstDigit?s="0"+o:parseInt(s,10)>a.maxHours&&(s=a.maxHours+"");break;case"m":case"s":parseInt(o,10)>a.maxMinutesFirstDigit?s="0"+o:parseInt(s,10)>a.maxMinutes&&(s=a.maxMinutes+"")}n+=s,e=d}}),this.getFixedTimeString(n)},getFixedTimeString:function(e){var t,n,a,i=this,r=i.timePattern,s=[],o=0,d=0,l=0,c=0,u=0,p=0;return 6===e.length&&(r.forEach(function(e,t){switch(e){case"s":o=2*t;break;case"m":d=2*t;break;case"h":l=2*t}}),p=l,u=d,c=o,t=parseInt(e.slice(c,c+2),10),n=parseInt(e.slice(u,u+2),10),a=parseInt(e.slice(p,p+2),10),s=this.getFixedTime(a,n,t)),4===e.length&&i.timePattern.indexOf("s")<0&&(r.forEach(function(e,t){switch(e){case"m":d=2*t;break;case"h":l=2*t}}),p=l,u=d,t=0,n=parseInt(e.slice(u,u+2),10),a=parseInt(e.slice(p,p+2),10),s=this.getFixedTime(a,n,t)),i.time=s,0===s.length?e:r.reduce(function(e,t){switch(t){case"s":return e+i.addLeadingZero(s[2]);case"m":return e+i.addLeadingZero(s[1]);case"h":return e+i.addLeadingZero(s[0])}},"")},getFixedTime:function(e,t,n){return n=Math.min(parseInt(n||0,10),60),t=Math.min(t,60),[e=Math.min(e,60),t,n]},addLeadingZero:function(e){return(e<10?"0":"")+e}};var d=o,l=function(e,t){this.delimiter=t||""===t?t:" ",this.delimiterRE=t?new RegExp("\\"+t,"g"):"",this.formatter=e};l.prototype={setFormatter:function(e){this.formatter=e},format:function(e){this.formatter.clear();for(var t,n="",a=!1,i=0,r=(e=(e=(e=e.replace(/[^\d+]/g,"")).replace(/^\+/,"B").replace(/\+/g,"").replace("B","+")).replace(this.delimiterRE,"")).length;i<r;i++)t=this.formatter.inputDigit(e.charAt(i)),/[\s()-]/g.test(t)?(n=t,a=!0):a||(n=t);return n=(n=n.replace(/[()]/g,"")).replace(/[\s-]/g,this.delimiter)}};var c=l,u={blocks:{uatp:[4,5,6],amex:[4,6,5],diners:[4,6,4],discover:[4,4,4,4],mastercard:[4,4,4,4],dankort:[4,4,4,4],instapayment:[4,4,4,4],jcb15:[4,6,5],jcb:[4,4,4,4],maestro:[4,4,4,4],visa:[4,4,4,4],mir:[4,4,4,4],unionPay:[4,4,4,4],general:[4,4,4,4]},re:{uatp:/^(?!1800)1\d{0,14}/,amex:/^3[47]\d{0,13}/,discover:/^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,diners:/^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,mastercard:/^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,dankort:/^(5019|4175|4571)\d{0,12}/,instapayment:/^63[7-9]\d{0,13}/,jcb15:/^(?:2131|1800)\d{0,11}/,jcb:/^(?:35\d{0,2})\d{0,12}/,maestro:/^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,mir:/^220[0-4]\d{0,12}/,visa:/^4\d{0,15}/,unionPay:/^62\d{0,14}/},getStrictBlocks:function(e){var t=e.reduce(function(e,t){return e+t},0);return e.concat(19-t)},getInfo:function(e,t){var n=u.blocks,a=u.re;for(var i in t=!!t,a)if(a[i].test(e)){var r=n[i];return{type:i,blocks:t?this.getStrictBlocks(r):r}}return{type:"unknown",blocks:t?this.getStrictBlocks(n.general):n.general}}},p=u,m={noop:function(){},strip:function(e,t){return e.replace(t,"")},getPostDelimiter:function(e,t,n){if(0===n.length)return e.slice(-t.length)===t?t:"";var a="";return n.forEach(function(t){e.slice(-t.length)===t&&(a=t)}),a},getDelimiterREByDelimiter:function(e){return new RegExp(e.replace(/([.?*+^$[\]\\(){}|-])/g,"\\$1"),"g")},getNextCursorPosition:function(e,t,n,a,i){return t.length===e?n.length:e+this.getPositionOffset(e,t,n,a,i)},getPositionOffset:function(e,t,n,a,i){var r,s,o;return r=this.stripDelimiters(t.slice(0,e),a,i),s=this.stripDelimiters(n.slice(0,e),a,i),0!==(o=r.length-s.length)?o/Math.abs(o):0},stripDelimiters:function(e,t,n){var a=this;if(0===n.length){var i=t?a.getDelimiterREByDelimiter(t):"";return e.replace(i,"")}return n.forEach(function(t){t.split("").forEach(function(t){e=e.replace(a.getDelimiterREByDelimiter(t),"")})}),e},headStr:function(e,t){return e.slice(0,t)},getMaxLength:function(e){return e.reduce(function(e,t){return e+t},0)},getPrefixStrippedValue:function(e,t,n,a,i,r,s){if(0===n)return e;if(a.slice(0,n)!==t)return s&&!a&&e?e:"";var o=this.stripDelimiters(a,i,r);return e.slice(0,n)!==t?o.slice(n):e.slice(n)},getFirstDiffIndex:function(e,t){for(var n=0;e.charAt(n)===t.charAt(n);)if(""===e.charAt(n++))return-1;return n},getFormattedValue:function(e,t,n,a,i,r){var s,o="",d=i.length>0;return 0===n?e:(t.forEach(function(t,l){if(e.length>0){var c=e.slice(0,t),u=e.slice(t);s=d?i[r?l-1:l]||s:a,r?(l>0&&(o+=s),o+=c):(o+=c,c.length===t&&l<n-1&&(o+=s)),e=u}}),o)},fixPrefixCursor:function(e,t,n,a){if(e){var i=e.value,r=n||a[0]||" ";if(e.setSelectionRange&&t&&!(t.length+r.length<i.length)){var s=2*i.length;setTimeout(function(){e.setSelectionRange(s,s)},1)}}},checkFullSelection:function(e){try{return(window.getSelection()||document.getSelection()||{}).toString().length===e.length}catch(e){}return!1},setSelection:function(e,t,n){if(e===this.getActiveElement(n)&&!(e&&e.value.length<=t))if(e.createTextRange){var a=e.createTextRange();a.move("character",t),a.select()}else try{e.setSelectionRange(t,t)}catch(e){console.warn("The input element type does not support selection")}},getActiveElement:function(e){var t=e.activeElement;return t&&t.shadowRoot?this.getActiveElement(t.shadowRoot):t},isAndroid:function(){return navigator&&/android/i.test(navigator.userAgent)},isAndroidBackspaceKeydown:function(e,t){return!!(this.isAndroid()&&e&&t)&&t===e.slice(0,-1)}},h={assign:function(e,t){return t=t||{},(e=e||{}).creditCard=!!t.creditCard,e.creditCardStrictMode=!!t.creditCardStrictMode,e.creditCardType="",e.onCreditCardTypeChanged=t.onCreditCardTypeChanged||function(){},e.phone=!!t.phone,e.phoneRegionCode=t.phoneRegionCode||"AU",e.phoneFormatter={},e.time=!!t.time,e.timePattern=t.timePattern||["h","m","s"],e.timeFormat=t.timeFormat||"24",e.timeFormatter={},e.date=!!t.date,e.datePattern=t.datePattern||["d","m","Y"],e.dateMin=t.dateMin||"",e.dateMax=t.dateMax||"",e.dateFormatter={},e.numeral=!!t.numeral,e.numeralIntegerScale=t.numeralIntegerScale>0?t.numeralIntegerScale:0,e.numeralDecimalScale=t.numeralDecimalScale>=0?t.numeralDecimalScale:2,e.numeralDecimalMark=t.numeralDecimalMark||".",e.numeralThousandsGroupStyle=t.numeralThousandsGroupStyle||"thousand",e.numeralPositiveOnly=!!t.numeralPositiveOnly,e.stripLeadingZeroes=!1!==t.stripLeadingZeroes,e.signBeforePrefix=!!t.signBeforePrefix,e.numericOnly=e.creditCard||e.date||!!t.numericOnly,e.uppercase=!!t.uppercase,e.lowercase=!!t.lowercase,e.prefix=e.creditCard||e.date?"":t.prefix||"",e.noImmediatePrefix=!!t.noImmediatePrefix,e.prefixLength=e.prefix.length,e.rawValueTrimPrefix=!!t.rawValueTrimPrefix,e.copyDelimiter=!!t.copyDelimiter,e.initValue=void 0!==t.initValue&&null!==t.initValue?t.initValue.toString():"",e.delimiter=t.delimiter||""===t.delimiter?t.delimiter:t.date?"/":t.time?":":t.numeral?",":(t.phone," "),e.delimiterLength=e.delimiter.length,e.delimiterLazyShow=!!t.delimiterLazyShow,e.delimiters=t.delimiters||[],e.blocks=t.blocks||[],e.blocksLength=e.blocks.length,e.root="object"==typeof n&&n?n:window,e.document=t.document||e.root.document,e.maxLength=0,e.backspace=!1,e.result="",e.onValueChanged=t.onValueChanged||function(){},e}},g=function(e,t){var n=!1;if("string"==typeof e?(this.element=document.querySelector(e),n=document.querySelectorAll(e).length>1):void 0!==e.length&&e.length>0?(this.element=e[0],n=e.length>1):this.element=e,!this.element)throw new Error("[cleave.js] Please check the element");if(n)try{console.warn("[cleave.js] Multiple input fields matched, cleave.js will only take the first one.")}catch(e){}t.initValue=this.element.value,this.properties=g.DefaultProperties.assign({},t),this.init()};g.prototype={init:function(){var e=this.properties;e.numeral||e.phone||e.creditCard||e.time||e.date||0!==e.blocksLength||e.prefix?(e.maxLength=g.Util.getMaxLength(e.blocks),this.isAndroid=g.Util.isAndroid(),this.lastInputValue="",this.onChangeListener=this.onChange.bind(this),this.onKeyDownListener=this.onKeyDown.bind(this),this.onFocusListener=this.onFocus.bind(this),this.onCutListener=this.onCut.bind(this),this.onCopyListener=this.onCopy.bind(this),this.element.addEventListener("input",this.onChangeListener),this.element.addEventListener("keydown",this.onKeyDownListener),this.element.addEventListener("focus",this.onFocusListener),this.element.addEventListener("cut",this.onCutListener),this.element.addEventListener("copy",this.onCopyListener),this.initPhoneFormatter(),this.initDateFormatter(),this.initTimeFormatter(),this.initNumeralFormatter(),(e.initValue||e.prefix&&!e.noImmediatePrefix)&&this.onInput(e.initValue)):this.onInput(e.initValue)},initNumeralFormatter:function(){var e=this.properties;e.numeral&&(e.numeralFormatter=new g.NumeralFormatter(e.numeralDecimalMark,e.numeralIntegerScale,e.numeralDecimalScale,e.numeralThousandsGroupStyle,e.numeralPositiveOnly,e.stripLeadingZeroes,e.prefix,e.signBeforePrefix,e.delimiter))},initTimeFormatter:function(){var e=this.properties;e.time&&(e.timeFormatter=new g.TimeFormatter(e.timePattern,e.timeFormat),e.blocks=e.timeFormatter.getBlocks(),e.blocksLength=e.blocks.length,e.maxLength=g.Util.getMaxLength(e.blocks))},initDateFormatter:function(){var e=this.properties;e.date&&(e.dateFormatter=new g.DateFormatter(e.datePattern,e.dateMin,e.dateMax),e.blocks=e.dateFormatter.getBlocks(),e.blocksLength=e.blocks.length,e.maxLength=g.Util.getMaxLength(e.blocks))},initPhoneFormatter:function(){var e=this.properties;if(e.phone)try{e.phoneFormatter=new g.PhoneFormatter(new e.root.Cleave.AsYouTypeFormatter(e.phoneRegionCode),e.delimiter)}catch(e){throw new Error("[cleave.js] Please include phone-type-formatter.{country}.js lib")}},onKeyDown:function(e){var t=this.properties,n=e.which||e.keyCode,a=g.Util,i=this.element.value;this.hasBackspaceSupport=this.hasBackspaceSupport||8===n,!this.hasBackspaceSupport&&a.isAndroidBackspaceKeydown(this.lastInputValue,i)&&(n=8),this.lastInputValue=i;var r=a.getPostDelimiter(i,t.delimiter,t.delimiters);t.postDelimiterBackspace=!(8!==n||!r)&&r},onChange:function(){this.onInput(this.element.value)},onFocus:function(){var e=this.properties;g.Util.fixPrefixCursor(this.element,e.prefix,e.delimiter,e.delimiters)},onCut:function(e){g.Util.checkFullSelection(this.element.value)&&(this.copyClipboardData(e),this.onInput(""))},onCopy:function(e){g.Util.checkFullSelection(this.element.value)&&this.copyClipboardData(e)},copyClipboardData:function(e){var t=this.properties,n=g.Util,a=this.element.value,i="";i=t.copyDelimiter?a:n.stripDelimiters(a,t.delimiter,t.delimiters);try{e.clipboardData?e.clipboardData.setData("Text",i):window.clipboardData.setData("Text",i),e.preventDefault()}catch(e){}},onInput:function(e){var t=this.properties,n=g.Util,a=n.getPostDelimiter(e,t.delimiter,t.delimiters);return t.numeral||!t.postDelimiterBackspace||a||(e=n.headStr(e,e.length-t.postDelimiterBackspace.length)),t.phone?(!t.prefix||t.noImmediatePrefix&&!e.length?t.result=t.phoneFormatter.format(e):t.result=t.prefix+t.phoneFormatter.format(e).slice(t.prefix.length),void this.updateValueState()):t.numeral?(t.prefix&&t.noImmediatePrefix&&0===e.length?t.result="":t.result=t.numeralFormatter.format(e),void this.updateValueState()):(t.date&&(e=t.dateFormatter.getValidatedDate(e)),t.time&&(e=t.timeFormatter.getValidatedTime(e)),e=n.stripDelimiters(e,t.delimiter,t.delimiters),e=n.getPrefixStrippedValue(e,t.prefix,t.prefixLength,t.result,t.delimiter,t.delimiters,t.noImmediatePrefix),e=t.numericOnly?n.strip(e,/[^\d]/g):e,e=t.uppercase?e.toUpperCase():e,e=t.lowercase?e.toLowerCase():e,!t.prefix||t.noImmediatePrefix&&!e.length||(e=t.prefix+e,0!==t.blocksLength)?(t.creditCard&&this.updateCreditCardPropsByValue(e),e=n.headStr(e,t.maxLength),t.result=n.getFormattedValue(e,t.blocks,t.blocksLength,t.delimiter,t.delimiters,t.delimiterLazyShow),void this.updateValueState()):(t.result=e,void this.updateValueState()))},updateCreditCardPropsByValue:function(e){var t,n=this.properties,a=g.Util;a.headStr(n.result,4)!==a.headStr(e,4)&&(t=g.CreditCardDetector.getInfo(e,n.creditCardStrictMode),n.blocks=t.blocks,n.blocksLength=n.blocks.length,n.maxLength=a.getMaxLength(n.blocks),n.creditCardType!==t.type&&(n.creditCardType=t.type,n.onCreditCardTypeChanged.call(this,n.creditCardType)))},updateValueState:function(){var e=this,t=g.Util,n=e.properties;if(e.element){var a=e.element.selectionEnd,i=e.element.value,r=n.result;a=t.getNextCursorPosition(a,i,r,n.delimiter,n.delimiters),e.isAndroid?window.setTimeout(function(){e.element.value=r,t.setSelection(e.element,a,n.document,!1),e.callOnValueChanged()},1):(e.element.value=r,t.setSelection(e.element,a,n.document,!1),e.callOnValueChanged())}},callOnValueChanged:function(){var e=this.properties;e.onValueChanged.call(this,{target:{value:e.result,rawValue:this.getRawValue()}})},setPhoneRegionCode:function(e){this.properties.phoneRegionCode=e,this.initPhoneFormatter(),this.onChange()},setRawValue:function(e){var t=this.properties;e=null!=e?e.toString():"",t.numeral&&(e=e.replace(".",t.numeralDecimalMark)),t.postDelimiterBackspace=!1,this.element.value=e,this.onInput(e)},getRawValue:function(){var e=this.properties,t=g.Util,n=this.element.value;return e.rawValueTrimPrefix&&(n=t.getPrefixStrippedValue(n,e.prefix,e.prefixLength,e.result,e.delimiter,e.delimiters)),n=e.numeral?e.numeralFormatter.getRawValue(n):t.stripDelimiters(n,e.delimiter,e.delimiters)},getISOFormatDate:function(){var e=this.properties;return e.date?e.dateFormatter.getISOFormatDate():""},getISOFormatTime:function(){var e=this.properties;return e.time?e.timeFormatter.getISOFormatTime():""},getFormattedValue:function(){return this.element.value},destroy:function(){this.element.removeEventListener("input",this.onChangeListener),this.element.removeEventListener("keydown",this.onKeyDownListener),this.element.removeEventListener("focus",this.onFocusListener),this.element.removeEventListener("cut",this.onCutListener),this.element.removeEventListener("copy",this.onCopyListener)},toString:function(){return"[Cleave Object]"}},g.NumeralFormatter=i,g.DateFormatter=s,g.TimeFormatter=d,g.PhoneFormatter=c,g.CreditCardDetector=p,g.Util=m,g.DefaultProperties=h,("object"==typeof n&&n?n:window).Cleave=g;var f=g;t.default=f}.call(this,n(3))},function(e,t){var n;n=function(){return this}();try{n=n||new Function("return this")()}catch(e){"object"==typeof window&&(n=window)}e.exports=n},function(e,t,n){"use strict";e.exports={methods:{populateAddressSummary:function(e,t){$.each(t,function(n){var a=t[n];$("."+n,e).text(a||"")})},optionValueForAddress:function(e,t,n,a){var i=a||{},r=i.type&&"billing"===i.type,s=i.className||"",o=t,d=!e;if("string"==typeof e)return $('<option class="'+s+'" disabled>'+e+"</option>");var l=e||{},c=l.shippingAddress||{};r&&d&&!n.billing.matchingAddressId&&(c=n.billing.billingAddress.address||{},d=!1,o=!0,l.UUID="manual-entry");var u,p=l.UUID?l.UUID:"new",m=$('<option class="'+s+'" />');m.val(p),d?u=n.resources.addNewAddress:(u=[],c.firstName&&u.push(c.firstName),c.lastName&&u.push(c.lastName),c.address1&&u.push(c.address1),c.address2&&u.push(c.address2),c.city&&(c.state?u.push(c.city+","):u.push(c.city)),c.stateCode&&u.push(c.stateCode),c.postalCode&&u.push(c.postalCode),!r&&l.selectedShippingMethod&&(u.push("-"),u.push(l.selectedShippingMethod.displayName)),u=u.length>2?u.join(" "):n.resources.newAddress),m.text(u);var h={"data-first-name":"firstName","data-last-name":"lastName","data-address1":"address1","data-address2":"address2","data-city":"city","data-state-code":"stateCode","data-postal-code":"postalCode","data-country-code":"countryCode","data-phone":"phone"};$.each(h,function(e){var t=c[h[e]];t&&"object"==typeof t&&(t=t.value),m.attr(e,t||"")});var g={"data-is-gift":"isGift","data-gift-message":"giftMessage"};return $.each(g,function(e){var t=l[g[e]];m.attr(e,t||"")}),o&&m.attr("selected",!0),m},getAddressFieldsFromUI:function(e){return{firstName:$("input[name$=_firstName]",e).val(),lastName:$("input[name$=_lastName]",e).val(),address1:$("input[name$=_address1]",e).val(),address2:$("input[name$=_address2]",e).val(),city:$("input[name$=_city]",e).val(),postalCode:$("input[name$=_postalCode]",e).val(),stateCode:$("select[name$=_stateCode],input[name$=_stateCode]",e).val(),countryCode:$("select[name$=_country]",e).val(),phone:$("input[name$=_phone]",e).val()}}},showDetails:function(){$(".btn-show-details").on("click",function(){var e=$(this).closest("form");e.attr("data-address-mode","details"),e.find(".multi-ship-address-actions").removeClass("d-none"),e.find(".multi-ship-action-buttons .col-12.btn-save-multi-ship").addClass("d-none")})},addNewAddress:function(){$(".btn-add-new").on("click",function(){var e=$(this);if(e.parents("#dwfrm_billing").length>0){$("body").trigger("checkout:clearBillingForm");var t=$(e.parents("form").find(".addressSelector option")[0]);t.attr("value","new");var n=$("#dwfrm_billing input[name=localizedNewAddressTitle]").val();t.text(n),t.prop("selected","selected"),e.parents("[data-address-mode]").attr("data-address-mode","new")}else{var a=e.parents("form").find(".addressSelector option[value=new]");a.prop("selected","selected"),a.parent().trigger("change")}})}}},function(e,t,n){"use strict";e.exports=function(e){var t=e&&e.length?e.offset().top:0;$("html, body").animate({scrollTop:t},500),e||$(".logo-home").focus()}},function(e,t,n){"use strict";var a=n(5);e.exports={loadFormErrors:function(e,t){$.each(t,function(n){$("*[name="+n+"]",e).addClass("is-invalid").siblings(".invalid-feedback").html(t[n])}),a($(e))},clearPreviousErrors:function(e){$(e).find(".form-control.is-invalid").removeClass("is-invalid"),$(".error-message").hide()}}},,,,function(e,t,n){"use strict";var a=n(1);$(document).ready(function(){a(n(11)),a(n(15)),a(n(16)),a(n(17)),a(n(18))})},function(e,t,n){"use strict";var a=n(4),i=n(12),r=n(13),s=n(14),o=n(6),d=n(5);!function(e){e.fn.checkout=function(){var t=this,n={shipping:{},billing:{},payment:{},giftCode:{}},a=["shipping","payment","placeOrder","submitted"];function r(e){history.pushState(a[e],document.title,location.pathname+"?stage="+a[e]+"#"+a[e])}var s={currentStage:0,updateStage:function(){var t=a[s.currentStage],n=e.Deferred();if("shipping"===t){o.clearPreviousErrors(".shipping-form");var r=e("#checkout-main").hasClass("multi-ship"),l=e(r?".multi-shipping .active form":".single-shipping .shipping-form");if(r&&0===l.length){e("body").trigger("checkout:disableButton",".next-step-button button");var c=e("#checkout-main").attr("data-checkout-get-url");e.ajax({url:c,method:"GET",success:function(t){if(e("body").trigger("checkout:enableButton",".next-step-button button"),t.error){if(e(".shipping-error .alert-danger").length<1){var a='<div class="alert alert-danger alert-dismissible valid-cart-error fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+t.message+"</div>";e(".shipping-error").append(a),d(e(".shipping-error")),n.reject()}}else e("body").trigger("checkout:updateCheckoutView",{order:t.order,customer:t.customer}),n.resolve()},error:function(){e("body").trigger("checkout:enableButton",".next-step-button button"),n.reject()}})}else{var u=l.serialize();e("body").trigger("checkout:serializeShipping",{form:l,data:u,callback:function(e){u=e}}),e("body").trigger("checkout:disableButton",".next-step-button button"),e.ajax({url:l.attr("action"),type:"post",data:u,success:function(t){e("body").trigger("checkout:enableButton",".next-step-button button"),i.methods.shippingFormResponse(n,t)},error:function(t){e("body").trigger("checkout:enableButton",".next-step-button button"),t.responseJSON&&t.responseJSON.redirectUrl&&(window.location.href=t.responseJSON.redirectUrl),n.reject(t.responseJSON)}})}return n}if("payment"===t){o.clearPreviousErrors(".payment-form");var p=e("#dwfrm_billing .billing-address-block :input").serialize();e("body").trigger("checkout:serializeBilling",{form:e("#dwfrm_billing .billing-address-block"),data:p,callback:function(e){e&&(p=e)}});var m=e("#dwfrm_billing .contact-info-block :input").serialize();e("body").trigger("checkout:serializeBilling",{form:e("#dwfrm_billing .contact-info-block"),data:m,callback:function(e){e&&(m=e)}});var h="#dwfrm_billing ."+e(".tab-pane.active").attr("id")+" .payment-form-fields :input",g=e(h).serialize();e("body").trigger("checkout:serializeBilling",{form:e(h),data:g,callback:function(e){e&&(g=e)}});var f=p+"&"+m+"&"+g;if("registered"===e(".data-checkout-stage").data("customer-type")){var v=null,$=null;switch(e(".payment-information").data("payment-method-id")){case"CREDIT_CARD":if(!e(".payment-information").data("is-new-payment")){if(""===(v=e(".saved-payment-instrument.selected-payment .saved-payment-security-code").val()))return($=e(".saved-payment-instrument.selected-payment .form-control")).addClass("is-invalid"),d($),n.reject(),n;f+="&storedPaymentUUID="+e(".saved-payment-instrument.selected-payment").data("uuid"),f+="&securityCode="+v}break;case"BLUESNAP_CREDIT_DEBIT":if(!e(".payment-information").data("is-new-payment")){if(""===(v=e(".saved-vaultedshoppercard-instrument.selected-payment .saved-vaultedshoppercard-security-code").val()))return($=e(".saved-vaultedshoppercard-instrument.selected-payment .form-control")).addClass("is-invalid"),d($),n.reject(),n;f+="&securityCode="+v}break;case"BLUESNAP_LATAM":if(!e(".payment-information").data("is-new-payment")){if(""===(v=e(".saved-vaultedshopperlatamcard-instrument.selected-payment .saved-vaultedshopperlatamcard-security-code").val()))return($=e(".saved-vaultedshopperlatamcard-instrument.selected-payment .saved-vaultedshopperlatamcard-security-code")).addClass("is-invalid"),d($),n.reject(),n;f+="&securityCode="+v}}}e("body").trigger("checkout:disableButton",".next-step-button button"),e.ajax({url:e("#dwfrm_billing").attr("action"),method:"POST",data:f,success:function(t){e("body").trigger("checkout:enableButton",".next-step-button button"),t.error?(t.fieldErrors.length&&t.fieldErrors.forEach(function(e){Object.keys(e).length&&o.loadFormErrors(".payment-form",e)}),t.serverErrors.length&&t.serverErrors.forEach(function(t){e(".error-message").show(),e(".error-message-text").text(t),d(e(".error-message"))}),t.cartError&&(window.location.href=t.redirectUrl),n.reject()):(e("body").trigger("checkout:updateCheckoutView",{order:t.order,customer:t.customer}),t.renderedPaymentInstruments&&e(".stored-payments").empty().html(t.renderedPaymentInstruments),t.customer.registeredUser&&t.customer.customerPaymentInstruments.length&&e(".cancel-new-payment").removeClass("checkout-hidden"),d(),n.resolve(t))},error:function(t){e("body").trigger("checkout:enableButton",".next-step-button button"),t.responseJSON&&t.responseJSON.redirectUrl&&(window.location.href=t.responseJSON.redirectUrl)}});var y=e(".payment-information").data("payment-method-id");return"BLUESNAP_GOOGLE_PAY"==y||"BLUESNAP_APPLE_PAY"==y||"BLUESNAP_VISA_CHECKOUT"==y?e.ajax({url:e("#bluesnap-payment-buttons").data("url"),method:"POST",data:{payment:y},success:function(t){e("#bluesnap-payment-buttons").empty().append(t)},error:function(){}}):e("#bluesnap-payment-buttons").empty(),n}if("placeOrder"===t)return e("body").trigger("checkout:disableButton",".next-step-button button"),e.ajax({url:e(".place-order").data("action"),method:"POST",success:function(t){if(e("body").trigger("checkout:enableButton",".next-step-button button"),t.error)t.cartError?(window.location.href=t.redirectUrl,n.reject()):n.reject(t);else{var a=t.continueUrl,i={ID:t.orderID,token:t.orderToken};a+=(-1!==a.indexOf("?")?"&":"?")+Object.keys(i).map(function(e){return e+"="+encodeURIComponent(i[e])}).join("&"),window.location.href=a,n.resolve(t)}},error:function(){e("body").trigger("checkout:enableButton",e(".next-step-button button"))}}),n;var b=e("<div>").promise();return setTimeout(function(){b.done()},500),b},initialize:function(){s.currentStage=a.indexOf(e(".data-checkout-stage").data("checkout-stage")),e(t).attr("data-checkout-stage",a[s.currentStage]),e('input[name$="paymentMethod"]',t).on("change",function(){e(".credit-card-form").toggle("CREDIT_CARD"===e(this).val())}),e(t).on("click",".next-step-button button",function(){s.nextStage()}),e(".shipping-summary .edit-button",t).on("click",function(){e("#checkout-main").hasClass("multi-ship")||e("body").trigger("shipping:selectSingleShipping"),s.gotoStage("shipping")}),e(".payment-summary .edit-button",t).on("click",function(){s.gotoStage("payment")}),r(s.currentStage),e(window).on("popstate",function(e){null===e.state||a.indexOf(e.state)<s.currentStage?s.handlePrevStage(!1):a.indexOf(e.state)>s.currentStage&&s.handleNextStage(!1)}),t.data("formData",n)},nextStage:function(){var t=s.updateStage();t.done(function(){s.handleNextStage(!0)}),t.fail(function(t){if(t){if(t.errorStage&&(s.gotoStage(t.errorStage.stage),"billingAddress"===t.errorStage.step)){var n=e('input[name$="_shippingAddressUseAsBillingAddress"]');n.is(":checked")&&n.prop("checked",!1)}t.errorMessage&&(e(".error-message").show(),e(".error-message-text").text(t.errorMessage))}})},handleNextStage:function(n){s.currentStage<a.length-1&&(s.currentStage++,n&&r(s.currentStage)),e(t).attr("data-checkout-stage",a[s.currentStage])},handlePrevStage:function(){s.currentStage>0&&(s.currentStage--,r(s.currentStage)),e(t).attr("data-checkout-stage",a[s.currentStage])},gotoStage:function(n){s.currentStage=a.indexOf(n),r(s.currentStage),e(t).attr("data-checkout-stage",a[s.currentStage])}};return s.initialize(),this}}(jQuery);t={initialize:function(){$("#checkout-main").checkout()},updateCheckoutView:function(){$("body").on("checkout:updateCheckoutView",function(e,t){i.methods.updateMultiShipInformation(t.order),s.updateTotals(t.order.totals),t.order.shipping.forEach(function(e){i.methods.updateShippingInformation(e,t.order,t.customer,t.options)}),r.methods.updateBillingInformation(t.order,t.customer,t.options),r.methods.updatePaymentInformation(t.order,t.options),s.updateOrderProductSummaryInformation(t.order,t.options)})},disableButton:function(){$("body").on("checkout:disableButton",function(e,t){$(t).prop("disabled",!0)})},enableButton:function(){$("body").on("checkout:enableButton",function(e,t){$(t).prop("disabled",!1)})}};[r,i,a].forEach(function(e){Object.keys(e).forEach(function(n){"object"==typeof e[n]?t[n]=$.extend({},t[n],e[n]):t[n]=e[n]})}),e.exports=t},function(e,t,n){"use strict";var a=n(4),i=n(6),r=n(5);function s(e,t,n,i){var r,s,o=$("input[value="+e.UUID+"]"),d=n.shipping,l=!1;o&&o.length>0&&(r=o[0].form,s=$(".addressSelector",r)),s&&1===s.length&&(s.empty(),s.append(a.methods.optionValueForAddress(null,!1,n)),i.addresses&&i.addresses.length>0&&(s.append(a.methods.optionValueForAddress(n.resources.accountAddresses,!1,n)),i.addresses.forEach(function(e){var i=t.matchingAddressId===e.ID;s.append(a.methods.optionValueForAddress({UUID:"ab_"+e.ID,shippingAddress:e},i,n))})),s.append(a.methods.optionValueForAddress(n.resources.shippingAddresses,!1,n,{className:"multi-shipping"})),d.forEach(function(e){var i=t.UUID===e.UUID;l=l||i;var r=a.methods.optionValueForAddress(e,i,n,{className:"multi-shipping"}),o=r.html()===n.resources.addNewAddress,d=e.UUID===t.UUID;(o&&d||!o&&d||!o&&!d)&&s.append(r),o&&!d&&$(r[0]).remove()})),l?$(r).removeClass("hide-details"):$(r).addClass("hide-details"),$("body").trigger("shipping:updateShippingAddressSelector",{productLineItem:e,shipping:t,order:n,customer:i})}function o(e){var t=$.extend({},e.shippingAddress);t||(t={firstName:null,lastName:null,address1:null,address2:null,city:null,postalCode:null,stateCode:null,countryCode:null,phone:null}),t.isGift=e.isGift,t.giftMessage=e.giftMessage,$("input[value="+e.UUID+"]").each(function(e,n){var a=n.form;if(a){var i=t.countryCode;$("input[name$=_firstName]",a).val(t.firstName),$("input[name$=_lastName]",a).val(t.lastName),$("input[name$=_address1]",a).val(t.address1),$("input[name$=_address2]",a).val(t.address2),$("input[name$=_city]",a).val(t.city),$("input[name$=_postalCode]",a).val(t.postalCode),$("select[name$=_stateCode],input[name$=_stateCode]",a).val(t.stateCode),i&&"object"==typeof i?$("select[name$=_country]",a).val(t.countryCode.value):$("select[name$=_country]",a).val(t.countryCode),$("input[name$=_phone]",a).val(t.phone),$("input[name$=_isGift]",a).prop("checked",t.isGift),$("textarea[name$=_giftMessage]",a).val(t.isGift&&t.giftMessage?t.giftMessage:"")}}),$("body").trigger("shipping:updateShippingAddressFormValues",{shipping:e})}function d(e){var t=$("input[value="+e.UUID+"]");t&&t.length>0&&$.each(t,function(t,n){var a=n.form;if(a){var i=$(".shipping-method-list",a);if(i&&i.length>0){i.empty();var r=e.applicableShippingMethods,s=e.selectedShippingMethod||{},o=a.name+"_shippingAddress_shippingMethodID";$.each(r,function(t,n){var a=$("#shipping-method-template").clone();$("input",a).prop("id","shippingMethod-"+n.ID+"-"+e.UUID).prop("name",o).prop("value",n.ID).attr("checked",n.ID===s.ID),$("label",a).prop("for","shippingMethod-"+n.ID+"-"+e.UUID),$(".display-name",a).text(n.displayName),n.estimatedArrivalTime&&$(".arrival-time",a).text("("+n.estimatedArrivalTime+")").show(),$(".shipping-cost",a).text(n.shippingCost),i.append(a.html())})}}}),$("body").trigger("shipping:updateShippingMethods",{shipping:e})}function l(e){setTimeout(function(){var t=e.find(".shipping-method-list"),n=a.methods.getAddressFieldsFromUI(e),i=e.find("[name=shipmentUUID]").val(),r=t.data("actionUrl");n.shipmentUUID=i,t.spinner().start(),$.ajax({url:r,type:"post",dataType:"json",data:n,success:function(e){e.error?window.location.href=e.redirectUrl:($("body").trigger("checkout:updateCheckoutView",{order:e.order,customer:e.customer,options:{keepOpen:!0}}),t.spinner().stop())}})},300)}function c(e,t){$("[data-shipment-summary="+e.UUID+"]").each(function(n,i){var r=$(i),s=r.find(".shipping-addr-label"),o=r.find(".address-summary"),d=r.find(".shipping-phone"),l=r.find(".shipping-method-title"),c=r.find(".shipping-method-arrival-time"),u=r.find(".shipping-method-price"),p=r.find(".shipping-method-label"),m=r.find(".row.summary-details"),h=r.find(".gift-summary"),g=e.shippingAddress,f=e.selectedShippingMethod,v=e.isGift;a.methods.populateAddressSummary(o,g),g&&g.phone?d.text(g.phone):d.empty(),f&&($("body").trigger("shipping:updateAddressLabelText",{selectedShippingMethod:f,resources:t.resources,shippingAddressLabel:s}),p.show(),m.show(),l.text(f.displayName),f.estimatedArrivalTime?c.text("( "+f.estimatedArrivalTime+" )"):c.empty(),u.text(f.shippingCost)),v?(h.find(".gift-message-summary").text(e.giftMessage),h.removeClass("d-none")):h.addClass("d-none")}),$("body").trigger("shipping:updateShippingSummaryInformation",{shipping:e,order:t})}function u(e,t,n,a){var i=$("input[value="+e.UUID+"]"),r=i&&i.length>0?i[0].form:null;if(r){var s=$(".view-address-block",r),o=t.shippingAddress||{},d=t.selectedShippingMethod,l=o.firstName?o.firstName+" ":"";o.lastName&&(l+=o.lastName);var c=o.address1,u=o.address2,p=o.phone,m=d?d.shippingCost:"",h=d?d.displayName:"",g=d&&d.estimatedArrivalTime?"("+d.estimatedArrivalTime+")":"",f=$("#pli-shipping-summary-template").clone();if($(".ship-to-name",f).text(l),$(".ship-to-address1",f).text(c),$(".ship-to-address2",f).text(u),$(".ship-to-city",f).text(o.city),o.stateCode&&$(".ship-to-st",f).text(o.stateCode),$(".ship-to-zip",f).text(o.postalCode),$(".ship-to-phone",f).text(p),u||$(".ship-to-address2",f).hide(),p||$(".ship-to-phone",f).hide(),t.selectedShippingMethod&&($(".display-name",f).text(h),$(".arrival-time",f).text(g),$(".price",f).text(m)),t.isGift){$(".gift-message-summary",f).text(t.giftMessage);var v=$(".gift-message-"+t.UUID);$(v).val(t.giftMessage)}else $(".gift-summary",f).addClass("d-none");var y=$(".shipping-header-text",f);$("body").trigger("shipping:updateAddressLabelText",{selectedShippingMethod:d,resources:n.resources,shippingAddressLabel:y}),s.html(f.html()),$("body").trigger("shipping:updatePLIShippingSummaryInformation",{productLineItem:e,shipping:t,order:n,options:a})}}function p(e,t){$("input[value="+e.UUID+"]").each(function(e,n){var a=n.form;$("[name=shipmentUUID]",a).val(t.UUID),$("[name=originalShipmentUUID]",a).val(t.UUID),$(a).closest(".card").attr("data-shipment-uuid",t.UUID)}),$("body").trigger("shipping:updateProductLineItemShipmentUUIDs",{productLineItem:e,shipping:t})}function m(e){var t='<div class="alert alert-danger alert-dismissible valid-cart-error fade show" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+e+"</div>";$(".shipping-error").append(t),r($(".shipping-error"))}function h(e){e.shipping.forEach(function(e){$("input[value="+e.UUID+"]").each(function(e,t){var n=t.form;if(n){$("input[name$=_firstName]",n).val(""),$("input[name$=_lastName]",n).val(""),$("input[name$=_address1]",n).val(""),$("input[name$=_address2]",n).val(""),$("input[name$=_city]",n).val(""),$("input[name$=_postalCode]",n).val(""),$("select[name$=_stateCode],input[name$=_stateCode]",n).val(""),$("select[name$=_country]",n).val(""),$("input[name$=_phone]",n).val(""),$("input[name$=_isGift]",n).prop("checked",!1),$("textarea[name$=_giftMessage]",n).val(""),$(n).find(".gift-message").addClass("d-none"),$(n).attr("data-address-mode","new");var a=$(".addressSelector option[value=new]",n);$(a).prop("selected",!0)}})}),$("body").trigger("shipping:clearShippingForms",{order:e})}function g(e,t){return $.spinner().start(),$.ajax({url:e,type:"post",dataType:"json",data:t})}function f(e,t,n){$.spinner().start(),$.ajax({url:e,type:"post",dataType:"json",data:t}).done(function(e){e.error?window.location.href=e.redirectUrl:($("body").trigger("checkout:updateCheckoutView",{order:e.order,customer:e.customer,options:{keepOpen:!0},urlParams:t}),$("body").trigger("checkout:postUpdateCheckoutView",{el:n})),$.spinner().stop()}).fail(function(){$.spinner().stop()})}function v(e){e.find(".view-address-block").removeClass("d-none"),e.find(".btn-edit-multi-ship").removeClass("d-none"),e.find(".shipping-address").addClass("d-none"),e.find(".btn-save-multi-ship.save-shipment").addClass("d-none"),e.find(".btn-enter-multi-ship").addClass("d-none"),e.find(".multi-ship-address-actions").addClass("d-none")}function y(e){e.find(".shipping-address").removeClass("d-none"),e.find(".btn-save-multi-ship.save-shipment").removeClass("d-none"),e.find(".view-address-block").addClass("d-none"),e.find(".btn-enter-multi-ship").addClass("d-none"),e.find(".btn-edit-multi-ship").addClass("d-none"),e.find(".multi-ship-address-actions").addClass("d-none"),$("body").trigger("shipping:editMultiShipAddress",{element:e,form:e.find(".shipping-form")})}function b(e,t){var n=$(e).closest("form"),i=$(e).closest(".shipping-content");$("body").trigger("shipping:updateDataAddressMode",{form:n,mode:t}),y(i);var r=a.methods.getAddressFieldsFromUI(n),s={UUID:$("input[name=shipmentUUID]",n).val(),shippingAddress:r};i.data("saved-state",JSON.stringify(s))}e.exports={methods:{updateShippingAddressSelector:s,updateShippingAddressFormValues:o,updateShippingMethods:d,updateShippingSummaryInformation:c,updatePLIShippingSummaryInformation:u,updateProductLineItemShipmentUUIDs:p,updateShippingInformation:function(e,t,n,a){t.shipping.forEach(function(e){e.productLineItems.items.forEach(function(t){p(t,e)})}),d(e),o(e),c(e,t),e.productLineItems.items.forEach(function(i){s(i,e,t,n),u(i,e,t,a)}),$("body").trigger("shipping:updateShippingInformation",{order:t,shipping:e,customer:n,options:a})},updateMultiShipInformation:function(e){var t=$("#checkout-main"),n=$("[name=usingMultiShipping]"),a=$("button.submit-shipping");$(".shipping-error .alert-danger").remove(),e.usingMultiShipping?(t.addClass("multi-ship"),n.prop("checked",!0)):(t.removeClass("multi-ship"),n.prop("checked",null),a.prop("disabled",null)),$("body").trigger("shipping:updateMultiShipInformation",{order:e})},shippingFormResponse:function(e,t){var n=$("#checkout-main").hasClass("multi-ship")?".multi-shipping .active form":".single-shipping form";t.error?(t.fieldErrors.length&&(t.fieldErrors.forEach(function(e){Object.keys(e).length&&i.loadFormErrors(n,e)}),e.reject(t)),t.serverErrors&&t.serverErrors.length&&($.each(t.serverErrors,function(e,t){m(t)}),e.reject(t)),t.cartError&&(window.location.href=t.redirectUrl,e.reject())):($("body").trigger("checkout:updateCheckoutView",{order:t.order,customer:t.customer}),r($(".payment-form")),e.resolve(t))},createNewShipment:g,selectShippingMethodAjax:f,updateShippingMethodList:l,clearShippingForms:h,editMultiShipAddress:y,editOrEnterMultiShipInfo:b,createErrorNotification:m,viewMultishipAddress:v},selectShippingMethod:function(){var e=this;$(".shipping-method-list").change(function(){var t=$(this).parents("form"),n=$(":checked",this).val(),i=t.find("[name=shipmentUUID]").val(),r=a.methods.getAddressFieldsFromUI(t);r.shipmentUUID=i,r.methodID=n,r.isGift=t.find(".gift").prop("checked"),r.giftMessage=t.find("textarea[name$=_giftMessage]").val();var s=$(this).data("select-shipping-method-url");e.methods&&e.methods.selectShippingMethodAjax?e.methods.selectShippingMethodAjax(s,r,$(this)):f(s,r,$(this))})},toggleMultiship:function(){var e=this;$('input[name="usingMultiShipping"]').on("change",function(){var t=$(".multi-shipping-checkbox-block form").attr("action"),n=this.checked;$.ajax({url:t,type:"post",dataType:"json",data:{usingMultiShip:n},success:function(t){t.error?window.location.href=t.redirectUrl:($("body").trigger("checkout:updateCheckoutView",{order:t.order,customer:t.customer}),"guest"===$("#checkout-main").data("customer-type")?e.methods&&e.methods.clearShippingForms?e.methods.clearShippingForms(t.order):h(t.order):t.order.shipping.forEach(function(e){$("input[value="+e.UUID+"]").each(function(t,n){var a=n.form;if(a){$(a).attr("data-address-mode","edit");var i=$(a).find('.addressSelector option[value="ab_'+e.matchingAddressId+'"]');$(i).prop("selected",!0),$("input[name$=_isGift]",a).prop("checked",!1),$("textarea[name$=_giftMessage]",a).val(""),$(a).find(".gift-message").addClass("d-none")}})}),n?$("body").trigger("shipping:selectMultiShipping",{data:t}):$("body").trigger("shipping:selectSingleShipping",{data:t})),$.spinner().stop()},error:function(){$.spinner().stop()}})})},selectSingleShipping:function(){$("body").on("shipping:selectSingleShipping",function(){$(".single-shipping .shipping-address").removeClass("d-none")})},selectMultiShipping:function(){var e=this;$("body").on("shipping:selectMultiShipping",function(t,n){$(".multi-shipping .shipping-address").addClass("d-none"),n.data.order.shipping.forEach(function(t){var n=$('.multi-shipping .card[data-shipment-uuid="'+t.UUID+'"]');t.shippingAddress?e.methods&&e.methods.viewMultishipAddress?e.methods.viewMultishipAddress($(n)):v($(n)):e.methods&&e.methods.enterMultishipView?e.methods.enterMultishipView($(n)):function(e){e.find(".btn-enter-multi-ship").removeClass("d-none"),e.find(".view-address-block").addClass("d-none"),e.find(".shipping-address").addClass("d-none"),e.find(".btn-save-multi-ship.save-shipment").addClass("d-none"),e.find(".btn-edit-multi-ship").addClass("d-none"),e.find(".multi-ship-address-actions").addClass("d-none")}($(n))})})},selectSingleShipAddress:function(){$(".single-shipping .addressSelector").on("change",function(){var e=$(this).parents("form")[0],t=$("option:selected",this),n=t.data(),a=t[0].value,i=$("input[name=shipmentUUID]",e).val();Object.keys(n).forEach(function(t){$("[name$="+("countryCode"===t?"country":t)+"]",e).val(n[t])}),$("[name$=stateCode]",e).trigger("change"),"new"===a?($(e).attr("data-address-mode","new"),$(e).find(".shipping-address-block").removeClass("d-none")):a===i?$(e).attr("data-address-mode","shipment"):0===a.indexOf("ab_")?$(e).attr("data-address-mode","customer"):$(e).attr("data-address-mode","edit")})},selectMultiShipAddress:function(){var e=this;$(".multi-shipping .addressSelector").on("change",function(){var t=$(this).closest("form"),n=$("option:selected",this),a=n.data(),i=n[0].value,r=$("input[name=shipmentUUID]",t).val(),s=$("input[name=productLineItemUUID]",t).val(),o=e.methods&&e.methods.createNewShipment?e.methods.createNewShipment:g;if(Object.keys(a).forEach(function(e){"isGift"===e?($("[name$="+e+"]",t).prop("checked",a[e]),$("[name$="+e+"]",t).trigger("change")):$("[name$="+("countryCode"===e?"country":e)+"]",t).val(a[e])}),"new"===i&&s)o($(this).attr("data-create-shipment-url"),{productLineItemUUID:s}).done(function(e){$.spinner().stop(),e.error?e.redirectUrl&&(window.location.href=e.redirectUrl):($("body").trigger("checkout:updateCheckoutView",{order:e.order,customer:e.customer,options:{keepOpen:!0}}),$(t).attr("data-address-mode","new"))}).fail(function(){$.spinner().stop()});else if(i===r)$("select[name$=stateCode]",t).trigger("change"),$(t).attr("data-address-mode","shipment");else if(0===i.indexOf("ab_")){o($(t).attr("action"),$(t).serialize()).done(function(e){($.spinner().stop(),e.error)?e.redirectUrl&&(window.location.href=e.redirectUrl):($("body").trigger("checkout:updateCheckoutView",{order:e.order,customer:e.customer,options:{keepOpen:!0}}),$(t).attr("data-address-mode","customer"),y($(t).closest(".shipping-content")))}).fail(function(){$.spinner().stop()})}else{o($(t).attr("action"),$(t).serialize()).done(function(e){$.spinner().stop(),e.error?e.redirectUrl&&(window.location.href=e.redirectUrl):($("body").trigger("checkout:updateCheckoutView",{order:e.order,customer:e.customer,options:{keepOpen:!0}}),$(t).attr("data-address-mode","edit"))}).fail(function(){$.spinner().stop()})}})},updateShippingList:function(){var e=this;$('select[name$="shippingAddress_addressFields_states_stateCode"]').on("change",function(t){e.methods&&e.methods.updateShippingMethodList?e.methods.updateShippingMethodList($(t.currentTarget.form)):l($(t.currentTarget.form))})},updateDataAddressMode:function(){$("body").on("shipping:updateDataAddressMode",function(e,t){$(t.form).attr("data-address-mode",t.mode)})},enterMultiShipInfo:function(){var e=this;$(".btn-enter-multi-ship").on("click",function(t){t.preventDefault(),e.methods&&e.methods.editOrEnterMultiShipInfo?e.methods.editOrEnterMultiShipInfo($(this),"new"):b($(this),"new")})},editMultiShipInfo:function(){var e=this;$(".btn-edit-multi-ship").on("click",function(t){t.preventDefault(),e.methods&&e.methods.editOrEnterMultiShipInfo?e.methods.editOrEnterMultiShipInfo($(this),"edit"):b($(this),"edit")})},saveMultiShipInfo:function(){var e=this;$(".btn-save-multi-ship").on("click",function(t){t.preventDefault();var n=$(this).closest("form"),a=$(this).closest(".shipping-content"),r=$(n).serialize(),s=$(n).attr("action");return a.spinner().start(),$.ajax({url:s,type:"post",dataType:"json",data:r}).done(function(t){i.clearPreviousErrors(n),t.error?t.fieldErrors&&t.fieldErrors.length?t.fieldErrors.forEach(function(e){Object.keys(e).length&&i.loadFormErrors(n,e)}):t.serverErrors&&t.serverErrors.length?$.each(t.serverErrors,function(e,t){m(t)}):t.redirectUrl&&(window.location.href=t.redirectUrl):($("body").trigger("checkout:updateCheckoutView",{order:t.order,customer:t.customer}),e.methods&&e.methods.viewMultishipAddress?e.methods.viewMultishipAddress(a):v(a)),t.order&&t.order.shippable&&$("button.submit-shipping").attr("disabled",null),a.spinner().stop()}).fail(function(e){e.responseJSON.redirectUrl&&(window.location.href=e.responseJSON.redirectUrl),a.spinner().stop()}),!1})},cancelMultiShipAddress:function(){var e=this;$(".btn-cancel-multi-ship-address").on("click",function(t){t.preventDefault();var n=$(this).closest("form"),a=$(this).closest(".shipping-content"),i=a.data("saved-state");if(i){var r=JSON.parse(i),s=r.shippingAddress.stateCode,d=$("[name$=_stateCode]",n).val();e.methods&&e.methods.updateShippingAddressFormValues?e.methods.updateShippingAddressFormValues(r):o(r),d!==s?$("[data-action=save]",n).trigger("click"):($(n).attr("data-address-mode","edit"),e.methods&&e.methods.editMultiShipAddress?e.methods.editMultiShipAddress(a):y(a))}return!1})},isGift:function(){$(".gift").on("change",function(e){e.preventDefault();var t=$(this).closest("form");this.checked?$(t).find(".gift-message").removeClass("d-none"):($(t).find(".gift-message").addClass("d-none"),$(t).find(".gift-message").val(""))})}}},function(e,t,n){"use strict";var a=n(4),i=n(0);function r(e,t){var n=e.shipping,i=$("form[name$=billing]")[0],r=$(".addressSelector",i),s=!1;r&&1===r.length&&(r.empty(),r.append(a.methods.optionValueForAddress(null,!1,e,{type:"billing"})),r.append(a.methods.optionValueForAddress(e.resources.shippingAddresses,!1,e,{type:"billing"})),n.forEach(function(t){var n=e.billing.matchingAddressId===t.UUID;s=s||n,r.append(a.methods.optionValueForAddress(t,n,e,{type:"billing"}))}),t.addresses&&t.addresses.length>0&&(r.append(a.methods.optionValueForAddress(e.resources.accountAddresses,!1,e)),t.addresses.forEach(function(t){var n=e.billing.matchingAddressId===t.ID;s=s||n,r.append(a.methods.optionValueForAddress({UUID:"ab_"+t.ID,shippingAddress:t},n,e,{type:"billing"}))}))),s||!e.billing.matchingAddressId&&e.billing.billingAddress.address?$(i).attr("data-address-mode","edit"):$(i).attr("data-address-mode","new"),r.show()}function s(e){var t=e.billing;if(t.billingAddress&&t.billingAddress.address){var n=$("form[name=dwfrm_billing]");if(n&&($("input[name$=_firstName]",n).val(t.billingAddress.address.firstName),$("input[name$=_lastName]",n).val(t.billingAddress.address.lastName),$("input[name$=_address1]",n).val(t.billingAddress.address.address1),$("input[name$=_address2]",n).val(t.billingAddress.address.address2),$("input[name$=_city]",n).val(t.billingAddress.address.city),$("input[name$=_postalCode]",n).val(t.billingAddress.address.postalCode),$("select[name$=_stateCode],input[name$=_stateCode]",n).val(t.billingAddress.address.stateCode),$("select[name$=_country]",n).val(t.billingAddress.address.countryCode.value),$("input[name$=_phone]",n).val(t.billingAddress.address.phone),$("input[name$=_email]",n).val(e.orderEmail),t.payment&&t.payment.selectedPaymentInstruments&&t.payment.selectedPaymentInstruments.length>0)){var a=t.payment.selectedPaymentInstruments[0];$("select[name$=expirationMonth]",n).val(a.expirationMonth),$("select[name$=expirationYear]",n).val(a.expirationYear),$("input[name$=securityCode]",n).val(""),$("input[name$=cardNumber]").data("cleave").setRawValue("")}}}function o(){s({billing:{billingAddress:{address:{countryCode:{}}}}})}function d(){$('input[name$="_cardNumber"]').data("cleave").setRawValue(""),$('select[name$="_expirationMonth"]').val(""),$('select[name$="_expirationYear"]').val(""),$('input[name$="_securityCode"]').val("")}e.exports={methods:{updateBillingAddressSelector:r,updateBillingAddressFormValues:s,clearBillingAddressFormValues:o,updateBillingInformation:function(e,t){r(e,t),s(e),a.methods.populateAddressSummary(".billing .address-summary",e.billing.billingAddress.address),$(".order-summary-email").text(e.orderEmail),e.billing.billingAddress.address&&$(".order-summary-phone").text(e.billing.billingAddress.address.phone)},updatePaymentInformation:function(e){var t=$(".payment-details"),n="";if(e.billing.payment&&e.billing.payment.selectedPaymentInstruments&&e.billing.payment.selectedPaymentInstruments.length>0)switch(e.billing.payment.selectedPaymentInstruments[0].paymentMethod){case"BLUESNAP_ACH_PAYMENT":n+="<span>"+e.resources.bluesnap.achPaymentMethod+"</span><div><span>"+e.resources.bluesnap.bankAccountNumber+" "+e.billing.payment.selectedPaymentInstruments[0].bankAccountNumberLastDigits+"</span></div><div><span>"+e.resources.bluesnap.routingnumber+" "+e.billing.payment.selectedPaymentInstruments[0].bankRoutingNumber+"</span></div>";break;case"BLUESNAP_SEPA_PAYMENT":n+="<span>"+e.resources.bluesnap.sepaPaymentMethod+"</span><div><span>"+e.resources.bluesnap.iban+" "+e.billing.payment.selectedPaymentInstruments[0].iban+"</span></div>";break;case"BLUESNAP_GOOGLE_PAY":n+=e.resources.bluesnap.googlePay,$(".btn.place-order").attr("disabled",!0);break;case"BLUESNAP_APPLE_PAY":n+=e.resources.bluesnap.applePay,$(".btn.place-order").attr("disabled",!0);break;case"BLUESNAP_VISA_CHECKOUT":n+=e.resources.bluesnap.visacheCkout,$(".btn.place-order").attr("disabled",!0);break;default:n+="<span>"+e.resources.cardType+" "+e.billing.payment.selectedPaymentInstruments[0].type+"</span>",e.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber&&(n+="<div>"+e.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber+"</div>"),e.billing.payment.selectedPaymentInstruments[0].expirationMonth&&(n+="<div><span>"+e.resources.cardEnding+" "+e.billing.payment.selectedPaymentInstruments[0].expirationMonth+"/"+e.billing.payment.selectedPaymentInstruments[0].expirationYear+"</span></div>")}t.empty().append(n)},clearCreditCardForm:d},showBillingDetails:function(){$(".btn-show-billing-details").on("click",function(){$(this).parents("[data-address-mode]").attr("data-address-mode","new")})},hideBillingDetails:function(){$(".btn-hide-billing-details").on("click",function(){$(this).parents("[data-address-mode]").attr("data-address-mode","shipment")})},selectBillingAddress:function(){$(".payment-form .addressSelector").on("change",function(){var e=$(this).parents("form")[0],t=$("option:selected",this);"new"===t[0].value?$(e).attr("data-address-mode","new"):$(e).attr("data-address-mode","shipment");var n,a=t.data();Object.keys(a).forEach(function(t){"cardNumber"===(n="countryCode"===t?"country":t)?$(".cardNumber").data("cleave").setRawValue(a[t]):$("[name$="+n+"]",e).val(a[t])})})},handleCreditCardNumber:function(){i.handleCreditCardNumber(".cardNumber","#cardType")},santitizeForm:function(){$("body").on("checkout:serializeBilling",function(e,t){var n=i.serializeData(t.form);t.callback(n)})},selectSavedPaymentInstrument:function(){$(document).on("click",".saved-payment-instrument",function(e){e.preventDefault(),$(".saved-payment-security-code").val(""),$(".saved-payment-instrument").removeClass("selected-payment"),$(this).addClass("selected-payment"),$(".saved-payment-instrument .card-image").removeClass("checkout-hidden"),$(".saved-payment-instrument .security-code-input").addClass("checkout-hidden"),$(".saved-payment-instrument.selected-payment .card-image").addClass("checkout-hidden"),$(".saved-payment-instrument.selected-payment .security-code-input").removeClass("checkout-hidden")})},addNewPaymentInstrument:function(){$(".btn.add-payment").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!0),d(),$(".credit-card-form").removeClass("checkout-hidden"),$(".user-payment-instruments").addClass("checkout-hidden")})},cancelNewPayment:function(){$(".cancel-new-payment").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!1),d(),$(".user-payment-instruments").removeClass("checkout-hidden"),$(".credit-card-form").addClass("checkout-hidden")})},clearBillingForm:function(){$("body").on("checkout:clearBillingForm",function(){o()})},paymentTabs:function(){$(".payment-options .nav-item").on("click",function(e){e.preventDefault();var t=$(this).data("method-id");$(".payment-information").data("payment-method-id",t)})}}},function(e,t,n){"use strict";e.exports={updateTotals:function(e){$(".shipping-total-cost").text(e.totalShippingCost),$(".tax-total").text(e.totalTax),$(".sub-total").text(e.subTotal),$(".grand-total-sum").text(e.grandTotal),e.orderLevelDiscountTotal.value>0?($(".order-discount").removeClass("hide-order-discount"),$(".order-discount-total").text("- "+e.orderLevelDiscountTotal.formatted)):$(".order-discount").addClass("hide-order-discount"),e.shippingLevelDiscountTotal.value>0?($(".shipping-discount").removeClass("hide-shipping-discount"),$(".shipping-discount-total").text("- "+e.shippingLevelDiscountTotal.formatted)):$(".shipping-discount").addClass("hide-shipping-discount")},updateOrderProductSummaryInformation:function(e){var t=$("<div />");e.shipping.forEach(function(n){n.productLineItems.items.forEach(function(e){var n=$("[data-product-line-item="+e.UUID+"]");t.append(n)});var a=n.shippingAddress||{},i=n.selectedShippingMethod,r=a.firstName?a.firstName+" ":"";a.lastName&&(r+=a.lastName);var s=a.address1,o=a.address2,d=a.phone,l=i?i.shippingCost:"",c=i?i.displayName:"",u=i&&i.estimatedArrivalTime?"( "+i.estimatedArrivalTime+" )":"",p=$("#pli-shipping-summary-template").clone();n.productLineItems.items&&n.productLineItems.items.length>1?$("h5 > span").text(" - "+n.productLineItems.items.length+" "+e.resources.items):$("h5 > span").text("");var m=$("#shippingState").attr("required"),h=void 0!==m&&!1!==m,g=!(!n.shippingAddress||!n.shippingAddress.stateCode)&&n.shippingAddress.stateCode,f=!1;(h&&g||!h)&&(f=!0);var v=$('.multi-shipping input[name="shipmentUUID"][value="'+n.UUID+'"]').parent();n.shippingAddress&&n.shippingAddress.firstName&&n.shippingAddress.address1&&n.shippingAddress.city&&f&&n.shippingAddress.countryCode&&(n.shippingAddress.phone||n.productLineItems.items[0].fromStoreId)?($(".ship-to-name",p).text(r),$(".ship-to-address1",p).text(s),$(".ship-to-address2",p).text(o),$(".ship-to-city",p).text(a.city),a.stateCode&&$(".ship-to-st",p).text(a.stateCode),$(".ship-to-zip",p).text(a.postalCode),$(".ship-to-phone",p).text(d),o||$(".ship-to-address2",p).hide(),d||$(".ship-to-phone",p).hide(),v.find(".ship-to-message").text("")):v.find(".ship-to-message").text(e.resources.addressIncomplete),n.isGift?$(".gift-message-summary",p).text(n.giftMessage):$(".gift-summary",p).addClass("d-none");var y=$(".shipping-header-text",p);$("body").trigger("shipping:updateAddressLabelText",{selectedShippingMethod:i,resources:e.resources,shippingAddressLabel:y}),n.selectedShippingMethod&&($(".display-name",p).text(c),$(".arrival-time",p).text(u),$(".price",p).text(l));var b=$('<div class="multi-shipping" data-shipment-summary="'+n.UUID+'" />');b.html(p.html()),t.append(b)}),$(".product-summary-block").html(t.html()),$(".grand-total-price").text(e.totals.subTotal),e.items.items.forEach(function(e){e.priceTotal&&e.priceTotal.renderedPrice&&$(".item-total-"+e.UUID).empty().append(e.priceTotal.renderedPrice)})}}},function(e,t,n){"use strict";var a=n(0);function i(){$("#blusnapHostedData").length||($('input[name$="bluesnapcreditcardFields_vaultCreditCard"]').val("none"),$('input[name$="bluesnapcreditcardFields_number"]').data("cleave").setRawValue(""),$('select[name$="bluesnapcreditcardFields_expiration_month"]').val(""),$('select[name$="bluesnapcreditcardFields_expiration_year"]').val(""),$('input[name$="bluesnapcreditcardFields_cvn"]').val("")),$('input[name$="_vaultCreditCard"]').val("none")}function r(){var e="none";$(".user-bluesnapcreditcard-instruments").hasClass("checkout-hidden")||(e=$(".saved-vaultedshoppercard-instrument.selected-payment").data("vaultcreditcard")),$('input[name$="_vaultCreditCard"]').val(e)}e.exports={selectVaultedShopperCard:function(){$(document).on("click",".saved-vaultedshoppercard-instrument",function(e){e.preventDefault(),$(".saved-vaultedshoppercard-security-code").val(""),$(".saved-vaultedshoppercard-instrument").removeClass("selected-payment"),$(this).addClass("selected-payment"),$(".saved-vaultedshoppercard-instrument .card-image").removeClass("checkout-hidden"),$(".saved-vaultedshoppercard-instrument .security-code-input").addClass("checkout-hidden"),$(".saved-vaultedshoppercard-instrument.selected-payment .card-image").addClass("checkout-hidden"),$(".saved-vaultedshoppercard-instrument.selected-payment .security-code-input").removeClass("checkout-hidden");var t=$(this).data("vaultcreditcard");$('input[name$="_vaultCreditCard"]').val(t)})},addNewVaultedShopperCard:function(){$(".btn.add-payment-vaultedshoppercard").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!0),i(),$(".bluesnapcreditcard-form").removeClass("checkout-hidden"),$(".user-bluesnapcreditcard-instruments").addClass("checkout-hidden")})},cancelNewVaultedShopperCard:function(){$(".cancel-new-bluesnapcreditcard-payment").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!1),i(),$(".user-bluesnapcreditcard-instruments").removeClass("checkout-hidden"),$(".bluesnapcreditcard-form").addClass("checkout-hidden"),r()})},handleCreditCardNumber:function(){$("#bluesnapCardNumber").length&&$("#bluesnapCardType").length&&a.handleCreditCardNumber("#bluesnapCardNumber","#bluesnapCardType")},initCreditCardTab:r()}},function(e,t,n){"use strict";function a(){$('input[name$="_vaultACH"]').val("none"),$('input[name$="_routingNumber"]').val(""),$('input[name$="_accountNumber"]').val(""),$('select[name$="_accountType"]').val("CONSUMER_CHECKING")}function i(){var e="none";$(".user-bluesnapach-instruments").hasClass("checkout-hidden")||(e=$(".saved-vaultedshopperach-instrument.selected-payment").data("vaultach")),$('input[name$="_vaultACH"]').val(e)}e.exports={selectVaultedShopperAch:function(){$(document).on("click",".saved-vaultedshopperach-instrument",function(e){e.preventDefault(),$(".saved-vaultedshopperach-instrument").removeClass("selected-payment"),$(this).addClass("selected-payment");var t=$(this).data("vaultach");$('input[name$="_vaultACH"]').val(t)})},addNewVaultedShopperAch:function(){$(".btn.add-payment-vaultedshopperach").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!0),a(),$(".bluesnapach-form").removeClass("checkout-hidden"),$(".user-bluesnapach-instruments").addClass("checkout-hidden")})},cancelNewVaultedShopperAch:function(){$(".cancel-new-bluesnapach-payment").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!1),a(),$(".user-bluesnapach-instruments").removeClass("checkout-hidden"),$(".bluesnapach-form").addClass("checkout-hidden"),i()})},handleAchAccountType:function(){$(".accountType.custom-select").on("change",function(){var e=$(this).val();e&&e.includes("CORPORATE")?$('form input[name$="_companyName"]').prop("disabled",!1):$('form input[name$="_companyName"]').prop("disabled",!0)})},initBluesnapACHTab:function(){i(),$(".accountType.custom-select").trigger("change")}}},function(e,t,n){"use strict";function a(){$('input[name$="_vaultSEPA"]').val("none"),$('input[name$="_iban"]').val("")}function i(){var e="none";$(".user-bluesnapsepa-instruments").hasClass("checkout-hidden")||(e=$(".saved-vaultedshoppersepa-instrument.selected-payment").data("vaultsepa")),$('input[name$="_vaultSEPA"]').val(e)}e.exports={selectVaultedShopperSepa:function(){$(document).on("click",".saved-vaultedshoppersepa-instrument",function(e){e.preventDefault(),$(".saved-vaultedshoppersepa-instrument").removeClass("selected-payment"),$(this).addClass("selected-payment");var t=$(this).data("vaultsepa");$('input[name$="_vaultSEPA"]').val(t)})},addNewVaultedShopperSepa:function(){$(".btn.add-payment-vaultedshoppersepa").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!0),a(),$(".bluesnapsepa-form").removeClass("checkout-hidden"),$(".user-bluesnapsepa-instruments").addClass("checkout-hidden")})},cancelNewVaultedShopperSepa:function(){$(".cancel-new-bluesnapsepa-payment").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!1),a(),$(".user-bluesnapsepa-instruments").removeClass("checkout-hidden"),$(".bluesnapsepa-form").addClass("checkout-hidden"),i()})},initBluesnapACHTab:i()}},function(e,t,n){"use strict";var a=n(0);function i(){$('input[name$="BSlatAm_vaultLatamCard"]').val("none"),$('input[name$="BSlatAm_number"]').data("cleave").setRawValue(""),$('select[name$="BSlatAm_expiration_month"]').val(""),$('select[name$="BSlatAm_expiration_year"]').val(""),$('input[name$="BSlatAm_cvn"]').val(""),$('input[name$="BSlatAm_personalIdentificationNumber"]').val("")}function r(){var e="none";$(".user-bluesnaplatamcard-instruments").hasClass("checkout-hidden")||(e=$(".saved-vaultedshopperlatamcard-instrument.selected-payment").data("vaultcreditcard")),$('input[name$="_vaultLatamCard"]').val(e)}e.exports={selectVaultedShopperCard:function(){$(document).on("click",".saved-vaultedshopperlatamcard-instrument",function(e){e.preventDefault(),$(".saved-vaultedshopperlatamcard-security-code").val(""),$(".saved-vaultedshopperlatamcard-instrument").removeClass("selected-payment"),$(this).addClass("selected-payment"),$(".saved-vaultedshopperlatamcard-instrument .card-image").removeClass("checkout-hidden"),$(".saved-vaultedshopperlatamcard-instrument .security-code-input").addClass("checkout-hidden"),$(".saved-vaultedshopperlatamcard-instrument.selected-payment .card-image").addClass("checkout-hidden"),$(".saved-vaultedshopperlatamcard-instrument.selected-payment .security-code-input").removeClass("checkout-hidden");var t=$(this).data("vaultcreditcard");$('input[name$="_vaultLatamCard"]').val(t)})},addNewVaultedShopperCard:function(){$(".btn.add-payment-vaultedshopperlatam").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!0),i(),$(".bluesnaplatamcard-form").removeClass("checkout-hidden"),$(".user-bluesnaplatamcard-instruments").addClass("checkout-hidden")})},cancelNewVaultedShopperCard:function(){$(".cancel-new-bluesnaplatamcard-payment").on("click",function(e){e.preventDefault(),$(".payment-information").data("is-new-payment",!1),i(),$(".user-bluesnaplatamcard-instruments").removeClass("checkout-hidden"),$(".bluesnaplatamcard-form").addClass("checkout-hidden"),r()})},handleCreditCardNumber:function(){$("#bluesnapLatamCardNumber").length&&$("#bluesnapLatamCardType").length&&a.handleCreditCardNumber("#bluesnapLatamCardNumber","#bluesnapLatamCardType")},initCreditCardTab:r()}}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/address.js":
+/*!****************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/address.js ***!
+  \****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Populate the Billing Address Summary View
+ * @param {string} parentSelector - the top level DOM selector for a unique address summary
+ * @param {Object} address - the address data
+ */
+function populateAddressSummary(parentSelector, address) {
+    $.each(address, function (attr) {
+        var val = address[attr];
+        $('.' + attr, parentSelector).text(val || '');
+    });
+}
+
+/**
+ * returns a formed <option /> element
+ * @param {Object} shipping - the shipping object (shipment model)
+ * @param {boolean} selected - current shipping is selected (for PLI)
+ * @param {order} order - the Order model
+ * @param {Object} [options] - options
+ * @returns {Object} - the jQuery / DOMElement
+ */
+function optionValueForAddress(shipping, selected, order, options) {
+    var safeOptions = options || {};
+    var isBilling = safeOptions.type && safeOptions.type === 'billing';
+    var className = safeOptions.className || '';
+    var isSelected = selected;
+    var isNew = !shipping;
+    if (typeof shipping === 'string') {
+        return $('<option class="' + className + '" disabled>' + shipping + '</option>');
+    }
+    var safeShipping = shipping || {};
+    var shippingAddress = safeShipping.shippingAddress || {};
+
+    if (isBilling && isNew && !order.billing.matchingAddressId) {
+        shippingAddress = order.billing.billingAddress.address || {};
+        isNew = false;
+        isSelected = true;
+        safeShipping.UUID = 'manual-entry';
+    }
+
+    var uuid = safeShipping.UUID ? safeShipping.UUID : 'new';
+    var optionEl = $('<option class="' + className + '" />');
+    optionEl.val(uuid);
+
+    var title;
+
+    if (isNew) {
+        title = order.resources.addNewAddress;
+    } else {
+        title = [];
+        if (shippingAddress.firstName) {
+            title.push(shippingAddress.firstName);
+        }
+        if (shippingAddress.lastName) {
+            title.push(shippingAddress.lastName);
+        }
+        if (shippingAddress.address1) {
+            title.push(shippingAddress.address1);
+        }
+        if (shippingAddress.address2) {
+            title.push(shippingAddress.address2);
+        }
+        if (shippingAddress.city) {
+            if (shippingAddress.state) {
+                title.push(shippingAddress.city + ',');
+            } else {
+                title.push(shippingAddress.city);
+            }
+        }
+        if (shippingAddress.stateCode) {
+            title.push(shippingAddress.stateCode);
+        }
+        if (shippingAddress.postalCode) {
+            title.push(shippingAddress.postalCode);
+        }
+        if (!isBilling && safeShipping.selectedShippingMethod) {
+            title.push('-');
+            title.push(safeShipping.selectedShippingMethod.displayName);
+        }
+
+        if (title.length > 2) {
+            title = title.join(' ');
+        } else {
+            title = order.resources.newAddress;
+        }
+    }
+    optionEl.text(title);
+
+    var keyMap = {
+        'data-first-name': 'firstName',
+        'data-last-name': 'lastName',
+        'data-address1': 'address1',
+        'data-address2': 'address2',
+        'data-city': 'city',
+        'data-state-code': 'stateCode',
+        'data-postal-code': 'postalCode',
+        'data-country-code': 'countryCode',
+        'data-phone': 'phone'
+    };
+    $.each(keyMap, function (key) {
+        var mappedKey = keyMap[key];
+        var mappedValue = shippingAddress[mappedKey];
+        // In case of country code
+        if (mappedValue && typeof mappedValue === 'object') {
+            mappedValue = mappedValue.value;
+        }
+
+        optionEl.attr(key, mappedValue || '');
+    });
+
+    var giftObj = {
+        'data-is-gift': 'isGift',
+        'data-gift-message': 'giftMessage'
+    };
+
+    $.each(giftObj, function (key) {
+        var mappedKey = giftObj[key];
+        var mappedValue = safeShipping[mappedKey];
+        optionEl.attr(key, mappedValue || '');
+    });
+
+    if (isSelected) {
+        optionEl.attr('selected', true);
+    }
+
+    return optionEl;
+}
+
+/**
+ * returns address properties from a UI form
+ * @param {Form} form - the Form element
+ * @returns {Object} - a JSON object with all values
+ */
+function getAddressFieldsFromUI(form) {
+    var address = {
+        firstName: $('input[name$=_firstName]', form).val(),
+        lastName: $('input[name$=_lastName]', form).val(),
+        address1: $('input[name$=_address1]', form).val(),
+        address2: $('input[name$=_address2]', form).val(),
+        city: $('input[name$=_city]', form).val(),
+        postalCode: $('input[name$=_postalCode]', form).val(),
+        stateCode: $('select[name$=_stateCode],input[name$=_stateCode]', form).val(),
+        countryCode: $('select[name$=_country]', form).val(),
+        phone: $('input[name$=_phone]', form).val()
+    };
+    return address;
+}
+
+module.exports = {
+    methods: {
+        populateAddressSummary: populateAddressSummary,
+        optionValueForAddress: optionValueForAddress,
+        getAddressFieldsFromUI: getAddressFieldsFromUI
+    },
+
+    showDetails: function () {
+        $('.btn-show-details').on('click', function () {
+            var form = $(this).closest('form');
+
+            form.attr('data-address-mode', 'details');
+            form.find('.multi-ship-address-actions').removeClass('d-none');
+            form.find('.multi-ship-action-buttons .col-12.btn-save-multi-ship').addClass('d-none');
+        });
+    },
+
+    addNewAddress: function () {
+        $('.btn-add-new').on('click', function () {
+            var $el = $(this);
+            if ($el.parents('#dwfrm_billing').length > 0) {
+                // Handle billing address case
+                $('body').trigger('checkout:clearBillingForm');
+                var $option = $($el.parents('form').find('.addressSelector option')[0]);
+                $option.attr('value', 'new');
+                var $newTitle = $('#dwfrm_billing input[name=localizedNewAddressTitle]').val();
+                $option.text($newTitle);
+                $option.prop('selected', 'selected');
+                $el.parents('[data-address-mode]').attr('data-address-mode', 'new');
+            } else {
+                // Handle shipping address case
+                var $newEl = $el.parents('form').find('.addressSelector option[value=new]');
+                $newEl.prop('selected', 'selected');
+                $newEl.parent().trigger('change');
+            }
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/customer.js":
+/*!*****************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/customer.js ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var formHelpers = __webpack_require__(/*! ./formErrors */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/formErrors.js");
+var scrollAnimate = __webpack_require__(/*! ../components/scrollAnimate */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/scrollAnimate.js");
+var createErrorNotification = __webpack_require__(/*! ../components/errorNotification */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/errorNotification.js");
+var GUEST_FORM = '#guest-customer';
+var REGISTERED_FORM = '#registered-customer';
+var ERROR_SECTION = '.customer-error';
+
+/**
+ * @returns {boolean} If guest is active, registered is not visible
+ */
+function isGuestFormActive() {
+    return $(REGISTERED_FORM).hasClass('d-none');
+}
+
+/**
+ * Clear any previous errors in the customer form.
+ */
+function clearErrors() {
+    $(ERROR_SECTION).children().remove();
+    formHelpers.clearPreviousErrors('.customer-information-block');
+}
+
+/**
+ * @param {Object} customerData - data includes checkout related customer information
+ * @param {Object} orderData - data includes checkout related order information
+ */
+function updateCustomerInformation(customerData, orderData) {
+    var $container = $('.customer-summary');
+    var $summaryDetails = $container.find('.summary-details');
+    var email = customerData.profile && customerData.profile.email ? customerData.profile.email : orderData.orderEmail;
+    $summaryDetails.find('.customer-summary-email').text(email);
+    if (customerData.registeredUser) {
+        $container.find('.edit-button').hide();
+    } else {
+        $container.find('.edit-button').show();
+    }
+}
+
+
+/**
+ * Handle response from the server for valid or invalid form fields.
+ * @param {Object} defer - the deferred object which will resolve on success or reject.
+ * @param {Object} data - the response data with the invalid form fields or
+ *  valid model data.
+ */
+function customerFormResponse(defer, data) {
+    var parentForm = isGuestFormActive() ? GUEST_FORM : REGISTERED_FORM;
+    var formSelector = '.customer-section ' + parentForm;
+
+    // highlight fields with errors
+    if (data.error) {
+        if (data.fieldErrors.length) {
+            data.fieldErrors.forEach(function (error) {
+                if (Object.keys(error).length) {
+                    formHelpers.loadFormErrors(formSelector, error);
+                }
+            });
+        }
+
+        if (data.customerErrorMessage) {
+            createErrorNotification(ERROR_SECTION, data.customerErrorMessage);
+        }
+
+        if (data.fieldErrors.length || data.customerErrorMessage || (data.serverErrors && data.serverErrors.length)) {
+            defer.reject(data);
+        }
+
+        if (data.cartError) {
+            window.location.href = data.redirectUrl;
+            defer.reject();
+        }
+    } else {
+        // Populate the Address Summary
+
+        $('body').trigger('checkout:updateCheckoutView', {
+            order: data.order,
+            customer: data.customer,
+            csrfToken: data.csrfToken
+        });
+        scrollAnimate($('.shipping-form'));
+        defer.resolve(data);
+    }
+}
+
+/**
+ *
+ * @param {boolean} registered - wether a registered login block will be used
+ */
+function chooseLoginBlock(registered) {
+    $(ERROR_SECTION).find('.alert').remove();
+    $('#password').val('');
+    if (registered) {
+        $(REGISTERED_FORM).removeClass('d-none');
+        $(GUEST_FORM).addClass('d-none');
+        $('#email').val($('#email-guest').val());
+    } else {
+        $(REGISTERED_FORM).addClass('d-none');
+        $(GUEST_FORM).removeClass('d-none');
+        $('#email').val('');
+    }
+}
+
+module.exports = {
+
+    /**
+     * Listeners for customer form
+     */
+    initListeners: function () {
+        // 1. password
+        var customerLogin = '.js-login-customer';
+        var cancelLogin = '.js-cancel-login';
+        var registered;
+        if (customerLogin.length !== 0) {
+            $('body').on('click', customerLogin, function (e) {
+                registered = true;
+                e.preventDefault();
+                chooseLoginBlock(registered);
+            });
+        }
+        if (cancelLogin.length !== 0) {
+            $('body').on('click', cancelLogin, function (e) {
+                registered = false;
+                e.preventDefault();
+                chooseLoginBlock(registered);
+            });
+        }
+    },
+
+    methods: {
+        clearErrors: clearErrors,
+        updateCustomerInformation: updateCustomerInformation,
+        customerFormResponse: customerFormResponse,
+        isGuestFormActive: isGuestFormActive
+    },
+
+    vars: {
+        GUEST_FORM: GUEST_FORM,
+        REGISTERED_FORM: REGISTERED_FORM
+    }
+
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/formErrors.js":
+/*!*******************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/formErrors.js ***!
+  \*******************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var scrollAnimate = __webpack_require__(/*! ../components/scrollAnimate */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/scrollAnimate.js");
+
+/**
+ * Display error messages and highlight form fields with errors.
+ * @param {string} parentSelector - the form which contains the fields
+ * @param {Object} fieldErrors - the fields with errors
+ */
+function loadFormErrors(parentSelector, fieldErrors) { // eslint-disable-line
+    // Display error messages and highlight form fields with errors.
+    $.each(fieldErrors, function (attr) {
+        $('*[name=' + attr + ']', parentSelector)
+            .addClass('is-invalid')
+            .siblings('.invalid-feedback')
+            .html(fieldErrors[attr]);
+    });
+    // Animate to top of form that has errors
+    scrollAnimate($(parentSelector));
+}
+
+/**
+ * Clear the form errors.
+ * @param {string} parentSelector - the parent form selector.
+ */
+function clearPreviousErrors(parentSelector) {
+    $(parentSelector).find('.form-control.is-invalid').removeClass('is-invalid');
+    $('.error-message').hide();
+}
+
+module.exports = {
+    loadFormErrors: loadFormErrors,
+    clearPreviousErrors: clearPreviousErrors
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/shipping.js":
+/*!*****************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/shipping.js ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var addressHelpers = __webpack_require__(/*! ./address */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/address.js");
+var formHelpers = __webpack_require__(/*! ./formErrors */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/formErrors.js");
+var scrollAnimate = __webpack_require__(/*! ../components/scrollAnimate */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/scrollAnimate.js");
+
+/**
+ * updates the shipping address selector within shipping forms
+ * @param {Object} productLineItem - the productLineItem model
+ * @param {Object} shipping - the shipping (shipment model) model
+ * @param {Object} order - the order model
+ * @param {Object} customer - the customer model
+ */
+function updateShippingAddressSelector(productLineItem, shipping, order, customer) {
+    var uuidEl = $('input[value=' + productLineItem.UUID + ']');
+    var shippings = order.shipping;
+
+    var form;
+    var $shippingAddressSelector;
+    var hasSelectedAddress = false;
+
+    if (uuidEl && uuidEl.length > 0) {
+        form = uuidEl[0].form;
+        $shippingAddressSelector = $('.addressSelector', form);
+    }
+
+    if ($shippingAddressSelector && $shippingAddressSelector.length === 1) {
+        $shippingAddressSelector.empty();
+        // Add New Address option
+        $shippingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+            null,
+            false,
+            order
+        ));
+
+        if (customer.addresses && customer.addresses.length > 0) {
+            $shippingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+                order.resources.accountAddresses,
+                false,
+                order
+            ));
+
+            customer.addresses.forEach(function (address) {
+                var isSelected = shipping.matchingAddressId === address.ID;
+                $shippingAddressSelector.append(
+                    addressHelpers.methods.optionValueForAddress(
+                        { UUID: 'ab_' + address.ID, shippingAddress: address },
+                        isSelected,
+                        order
+                    )
+                );
+            });
+        }
+        // Separator -
+        $shippingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+            order.resources.shippingAddresses, false, order, { className: 'multi-shipping' }
+        ));
+        shippings.forEach(function (aShipping) {
+            var isSelected = shipping.UUID === aShipping.UUID;
+            hasSelectedAddress = hasSelectedAddress || isSelected;
+            var addressOption = addressHelpers.methods.optionValueForAddress(
+                aShipping,
+                isSelected,
+                order,
+                { className: 'multi-shipping' }
+            );
+
+            var newAddress = addressOption.html() === order.resources.addNewAddress;
+            var matchingUUID = aShipping.UUID === shipping.UUID;
+            if ((newAddress && matchingUUID) || (!newAddress && matchingUUID) || (!newAddress && !matchingUUID)) {
+                $shippingAddressSelector.append(addressOption);
+            }
+            if (newAddress && !matchingUUID) {
+                $(addressOption[0]).remove();
+            }
+        });
+    }
+
+    if (!hasSelectedAddress) {
+        // show
+        $(form).addClass('hide-details');
+    } else {
+        $(form).removeClass('hide-details');
+    }
+
+    $('body').trigger('shipping:updateShippingAddressSelector', {
+        productLineItem: productLineItem,
+        shipping: shipping,
+        order: order,
+        customer: customer
+    });
+}
+
+/**
+ * updates the shipping address form values within shipping forms
+ * @param {Object} shipping - the shipping (shipment model) model
+ */
+function updateShippingAddressFormValues(shipping) {
+    var addressObject = $.extend({}, shipping.shippingAddress);
+
+    if (!addressObject) {
+        addressObject = {
+            firstName: null,
+            lastName: null,
+            address1: null,
+            address2: null,
+            city: null,
+            postalCode: null,
+            stateCode: null,
+            countryCode: null,
+            phone: null
+        };
+    }
+
+    addressObject.isGift = shipping.isGift;
+    addressObject.giftMessage = shipping.giftMessage;
+
+    $('input[value=' + shipping.UUID + ']').each(function (formIndex, el) {
+        var form = el.form;
+        if (!form) return;
+        var countryCode = addressObject.countryCode;
+
+        $('input[name$=_firstName]', form).val(addressObject.firstName);
+        $('input[name$=_lastName]', form).val(addressObject.lastName);
+        $('input[name$=_address1]', form).val(addressObject.address1);
+        $('input[name$=_address2]', form).val(addressObject.address2);
+        $('input[name$=_city]', form).val(addressObject.city);
+        $('input[name$=_postalCode]', form).val(addressObject.postalCode);
+        $('select[name$=_stateCode],input[name$=_stateCode]', form)
+            .val(addressObject.stateCode);
+
+        if (countryCode && typeof countryCode === 'object') {
+            $('select[name$=_country]', form).val(addressObject.countryCode.value);
+        } else {
+            $('select[name$=_country]', form).val(addressObject.countryCode);
+        }
+
+        $('input[name$=_phone]', form).val(addressObject.phone);
+
+        $('input[name$=_isGift]', form).prop('checked', addressObject.isGift);
+        $('textarea[name$=_giftMessage]', form).val(addressObject.isGift && addressObject.giftMessage ? addressObject.giftMessage : '');
+    });
+
+    $('body').trigger('shipping:updateShippingAddressFormValues', { shipping: shipping });
+}
+
+/**
+ * updates the shipping method radio buttons within shipping forms
+ * @param {Object} shipping - the shipping (shipment model) model
+ */
+function updateShippingMethods(shipping) {
+    var uuidEl = $('input[value=' + shipping.UUID + ']');
+    if (uuidEl && uuidEl.length > 0) {
+        $.each(uuidEl, function (shipmentIndex, el) {
+            var form = el.form;
+            if (!form) return;
+
+            var $shippingMethodList = $('.shipping-method-list', form);
+
+            if ($shippingMethodList && $shippingMethodList.length > 0) {
+                $shippingMethodList.empty();
+                var shippingMethods = shipping.applicableShippingMethods;
+                var selected = shipping.selectedShippingMethod || {};
+                var shippingMethodFormID = form.name + '_shippingAddress_shippingMethodID';
+                //
+                // Create the new rows for each shipping method
+                //
+                $.each(shippingMethods, function (methodIndex, shippingMethod) {
+                    var tmpl = $('#shipping-method-template').clone();
+                    // set input
+                    $('input', tmpl)
+                        .prop('id', 'shippingMethod-' + shippingMethod.ID + '-' + shipping.UUID)
+                        .prop('name', shippingMethodFormID)
+                        .prop('value', shippingMethod.ID)
+                        .attr('checked', shippingMethod.ID === selected.ID);
+
+                    $('label', tmpl)
+                        .prop('for', 'shippingMethod-' + shippingMethod.ID + '-' + shipping.UUID);
+                    // set shipping method name
+                    $('.display-name', tmpl).text(shippingMethod.displayName);
+                    // set or hide arrival time
+                    if (shippingMethod.estimatedArrivalTime) {
+                        $('.arrival-time', tmpl)
+                            .text('(' + shippingMethod.estimatedArrivalTime + ')')
+                            .show();
+                    }
+                    // set shipping cost
+                    $('.shipping-cost', tmpl).text(shippingMethod.shippingCost);
+                    $shippingMethodList.append(tmpl.html());
+                });
+            }
+        });
+    }
+
+    $('body').trigger('shipping:updateShippingMethods', { shipping: shipping });
+}
+
+/**
+ * Update list of available shipping methods whenever user modifies shipping address details.
+ * @param {jQuery} $shippingForm - current shipping form
+ */
+function updateShippingMethodList($shippingForm) {
+    // delay for autocomplete!
+    setTimeout(function () {
+        var $shippingMethodList = $shippingForm.find('.shipping-method-list');
+        var urlParams = addressHelpers.methods.getAddressFieldsFromUI($shippingForm);
+        var shipmentUUID = $shippingForm.find('[name=shipmentUUID]').val();
+        var url = $shippingMethodList.data('actionUrl');
+        urlParams.shipmentUUID = shipmentUUID;
+
+        $shippingMethodList.spinner().start();
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: urlParams,
+            success: function (data) {
+                if (data.error) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    $('body').trigger('checkout:updateCheckoutView',
+                        {
+                            order: data.order,
+                            customer: data.customer,
+                            options: { keepOpen: true }
+                        });
+
+                    $shippingMethodList.spinner().stop();
+                }
+            }
+        });
+    }, 300);
+}
+
+/**
+ * updates the order shipping summary for an order shipment model
+ * @param {Object} shipping - the shipping (shipment model) model
+ * @param {Object} order - the order model
+ */
+function updateShippingSummaryInformation(shipping, order) {
+    $('[data-shipment-summary=' + shipping.UUID + ']').each(function (i, el) {
+        var $container = $(el);
+        var $shippingAddressLabel = $container.find('.shipping-addr-label');
+        var $addressContainer = $container.find('.address-summary');
+        var $shippingPhone = $container.find('.shipping-phone');
+        var $methodTitle = $container.find('.shipping-method-title');
+        var $methodArrivalTime = $container.find('.shipping-method-arrival-time');
+        var $methodPrice = $container.find('.shipping-method-price');
+        var $shippingSummaryLabel = $container.find('.shipping-method-label');
+        var $summaryDetails = $container.find('.row.summary-details');
+        var giftMessageSummary = $container.find('.gift-summary');
+
+        var address = shipping.shippingAddress;
+        var selectedShippingMethod = shipping.selectedShippingMethod;
+        var isGift = shipping.isGift;
+
+        addressHelpers.methods.populateAddressSummary($addressContainer, address);
+
+        if (address && address.phone) {
+            $shippingPhone.text(address.phone);
+        } else {
+            $shippingPhone.empty();
+        }
+
+        if (selectedShippingMethod) {
+            $('body').trigger('shipping:updateAddressLabelText',
+                { selectedShippingMethod: selectedShippingMethod, resources: order.resources, shippingAddressLabel: $shippingAddressLabel });
+            $shippingSummaryLabel.show();
+            $summaryDetails.show();
+            $methodTitle.text(selectedShippingMethod.displayName);
+            if (selectedShippingMethod.estimatedArrivalTime) {
+                $methodArrivalTime.text(
+                    '( ' + selectedShippingMethod.estimatedArrivalTime + ' )'
+                );
+            } else {
+                $methodArrivalTime.empty();
+            }
+            $methodPrice.text(selectedShippingMethod.shippingCost);
+        }
+
+        if (isGift) {
+            giftMessageSummary.find('.gift-message-summary').text(shipping.giftMessage);
+            giftMessageSummary.removeClass('d-none');
+        } else {
+            giftMessageSummary.addClass('d-none');
+        }
+    });
+
+    $('body').trigger('shipping:updateShippingSummaryInformation', { shipping: shipping, order: order });
+}
+
+/**
+ * Update the read-only portion of the shipment display (per PLI)
+ * @param {Object} productLineItem - the productLineItem model
+ * @param {Object} shipping - the shipping (shipment model) model
+ * @param {Object} order - the order model
+ * @param {Object} [options] - options for updating PLI summary info
+ * @param {Object} [options.keepOpen] - if true, prevent changing PLI view mode to 'view'
+ */
+function updatePLIShippingSummaryInformation(productLineItem, shipping, order, options) {
+    var $pli = $('input[value=' + productLineItem.UUID + ']');
+    var form = $pli && $pli.length > 0 ? $pli[0].form : null;
+
+    if (!form) return;
+
+    var $viewBlock = $('.view-address-block', form);
+
+    var address = shipping.shippingAddress || {};
+    var selectedMethod = shipping.selectedShippingMethod;
+
+    var nameLine = address.firstName ? address.firstName + ' ' : '';
+    if (address.lastName) nameLine += address.lastName;
+
+    var address1Line = address.address1;
+    var address2Line = address.address2;
+
+    var phoneLine = address.phone;
+
+    var shippingCost = selectedMethod ? selectedMethod.shippingCost : '';
+    var methodNameLine = selectedMethod ? selectedMethod.displayName : '';
+    var methodArrivalTime = selectedMethod && selectedMethod.estimatedArrivalTime
+        ? '(' + selectedMethod.estimatedArrivalTime + ')'
+        : '';
+
+    var tmpl = $('#pli-shipping-summary-template').clone();
+
+    $('.ship-to-name', tmpl).text(nameLine);
+    $('.ship-to-address1', tmpl).text(address1Line);
+    $('.ship-to-address2', tmpl).text(address2Line);
+    $('.ship-to-city', tmpl).text(address.city);
+    if (address.stateCode) {
+        $('.ship-to-st', tmpl).text(address.stateCode);
+    }
+    $('.ship-to-zip', tmpl).text(address.postalCode);
+    $('.ship-to-phone', tmpl).text(phoneLine);
+
+    if (!address2Line) {
+        $('.ship-to-address2', tmpl).hide();
+    }
+
+    if (!phoneLine) {
+        $('.ship-to-phone', tmpl).hide();
+    }
+
+    if (shipping.selectedShippingMethod) {
+        $('.display-name', tmpl).text(methodNameLine);
+        $('.arrival-time', tmpl).text(methodArrivalTime);
+        $('.price', tmpl).text(shippingCost);
+    }
+
+    if (shipping.isGift) {
+        $('.gift-message-summary', tmpl).text(shipping.giftMessage);
+        var shipment = $('.gift-message-' + shipping.UUID);
+        $(shipment).val(shipping.giftMessage);
+    } else {
+        $('.gift-summary', tmpl).addClass('d-none');
+    }
+    // checking h5 title shipping to or pickup
+    var $shippingAddressLabel = $('.shipping-header-text', tmpl);
+    $('body').trigger('shipping:updateAddressLabelText',
+        { selectedShippingMethod: selectedMethod, resources: order.resources, shippingAddressLabel: $shippingAddressLabel });
+
+    $viewBlock.html(tmpl.html());
+
+    $('body').trigger('shipping:updatePLIShippingSummaryInformation', {
+        productLineItem: productLineItem,
+        shipping: shipping,
+        order: order,
+        options: options
+    });
+}
+
+/**
+ * Update the hidden form values that associate shipping info with product line items
+ * @param {Object} productLineItem - the productLineItem model
+ * @param {Object} shipping - the shipping (shipment model) model
+ */
+function updateProductLineItemShipmentUUIDs(productLineItem, shipping) {
+    $('input[value=' + productLineItem.UUID + ']').each(function (key, pli) {
+        var form = pli.form;
+        $('[name=shipmentUUID]', form).val(shipping.UUID);
+        $('[name=originalShipmentUUID]', form).val(shipping.UUID);
+
+        $(form).closest('.card').attr('data-shipment-uuid', shipping.UUID);
+    });
+
+    $('body').trigger('shipping:updateProductLineItemShipmentUUIDs', {
+        productLineItem: productLineItem,
+        shipping: shipping
+    });
+}
+
+/**
+ * Update the shipping UI for a single shipping info (shipment model)
+ * @param {Object} shipping - the shipping (shipment model) model
+ * @param {Object} order - the order/basket model
+ * @param {Object} customer - the customer model
+ * @param {Object} [options] - options for updating PLI summary info
+ * @param {Object} [options.keepOpen] - if true, prevent changing PLI view mode to 'view'
+ */
+function updateShippingInformation(shipping, order, customer, options) {
+    // First copy over shipmentUUIDs from response, to each PLI form
+    order.shipping.forEach(function (aShipping) {
+        aShipping.productLineItems.items.forEach(function (productLineItem) {
+            updateProductLineItemShipmentUUIDs(productLineItem, aShipping);
+        });
+    });
+
+    // Now update shipping information, based on those associations
+    updateShippingMethods(shipping);
+    updateShippingAddressFormValues(shipping);
+    updateShippingSummaryInformation(shipping, order);
+
+    // And update the PLI-based summary information as well
+    shipping.productLineItems.items.forEach(function (productLineItem) {
+        updateShippingAddressSelector(productLineItem, shipping, order, customer);
+        updatePLIShippingSummaryInformation(productLineItem, shipping, order, options);
+    });
+
+    $('body').trigger('shipping:updateShippingInformation', {
+        order: order,
+        shipping: shipping,
+        customer: customer,
+        options: options
+    });
+}
+
+/**
+ * Update the checkout state (single vs. multi-ship)
+ * @param {Object} order - checkout model to use as basis of new truth
+ */
+function updateMultiShipInformation(order) {
+    var $checkoutMain = $('#checkout-main');
+    var $checkbox = $('[name=usingMultiShipping]');
+    var $submitShippingBtn = $('button.submit-shipping');
+    $('.shipping-error .alert-danger').remove();
+
+    if (order.usingMultiShipping) {
+        $checkoutMain.addClass('multi-ship');
+        $checkbox.prop('checked', true);
+    } else {
+        $checkoutMain.removeClass('multi-ship');
+        $checkbox.prop('checked', null);
+        $submitShippingBtn.prop('disabled', null);
+    }
+
+    $('body').trigger('shipping:updateMultiShipInformation', { order: order });
+}
+
+/**
+  * Create an alert to display the error message
+  * @param {Object} message - Error message to display
+  */
+function createErrorNotification(message) {
+    var errorHtml = '<div class="alert alert-danger alert-dismissible valid-cart-error ' +
+    'fade show" role="alert">' +
+    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+    '<span aria-hidden="true">&times;</span>' +
+    '</button>' + message + '</div>';
+
+    $('.shipping-error').append(errorHtml);
+    scrollAnimate($('.shipping-error'));
+}
+
+/**
+ * Handle response from the server for valid or invalid form fields.
+ * @param {Object} defer - the deferred object which will resolve on success or reject.
+ * @param {Object} data - the response data with the invalid form fields or
+ *  valid model data.
+ */
+function shippingFormResponse(defer, data) {
+    var isMultiShip = $('#checkout-main').hasClass('multi-ship');
+    var formSelector = isMultiShip
+        ? '.multi-shipping .active form'
+        : '.single-shipping form';
+
+    // highlight fields with errors
+    if (data.error) {
+        if (data.fieldErrors.length) {
+            data.fieldErrors.forEach(function (error) {
+                if (Object.keys(error).length) {
+                    formHelpers.loadFormErrors(formSelector, error);
+                }
+            });
+            defer.reject(data);
+        }
+
+        if (data.serverErrors && data.serverErrors.length) {
+            $.each(data.serverErrors, function (index, element) {
+                createErrorNotification(element);
+            });
+
+            defer.reject(data);
+        }
+
+        if (data.cartError) {
+            window.location.href = data.redirectUrl;
+            defer.reject();
+        }
+    } else {
+        // Populate the Address Summary
+
+        $('body').trigger('checkout:updateCheckoutView', {
+            order: data.order,
+            customer: data.customer
+        });
+        scrollAnimate($('.payment-form'));
+        defer.resolve(data);
+    }
+}
+/**
+ * Clear out all the shipping form values and select the new address in the drop down
+ * @param {Object} order - the order object
+ */
+function clearShippingForms(order) {
+    order.shipping.forEach(function (shipping) {
+        $('input[value=' + shipping.UUID + ']').each(function (formIndex, el) {
+            var form = el.form;
+            if (!form) return;
+
+            $('input[name$=_firstName]', form).val('');
+            $('input[name$=_lastName]', form).val('');
+            $('input[name$=_address1]', form).val('');
+            $('input[name$=_address2]', form).val('');
+            $('input[name$=_city]', form).val('');
+            $('input[name$=_postalCode]', form).val('');
+            $('select[name$=_stateCode],input[name$=_stateCode]', form).val('');
+            $('select[name$=_country]', form).val('');
+
+            $('input[name$=_phone]', form).val('');
+
+            $('input[name$=_isGift]', form).prop('checked', false);
+            $('textarea[name$=_giftMessage]', form).val('');
+            $(form).find('.gift-message').addClass('d-none');
+
+            $(form).attr('data-address-mode', 'new');
+            var addressSelectorDropDown = $('.addressSelector option[value=new]', form);
+            $(addressSelectorDropDown).prop('selected', true);
+        });
+    });
+
+    $('body').trigger('shipping:clearShippingForms', { order: order });
+}
+
+/**
+ * Does Ajax call to create a server-side shipment w/ pliUUID & URL
+ * @param {string} url - string representation of endpoint URL
+ * @param {Object} shipmentData - product line item UUID
+ * @returns {Object} - promise value for async call
+ */
+function createNewShipment(url, shipmentData) {
+    $.spinner().start();
+    return $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: shipmentData
+    });
+}
+
+/**
+ * Does Ajax call to select shipping method
+ * @param {string} url - string representation of endpoint URL
+ * @param {Object} urlParams - url params
+ * @param {Object} el - element that triggered this call
+ */
+function selectShippingMethodAjax(url, urlParams, el) {
+    $.spinner().start();
+    $('body').trigger('checkout:beforeShippingMethodSelected');
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: urlParams
+    })
+        .done(function (data) {
+            if (data.error) {
+                window.location.href = data.redirectUrl;
+            } else {
+                $('body').trigger('checkout:updateCheckoutView',
+                    {
+                        order: data.order,
+                        customer: data.customer,
+                        options: { keepOpen: true },
+                        urlParams: urlParams
+                    }
+                );
+                $('body').trigger('checkout:postUpdateCheckoutView',
+                    {
+                        el: el
+                    }
+                );
+            }
+            $('body').trigger('checkout:shippingMethodSelected', data);
+            $.spinner().stop();
+        })
+        .fail(function () {
+            $.spinner().stop();
+        });
+}
+
+/**
+ * Hide and show to appropriate elements to show the multi ship shipment cards in the enter view
+ * @param {jQuery} element - The shipping content
+ */
+function enterMultishipView(element) {
+    element.find('.btn-enter-multi-ship').removeClass('d-none');
+
+    element.find('.view-address-block').addClass('d-none');
+    element.find('.shipping-address').addClass('d-none');
+    element.find('.btn-save-multi-ship.save-shipment').addClass('d-none');
+    element.find('.btn-edit-multi-ship').addClass('d-none');
+    element.find('.multi-ship-address-actions').addClass('d-none');
+}
+
+/**
+ * Hide and show to appropriate elements to show the multi ship shipment cards in the view mode
+ * @param {jQuery} element - The shipping content
+ */
+function viewMultishipAddress(element) {
+    element.find('.view-address-block').removeClass('d-none');
+    element.find('.btn-edit-multi-ship').removeClass('d-none');
+
+    element.find('.shipping-address').addClass('d-none');
+    element.find('.btn-save-multi-ship.save-shipment').addClass('d-none');
+    element.find('.btn-enter-multi-ship').addClass('d-none');
+    element.find('.multi-ship-address-actions').addClass('d-none');
+}
+
+/**
+ * Hide and show to appropriate elements that allows the user to edit multi ship address information
+ * @param {jQuery} element - The shipping content
+ */
+function editMultiShipAddress(element) {
+    // Show
+    element.find('.shipping-address').removeClass('d-none');
+    element.find('.btn-save-multi-ship.save-shipment').removeClass('d-none');
+
+    // Hide
+    element.find('.view-address-block').addClass('d-none');
+    element.find('.btn-enter-multi-ship').addClass('d-none');
+    element.find('.btn-edit-multi-ship').addClass('d-none');
+    element.find('.multi-ship-address-actions').addClass('d-none');
+
+    $('body').trigger('shipping:editMultiShipAddress', { element: element, form: element.find('.shipping-form') });
+}
+
+/**
+ * perform the proper actions once a user has clicked enter address or edit address for a shipment
+ * @param {jQuery} element - The shipping content
+ * @param {string} mode - the address mode
+ */
+function editOrEnterMultiShipInfo(element, mode) {
+    var form = $(element).closest('form');
+    var root = $(element).closest('.shipping-content');
+
+    $('body').trigger('shipping:updateDataAddressMode', { form: form, mode: mode });
+
+    editMultiShipAddress(root);
+
+    var addressInfo = addressHelpers.methods.getAddressFieldsFromUI(form);
+
+    var savedState = {
+        UUID: $('input[name=shipmentUUID]', form).val(),
+        shippingAddress: addressInfo
+    };
+
+    root.data('saved-state', JSON.stringify(savedState));
+}
+
+module.exports = {
+    methods: {
+        updateShippingAddressSelector: updateShippingAddressSelector,
+        updateShippingAddressFormValues: updateShippingAddressFormValues,
+        updateShippingMethods: updateShippingMethods,
+        updateShippingSummaryInformation: updateShippingSummaryInformation,
+        updatePLIShippingSummaryInformation: updatePLIShippingSummaryInformation,
+        updateProductLineItemShipmentUUIDs: updateProductLineItemShipmentUUIDs,
+        updateShippingInformation: updateShippingInformation,
+        updateMultiShipInformation: updateMultiShipInformation,
+        shippingFormResponse: shippingFormResponse,
+        createNewShipment: createNewShipment,
+        selectShippingMethodAjax: selectShippingMethodAjax,
+        updateShippingMethodList: updateShippingMethodList,
+        clearShippingForms: clearShippingForms,
+        editMultiShipAddress: editMultiShipAddress,
+        editOrEnterMultiShipInfo: editOrEnterMultiShipInfo,
+        createErrorNotification: createErrorNotification,
+        viewMultishipAddress: viewMultishipAddress
+    },
+
+    selectShippingMethod: function () {
+        var baseObj = this;
+
+        $('.shipping-method-list').change(function () {
+            var $shippingForm = $(this).parents('form');
+            var methodID = $(':checked', this).val();
+            var shipmentUUID = $shippingForm.find('[name=shipmentUUID]').val();
+            var urlParams = addressHelpers.methods.getAddressFieldsFromUI($shippingForm);
+            urlParams.shipmentUUID = shipmentUUID;
+            urlParams.methodID = methodID;
+            urlParams.isGift = $shippingForm.find('.gift').prop('checked');
+            urlParams.giftMessage = $shippingForm.find('textarea[name$=_giftMessage]').val();
+
+            var url = $(this).data('select-shipping-method-url');
+
+            if (baseObj.methods && baseObj.methods.selectShippingMethodAjax) {
+                baseObj.methods.selectShippingMethodAjax(url, urlParams, $(this));
+            } else {
+                selectShippingMethodAjax(url, urlParams, $(this));
+            }
+        });
+    },
+
+    toggleMultiship: function () {
+        var baseObj = this;
+
+        $('input[name="usingMultiShipping"]').on('change', function () {
+            var url = $('.multi-shipping-checkbox-block form').attr('action');
+            var usingMultiShip = this.checked;
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: { usingMultiShip: usingMultiShip },
+                success: function (response) {
+                    if (response.error) {
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        $('body').trigger('checkout:updateCheckoutView', {
+                            order: response.order,
+                            customer: response.customer
+                        });
+
+                        if ($('#checkout-main').data('customer-type') === 'guest') {
+                            if (baseObj.methods && baseObj.methods.clearShippingForms) {
+                                baseObj.methods.clearShippingForms(response.order);
+                            } else {
+                                clearShippingForms(response.order);
+                            }
+                        } else {
+                            response.order.shipping.forEach(function (shipping) {
+                                $('input[value=' + shipping.UUID + ']').each(function (formIndex, el) {
+                                    var form = el.form;
+                                    if (!form) return;
+
+                                    $(form).attr('data-address-mode', 'edit');
+                                    var addressSelectorDropDown = $(form).find('.addressSelector option[value="ab_' + shipping.matchingAddressId + '"]');
+                                    $(addressSelectorDropDown).prop('selected', true);
+                                    $('input[name$=_isGift]', form).prop('checked', false);
+                                    $('textarea[name$=_giftMessage]', form).val('');
+                                    $(form).find('.gift-message').addClass('d-none');
+                                });
+                            });
+                        }
+
+                        if (usingMultiShip) {
+                            $('body').trigger('shipping:selectMultiShipping', { data: response });
+                        } else {
+                            $('body').trigger('shipping:selectSingleShipping', { data: response });
+                        }
+                    }
+
+                    $.spinner().stop();
+                },
+                error: function () {
+                    $.spinner().stop();
+                }
+            });
+        });
+    },
+
+    selectSingleShipping: function () {
+        $('body').on('shipping:selectSingleShipping', function () {
+            $('.single-shipping .shipping-address').removeClass('d-none');
+        });
+    },
+
+    selectMultiShipping: function () {
+        var baseObj = this;
+
+        $('body').on('shipping:selectMultiShipping', function (e, data) {
+            $('.multi-shipping .shipping-address').addClass('d-none');
+
+            data.data.order.shipping.forEach(function (shipping) {
+                var element = $('.multi-shipping .card[data-shipment-uuid="' + shipping.UUID + '"]');
+
+                if (shipping.shippingAddress) {
+                    if (baseObj.methods && baseObj.methods.viewMultishipAddress) {
+                        baseObj.methods.viewMultishipAddress($(element));
+                    } else {
+                        viewMultishipAddress($(element));
+                    }
+                } else {
+                    /* eslint-disable no-lonely-if */
+                    if (baseObj.methods && baseObj.methods.enterMultishipView) {
+                        baseObj.methods.enterMultishipView($(element));
+                    } else {
+                        enterMultishipView($(element));
+                    }
+                    /* eslint-enable no-lonely-if */
+                }
+            });
+        });
+    },
+
+    selectSingleShipAddress: function () {
+        $('.single-shipping .addressSelector').on('change', function () {
+            var form = $(this).parents('form')[0];
+            var selectedOption = $('option:selected', this);
+            var attrs = selectedOption.data();
+            var shipmentUUID = selectedOption[0].value;
+            var originalUUID = $('input[name=shipmentUUID]', form).val();
+            var element;
+            Object.keys(attrs).forEach(function (attr) {
+                element = attr === 'countryCode' ? 'country' : attr;
+                $('[name$=' + element + ']', form).val(attrs[attr]);
+            });
+            $('[name$=stateCode]', form).trigger('change');
+            if (shipmentUUID === 'new') {
+                $(form).attr('data-address-mode', 'new');
+                $(form).find('.shipping-address-block').removeClass('d-none');
+            } else if (shipmentUUID === originalUUID) {
+                $(form).attr('data-address-mode', 'shipment');
+            } else if (shipmentUUID.indexOf('ab_') === 0) {
+                $(form).attr('data-address-mode', 'customer');
+            } else {
+                $(form).attr('data-address-mode', 'edit');
+            }
+        });
+    },
+
+    selectMultiShipAddress: function () {
+        var baseObj = this;
+
+        $('.multi-shipping .addressSelector').on('change', function () {
+            var form = $(this).closest('form');
+            var selectedOption = $('option:selected', this);
+            var attrs = selectedOption.data();
+            var shipmentUUID = selectedOption[0].value;
+            var originalUUID = $('input[name=shipmentUUID]', form).val();
+            var pliUUID = $('input[name=productLineItemUUID]', form).val();
+            var createNewShipmentScoped = baseObj.methods && baseObj.methods.createNewShipment ? baseObj.methods.createNewShipment : createNewShipment;
+
+            var element;
+            Object.keys(attrs).forEach(function (attr) {
+                if (attr === 'isGift') {
+                    $('[name$=' + attr + ']', form).prop('checked', attrs[attr]);
+                    $('[name$=' + attr + ']', form).trigger('change');
+                } else {
+                    element = attr === 'countryCode' ? 'country' : attr;
+                    $('[name$=' + element + ']', form).val(attrs[attr]);
+                }
+            });
+
+            if (shipmentUUID === 'new' && pliUUID) {
+                var createShipmentUrl = $(this).attr('data-create-shipment-url');
+                createNewShipmentScoped(createShipmentUrl, { productLineItemUUID: pliUUID })
+                    .done(function (response) {
+                        $.spinner().stop();
+                        if (response.error) {
+                            if (response.redirectUrl) {
+                                window.location.href = response.redirectUrl;
+                            }
+                            return;
+                        }
+
+                        $('body').trigger('checkout:updateCheckoutView',
+                            {
+                                order: response.order,
+                                customer: response.customer,
+                                options: { keepOpen: true }
+                            }
+                        );
+
+                        $(form).attr('data-address-mode', 'new');
+                    })
+                    .fail(function () {
+                        $.spinner().stop();
+                    });
+            } else if (shipmentUUID === originalUUID) {
+                $('select[name$=stateCode]', form).trigger('change');
+                $(form).attr('data-address-mode', 'shipment');
+            } else if (shipmentUUID.indexOf('ab_') === 0) {
+                var url = $(form).attr('action');
+                var serializedData = $(form).serialize();
+                createNewShipmentScoped(url, serializedData)
+                    .done(function (response) {
+                        $.spinner().stop();
+                        if (response.error) {
+                            if (response.redirectUrl) {
+                                window.location.href = response.redirectUrl;
+                            }
+                            return;
+                        }
+
+                        $('body').trigger('checkout:updateCheckoutView',
+                            {
+                                order: response.order,
+                                customer: response.customer,
+                                options: { keepOpen: true }
+                            }
+                        );
+
+                        $(form).attr('data-address-mode', 'customer');
+                        var $rootEl = $(form).closest('.shipping-content');
+                        editMultiShipAddress($rootEl);
+                    })
+                    .fail(function () {
+                        $.spinner().stop();
+                    });
+            } else {
+                var updatePLIShipmentUrl = $(form).attr('action');
+                var serializedAddress = $(form).serialize();
+                createNewShipmentScoped(updatePLIShipmentUrl, serializedAddress)
+                    .done(function (response) {
+                        $.spinner().stop();
+                        if (response.error) {
+                            if (response.redirectUrl) {
+                                window.location.href = response.redirectUrl;
+                            }
+                            return;
+                        }
+
+                        $('body').trigger('checkout:updateCheckoutView',
+                            {
+                                order: response.order,
+                                customer: response.customer,
+                                options: { keepOpen: true }
+                            }
+                        );
+
+                        $(form).attr('data-address-mode', 'edit');
+                    })
+                    .fail(function () {
+                        $.spinner().stop();
+                    });
+            }
+        });
+    },
+
+    updateShippingList: function () {
+        var baseObj = this;
+
+        $('select[name$="shippingAddress_addressFields_states_stateCode"]')
+            .on('change', function (e) {
+                if (baseObj.methods && baseObj.methods.updateShippingMethodList) {
+                    baseObj.methods.updateShippingMethodList($(e.currentTarget.form));
+                } else {
+                    updateShippingMethodList($(e.currentTarget.form));
+                }
+            });
+    },
+
+    updateDataAddressMode: function () {
+        $('body').on('shipping:updateDataAddressMode', function (e, data) {
+            $(data.form).attr('data-address-mode', data.mode);
+        });
+    },
+
+    enterMultiShipInfo: function () {
+        var baseObj = this;
+
+        $('.btn-enter-multi-ship').on('click', function (e) {
+            e.preventDefault();
+
+            if (baseObj.methods && baseObj.methods.editOrEnterMultiShipInfo) {
+                baseObj.methods.editOrEnterMultiShipInfo($(this), 'new');
+            } else {
+                editOrEnterMultiShipInfo($(this), 'new');
+            }
+        });
+    },
+
+    editMultiShipInfo: function () {
+        var baseObj = this;
+
+        $('.btn-edit-multi-ship').on('click', function (e) {
+            e.preventDefault();
+
+            if (baseObj.methods && baseObj.methods.editOrEnterMultiShipInfo) {
+                baseObj.methods.editOrEnterMultiShipInfo($(this), 'edit');
+            } else {
+                editOrEnterMultiShipInfo($(this), 'edit');
+            }
+        });
+    },
+
+    saveMultiShipInfo: function () {
+        var baseObj = this;
+
+        $('.btn-save-multi-ship').on('click', function (e) {
+            e.preventDefault();
+
+            // Save address to checkoutAddressBook
+            var form = $(this).closest('form');
+            var $rootEl = $(this).closest('.shipping-content');
+            var data = $(form).serialize();
+            var url = $(form).attr('action');
+
+            $rootEl.spinner().start();
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: data
+            })
+                .done(function (response) {
+                    formHelpers.clearPreviousErrors(form);
+                    if (response.error) {
+                        if (response.fieldErrors && response.fieldErrors.length) {
+                            response.fieldErrors.forEach(function (error) {
+                                if (Object.keys(error).length) {
+                                    formHelpers.loadFormErrors(form, error);
+                                }
+                            });
+                        } else if (response.serverErrors && response.serverErrors.length) {
+                            $.each(response.serverErrors, function (index, element) {
+                                createErrorNotification(element);
+                            });
+                        } else if (response.redirectUrl) {
+                            window.location.href = response.redirectUrl;
+                        }
+                    } else {
+                        // Update UI from response
+                        $('body').trigger('checkout:updateCheckoutView',
+                            {
+                                order: response.order,
+                                customer: response.customer
+                            }
+                        );
+
+                        if (baseObj.methods && baseObj.methods.viewMultishipAddress) {
+                            baseObj.methods.viewMultishipAddress($rootEl);
+                        } else {
+                            viewMultishipAddress($rootEl);
+                        }
+                    }
+
+                    if (response.order && response.order.shippable) {
+                        $('button.submit-shipping').attr('disabled', null);
+                    }
+
+                    $rootEl.spinner().stop();
+                })
+                .fail(function (err) {
+                    if (err.responseJSON.redirectUrl) {
+                        window.location.href = err.responseJSON.redirectUrl;
+                    }
+
+                    $rootEl.spinner().stop();
+                });
+
+            return false;
+        });
+    },
+
+    cancelMultiShipAddress: function () {
+        var baseObj = this;
+
+        $('.btn-cancel-multi-ship-address').on('click', function (e) {
+            e.preventDefault();
+
+            var form = $(this).closest('form');
+            var $rootEl = $(this).closest('.shipping-content');
+            var restoreState = $rootEl.data('saved-state');
+
+            // Should clear out changes / restore previous state
+            if (restoreState) {
+                var restoreStateObj = JSON.parse(restoreState);
+                var originalStateCode = restoreStateObj.shippingAddress.stateCode;
+                var stateCode = $('[name$=_stateCode]', form).val();
+
+                if (baseObj.methods && baseObj.methods.updateShippingAddressFormValues) {
+                    baseObj.methods.updateShippingAddressFormValues(restoreStateObj);
+                } else {
+                    updateShippingAddressFormValues(restoreStateObj);
+                }
+
+                if (stateCode !== originalStateCode) {
+                    $('[data-action=save]', form).trigger('click');
+                } else {
+                    $(form).attr('data-address-mode', 'edit');
+                    if (baseObj.methods && baseObj.methods.editMultiShipAddress) {
+                        baseObj.methods.editMultiShipAddress($rootEl);
+                    } else {
+                        editMultiShipAddress($rootEl);
+                    }
+                }
+            }
+
+            return false;
+        });
+    },
+
+    isGift: function () {
+        $('.gift').on('change', function (e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+
+            if (this.checked) {
+                $(form).find('.gift-message').removeClass('d-none');
+            } else {
+                $(form).find('.gift-message').addClass('d-none');
+                $(form).find('.gift-message').val('');
+            }
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/summary.js":
+/*!****************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/summary.js ***!
+  \****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * updates the totals summary
+ * @param {Array} totals - the totals data
+ */
+function updateTotals(totals) {
+    $('.shipping-total-cost').text(totals.totalShippingCost);
+    $('.tax-total').text(totals.totalTax);
+    $('.sub-total').text(totals.subTotal);
+    $('.grand-total-sum').text(totals.grandTotal);
+
+    if (totals.orderLevelDiscountTotal.value > 0) {
+        $('.order-discount').removeClass('hide-order-discount');
+        $('.order-discount-total').text('- ' + totals.orderLevelDiscountTotal.formatted);
+    } else {
+        $('.order-discount').addClass('hide-order-discount');
+    }
+
+    if (totals.shippingLevelDiscountTotal.value > 0) {
+        $('.shipping-discount').removeClass('hide-shipping-discount');
+        $('.shipping-discount-total').text('- ' +
+            totals.shippingLevelDiscountTotal.formatted);
+    } else {
+        $('.shipping-discount').addClass('hide-shipping-discount');
+    }
+}
+
+/**
+ * updates the order product shipping summary for an order model
+ * @param {Object} order - the order model
+ */
+function updateOrderProductSummaryInformation(order) {
+    var $productSummary = $('<div />');
+    order.shipping.forEach(function (shipping) {
+        shipping.productLineItems.items.forEach(function (lineItem) {
+            var pli = $('[data-product-line-item=' + lineItem.UUID + ']');
+            $productSummary.append(pli);
+        });
+
+        var address = shipping.shippingAddress || {};
+        var selectedMethod = shipping.selectedShippingMethod;
+
+        var nameLine = address.firstName ? address.firstName + ' ' : '';
+        if (address.lastName) nameLine += address.lastName;
+
+        var address1Line = address.address1;
+        var address2Line = address.address2;
+
+        var phoneLine = address.phone;
+
+        var shippingCost = selectedMethod ? selectedMethod.shippingCost : '';
+        var methodNameLine = selectedMethod ? selectedMethod.displayName : '';
+        var methodArrivalTime = selectedMethod && selectedMethod.estimatedArrivalTime
+            ? '( ' + selectedMethod.estimatedArrivalTime + ' )'
+            : '';
+
+        var tmpl = $('#pli-shipping-summary-template').clone();
+
+        if (shipping.productLineItems.items && shipping.productLineItems.items.length > 1) {
+            $('h5 > span').text(' - ' + shipping.productLineItems.items.length + ' '
+                + order.resources.items);
+        } else {
+            $('h5 > span').text('');
+        }
+
+        var stateRequiredAttr = $('#shippingState').attr('required');
+        var isRequired = stateRequiredAttr !== undefined && stateRequiredAttr !== false;
+        var stateExists = (shipping.shippingAddress && shipping.shippingAddress.stateCode)
+            ? shipping.shippingAddress.stateCode
+            : false;
+        var stateBoolean = false;
+        if ((isRequired && stateExists) || (!isRequired)) {
+            stateBoolean = true;
+        }
+
+        var shippingForm = $('.multi-shipping input[name="shipmentUUID"][value="' + shipping.UUID + '"]').parent();
+
+        if (shipping.shippingAddress
+            && shipping.shippingAddress.firstName
+            && shipping.shippingAddress.address1
+            && shipping.shippingAddress.city
+            && stateBoolean
+            && shipping.shippingAddress.countryCode
+            && (shipping.shippingAddress.phone || shipping.productLineItems.items[0].fromStoreId)) {
+            $('.ship-to-name', tmpl).text(nameLine);
+            $('.ship-to-address1', tmpl).text(address1Line);
+            $('.ship-to-address2', tmpl).text(address2Line);
+            $('.ship-to-city', tmpl).text(address.city);
+            if (address.stateCode) {
+                $('.ship-to-st', tmpl).text(address.stateCode);
+            }
+            $('.ship-to-zip', tmpl).text(address.postalCode);
+            $('.ship-to-phone', tmpl).text(phoneLine);
+
+            if (!address2Line) {
+                $('.ship-to-address2', tmpl).hide();
+            }
+
+            if (!phoneLine) {
+                $('.ship-to-phone', tmpl).hide();
+            }
+
+            shippingForm.find('.ship-to-message').text('');
+        } else {
+            shippingForm.find('.ship-to-message').text(order.resources.addressIncomplete);
+        }
+
+        if (shipping.isGift) {
+            $('.gift-message-summary', tmpl).text(shipping.giftMessage);
+        } else {
+            $('.gift-summary', tmpl).addClass('d-none');
+        }
+
+        // checking h5 title shipping to or pickup
+        var $shippingAddressLabel = $('.shipping-header-text', tmpl);
+        $('body').trigger('shipping:updateAddressLabelText',
+            { selectedShippingMethod: selectedMethod, resources: order.resources, shippingAddressLabel: $shippingAddressLabel });
+
+        if (shipping.selectedShippingMethod) {
+            $('.display-name', tmpl).text(methodNameLine);
+            $('.arrival-time', tmpl).text(methodArrivalTime);
+            $('.price', tmpl).text(shippingCost);
+        }
+
+        var $shippingSummary = $('<div class="multi-shipping" data-shipment-summary="'
+            + shipping.UUID + '" />');
+        $shippingSummary.html(tmpl.html());
+        $productSummary.append($shippingSummary);
+    });
+
+    $('.product-summary-block').html($productSummary.html());
+
+    // Also update the line item prices, as they might have been altered
+    $('.grand-total-price').text(order.totals.subTotal);
+    order.items.items.forEach(function (item) {
+        if (item.priceTotal && item.priceTotal.renderedPrice) {
+            $('.item-total-' + item.UUID).empty().append(item.priceTotal.renderedPrice);
+        }
+    });
+}
+
+module.exports = {
+    updateTotals: updateTotals,
+    updateOrderProductSummaryInformation: updateOrderProductSummaryInformation
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/cleave.js":
+/*!*****************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/cleave.js ***!
+  \*****************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cleave = __webpack_require__(/*! cleave.js */ "../../storefront-reference-architecture/node_modules/cleave.js/dist/cleave-esm.js").default;
+
+module.exports = {
+    handleCreditCardNumber: function (cardFieldSelector, cardTypeSelector) {
+        var cleave = new Cleave(cardFieldSelector, {
+            creditCard: true,
+            onCreditCardTypeChanged: function (type) {
+                var creditCardTypes = {
+                    visa: 'Visa',
+                    mastercard: 'Master Card',
+                    amex: 'Amex',
+                    discover: 'Discover',
+                    unknown: 'Unknown'
+                };
+
+                var cardType = creditCardTypes[Object.keys(creditCardTypes).indexOf(type) > -1
+                    ? type
+                    : 'unknown'];
+                $(cardTypeSelector).val(cardType);
+                $('.card-number-wrapper').attr('data-type', type);
+                if (type === 'visa' || type === 'mastercard' || type === 'discover') {
+                    $('#securityCode').attr('maxlength', 3);
+                } else {
+                    $('#securityCode').attr('maxlength', 4);
+                }
+            }
+        });
+
+        $(cardFieldSelector).data('cleave', cleave);
+    },
+
+    serializeData: function (form) {
+        var serializedArray = form.serializeArray();
+
+        serializedArray.forEach(function (item) {
+            if (item.name.indexOf('cardNumber') > -1) {
+                item.value = $('#cardNumber').data('cleave').getRawValue(); // eslint-disable-line
+            }
+        });
+
+        return $.param(serializedArray);
+    }
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/errorNotification.js":
+/*!****************************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/errorNotification.js ***!
+  \****************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (element, message) {
+    var errorHtml = '<div class="alert alert-danger alert-dismissible ' +
+        'fade show" role="alert">' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+        '<span aria-hidden="true">&times;</span>' +
+        '</button>' + message + '</div>';
+
+    $(element).append(errorHtml);
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/scrollAnimate.js":
+/*!************************************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/scrollAnimate.js ***!
+  \************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (element) {
+    var position = element && element.length ? element.offset().top : 0;
+    $('html, body').animate({
+        scrollTop: position
+    }, 500);
+    if (!element) {
+        $('.logo-home').focus();
+    }
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js":
+/*!****************************************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js ***!
+  \****************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (include) {
+    if (typeof include === 'function') {
+        include();
+    } else if (typeof include === 'object') {
+        Object.keys(include).forEach(function (key) {
+            if (typeof include[key] === 'function') {
+                include[key]();
+            }
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ "../../storefront-reference-architecture/node_modules/cleave.js/dist/cleave-esm.js":
+/*!***************************************************************************************************!*\
+  !*** C:/ICDLP/source/storefront-reference-architecture/node_modules/cleave.js/dist/cleave-esm.js ***!
+  \***************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(global) {var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+var NumeralFormatter = function (numeralDecimalMark,
+                                 numeralIntegerScale,
+                                 numeralDecimalScale,
+                                 numeralThousandsGroupStyle,
+                                 numeralPositiveOnly,
+                                 stripLeadingZeroes,
+                                 prefix,
+                                 signBeforePrefix,
+                                 tailPrefix,
+                                 delimiter) {
+    var owner = this;
+
+    owner.numeralDecimalMark = numeralDecimalMark || '.';
+    owner.numeralIntegerScale = numeralIntegerScale > 0 ? numeralIntegerScale : 0;
+    owner.numeralDecimalScale = numeralDecimalScale >= 0 ? numeralDecimalScale : 2;
+    owner.numeralThousandsGroupStyle = numeralThousandsGroupStyle || NumeralFormatter.groupStyle.thousand;
+    owner.numeralPositiveOnly = !!numeralPositiveOnly;
+    owner.stripLeadingZeroes = stripLeadingZeroes !== false;
+    owner.prefix = (prefix || prefix === '') ? prefix : '';
+    owner.signBeforePrefix = !!signBeforePrefix;
+    owner.tailPrefix = !!tailPrefix;
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ',';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+};
+
+NumeralFormatter.groupStyle = {
+    thousand: 'thousand',
+    lakh:     'lakh',
+    wan:      'wan',
+    none:     'none'    
+};
+
+NumeralFormatter.prototype = {
+    getRawValue: function (value) {
+        return value.replace(this.delimiterRE, '').replace(this.numeralDecimalMark, '.');
+    },
+
+    format: function (value) {
+        var owner = this, parts, partSign, partSignAndPrefix, partInteger, partDecimal = '';
+
+        // strip alphabet letters
+        value = value.replace(/[A-Za-z]/g, '')
+            // replace the first decimal mark with reserved placeholder
+            .replace(owner.numeralDecimalMark, 'M')
+
+            // strip non numeric letters except minus and "M"
+            // this is to ensure prefix has been stripped
+            .replace(/[^\dM-]/g, '')
+
+            // replace the leading minus with reserved placeholder
+            .replace(/^\-/, 'N')
+
+            // strip the other minus sign (if present)
+            .replace(/\-/g, '')
+
+            // replace the minus sign (if present)
+            .replace('N', owner.numeralPositiveOnly ? '' : '-')
+
+            // replace decimal mark
+            .replace('M', owner.numeralDecimalMark);
+
+        // strip any leading zeros
+        if (owner.stripLeadingZeroes) {
+            value = value.replace(/^(-)?0+(?=\d)/, '$1');
+        }
+
+        partSign = value.slice(0, 1) === '-' ? '-' : '';
+        if (typeof owner.prefix != 'undefined') {
+            if (owner.signBeforePrefix) {
+                partSignAndPrefix = partSign + owner.prefix;
+            } else {
+                partSignAndPrefix = owner.prefix + partSign;
+            }
+        } else {
+            partSignAndPrefix = partSign;
+        }
+        
+        partInteger = value;
+
+        if (value.indexOf(owner.numeralDecimalMark) >= 0) {
+            parts = value.split(owner.numeralDecimalMark);
+            partInteger = parts[0];
+            partDecimal = owner.numeralDecimalMark + parts[1].slice(0, owner.numeralDecimalScale);
+        }
+
+        if(partSign === '-') {
+            partInteger = partInteger.slice(1);
+        }
+
+        if (owner.numeralIntegerScale > 0) {
+          partInteger = partInteger.slice(0, owner.numeralIntegerScale);
+        }
+
+        switch (owner.numeralThousandsGroupStyle) {
+        case NumeralFormatter.groupStyle.lakh:
+            partInteger = partInteger.replace(/(\d)(?=(\d\d)+\d$)/g, '$1' + owner.delimiter);
+
+            break;
+
+        case NumeralFormatter.groupStyle.wan:
+            partInteger = partInteger.replace(/(\d)(?=(\d{4})+$)/g, '$1' + owner.delimiter);
+
+            break;
+
+        case NumeralFormatter.groupStyle.thousand:
+            partInteger = partInteger.replace(/(\d)(?=(\d{3})+$)/g, '$1' + owner.delimiter);
+
+            break;
+        }
+
+        if (owner.tailPrefix) {
+            return partSign + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '') + owner.prefix;
+        }
+
+        return partSignAndPrefix + partInteger.toString() + (owner.numeralDecimalScale > 0 ? partDecimal.toString() : '');
+    }
+};
+
+var NumeralFormatter_1 = NumeralFormatter;
+
+var DateFormatter = function (datePattern, dateMin, dateMax) {
+    var owner = this;
+
+    owner.date = [];
+    owner.blocks = [];
+    owner.datePattern = datePattern;
+    owner.dateMin = dateMin
+      .split('-')
+      .reverse()
+      .map(function(x) {
+        return parseInt(x, 10);
+      });
+    if (owner.dateMin.length === 2) owner.dateMin.unshift(0);
+
+    owner.dateMax = dateMax
+      .split('-')
+      .reverse()
+      .map(function(x) {
+        return parseInt(x, 10);
+      });
+    if (owner.dateMax.length === 2) owner.dateMax.unshift(0);
+    
+    owner.initBlocks();
+};
+
+DateFormatter.prototype = {
+    initBlocks: function () {
+        var owner = this;
+        owner.datePattern.forEach(function (value) {
+            if (value === 'Y') {
+                owner.blocks.push(4);
+            } else {
+                owner.blocks.push(2);
+            }
+        });
+    },
+
+    getISOFormatDate: function () {
+        var owner = this,
+            date = owner.date;
+
+        return date[2] ? (
+            date[2] + '-' + owner.addLeadingZero(date[1]) + '-' + owner.addLeadingZero(date[0])
+        ) : '';
+    },
+
+    getBlocks: function () {
+        return this.blocks;
+    },
+
+    getValidatedDate: function (value) {
+        var owner = this, result = '';
+
+        value = value.replace(/[^\d]/g, '');
+
+        owner.blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    sub0 = sub.slice(0, 1),
+                    rest = value.slice(length);
+
+                switch (owner.datePattern[index]) {
+                case 'd':
+                    if (sub === '00') {
+                        sub = '01';
+                    } else if (parseInt(sub0, 10) > 3) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > 31) {
+                        sub = '31';
+                    }
+
+                    break;
+
+                case 'm':
+                    if (sub === '00') {
+                        sub = '01';
+                    } else if (parseInt(sub0, 10) > 1) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > 12) {
+                        sub = '12';
+                    }
+
+                    break;
+                }
+
+                result += sub;
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return this.getFixedDateString(result);
+    },
+
+    getFixedDateString: function (value) {
+        var owner = this, datePattern = owner.datePattern, date = [],
+            dayIndex = 0, monthIndex = 0, yearIndex = 0,
+            dayStartIndex = 0, monthStartIndex = 0, yearStartIndex = 0,
+            day, month, year, fullYearDone = false;
+
+        // mm-dd || dd-mm
+        if (value.length === 4 && datePattern[0].toLowerCase() !== 'y' && datePattern[1].toLowerCase() !== 'y') {
+            dayStartIndex = datePattern[0] === 'd' ? 0 : 2;
+            monthStartIndex = 2 - dayStartIndex;
+            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+
+            date = this.getFixedDate(day, month, 0);
+        }
+
+        // yyyy-mm-dd || yyyy-dd-mm || mm-dd-yyyy || dd-mm-yyyy || dd-yyyy-mm || mm-yyyy-dd
+        if (value.length === 8) {
+            datePattern.forEach(function (type, index) {
+                switch (type) {
+                case 'd':
+                    dayIndex = index;
+                    break;
+                case 'm':
+                    monthIndex = index;
+                    break;
+                default:
+                    yearIndex = index;
+                    break;
+                }
+            });
+
+            yearStartIndex = yearIndex * 2;
+            dayStartIndex = (dayIndex <= yearIndex) ? dayIndex * 2 : (dayIndex * 2 + 2);
+            monthStartIndex = (monthIndex <= yearIndex) ? monthIndex * 2 : (monthIndex * 2 + 2);
+
+            day = parseInt(value.slice(dayStartIndex, dayStartIndex + 2), 10);
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+            date = this.getFixedDate(day, month, year);
+        }
+
+        // mm-yy || yy-mm
+        if (value.length === 4 && (datePattern[0] === 'y' || datePattern[1] === 'y')) {
+            monthStartIndex = datePattern[0] === 'm' ? 0 : 2;
+            yearStartIndex = 2 - monthStartIndex;
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 2), 10);
+
+            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 2).length === 2;
+
+            date = [0, month, year];
+        }
+
+        // mm-yyyy || yyyy-mm
+        if (value.length === 6 && (datePattern[0] === 'Y' || datePattern[1] === 'Y')) {
+            monthStartIndex = datePattern[0] === 'm' ? 0 : 4;
+            yearStartIndex = 2 - 0.5 * monthStartIndex;
+            month = parseInt(value.slice(monthStartIndex, monthStartIndex + 2), 10);
+            year = parseInt(value.slice(yearStartIndex, yearStartIndex + 4), 10);
+
+            fullYearDone = value.slice(yearStartIndex, yearStartIndex + 4).length === 4;
+
+            date = [0, month, year];
+        }
+
+        date = owner.getRangeFixedDate(date);
+        owner.date = date;
+
+        var result = date.length === 0 ? value : datePattern.reduce(function (previous, current) {
+            switch (current) {
+            case 'd':
+                return previous + (date[0] === 0 ? '' : owner.addLeadingZero(date[0]));
+            case 'm':
+                return previous + (date[1] === 0 ? '' : owner.addLeadingZero(date[1]));
+            case 'y':
+                return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], false) : '');
+            case 'Y':
+                return previous + (fullYearDone ? owner.addLeadingZeroForYear(date[2], true) : '');
+            }
+        }, '');
+
+        return result;
+    },
+
+    getRangeFixedDate: function (date) {
+        var owner = this,
+            datePattern = owner.datePattern,
+            dateMin = owner.dateMin || [],
+            dateMax = owner.dateMax || [];
+
+        if (!date.length || (dateMin.length < 3 && dateMax.length < 3)) return date;
+
+        if (
+          datePattern.find(function(x) {
+            return x.toLowerCase() === 'y';
+          }) &&
+          date[2] === 0
+        ) return date;
+
+        if (dateMax.length && (dateMax[2] < date[2] || (
+          dateMax[2] === date[2] && (dateMax[1] < date[1] || (
+            dateMax[1] === date[1] && dateMax[0] < date[0]
+          ))
+        ))) return dateMax;
+
+        if (dateMin.length && (dateMin[2] > date[2] || (
+          dateMin[2] === date[2] && (dateMin[1] > date[1] || (
+            dateMin[1] === date[1] && dateMin[0] > date[0]
+          ))
+        ))) return dateMin;
+
+        return date;
+    },
+
+    getFixedDate: function (day, month, year) {
+        day = Math.min(day, 31);
+        month = Math.min(month, 12);
+        year = parseInt((year || 0), 10);
+
+        if ((month < 7 && month % 2 === 0) || (month > 8 && month % 2 === 1)) {
+            day = Math.min(day, month === 2 ? (this.isLeapYear(year) ? 29 : 28) : 30);
+        }
+
+        return [day, month, year];
+    },
+
+    isLeapYear: function (year) {
+        return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+    },
+
+    addLeadingZero: function (number) {
+        return (number < 10 ? '0' : '') + number;
+    },
+
+    addLeadingZeroForYear: function (number, fullYearMode) {
+        if (fullYearMode) {
+            return (number < 10 ? '000' : (number < 100 ? '00' : (number < 1000 ? '0' : ''))) + number;
+        }
+
+        return (number < 10 ? '0' : '') + number;
+    }
+};
+
+var DateFormatter_1 = DateFormatter;
+
+var TimeFormatter = function (timePattern, timeFormat) {
+    var owner = this;
+
+    owner.time = [];
+    owner.blocks = [];
+    owner.timePattern = timePattern;
+    owner.timeFormat = timeFormat;
+    owner.initBlocks();
+};
+
+TimeFormatter.prototype = {
+    initBlocks: function () {
+        var owner = this;
+        owner.timePattern.forEach(function () {
+            owner.blocks.push(2);
+        });
+    },
+
+    getISOFormatTime: function () {
+        var owner = this,
+            time = owner.time;
+
+        return time[2] ? (
+            owner.addLeadingZero(time[0]) + ':' + owner.addLeadingZero(time[1]) + ':' + owner.addLeadingZero(time[2])
+        ) : '';
+    },
+
+    getBlocks: function () {
+        return this.blocks;
+    },
+
+    getTimeFormatOptions: function () {
+        var owner = this;
+        if (String(owner.timeFormat) === '12') {
+            return {
+                maxHourFirstDigit: 1,
+                maxHours: 12,
+                maxMinutesFirstDigit: 5,
+                maxMinutes: 60
+            };
+        }
+
+        return {
+            maxHourFirstDigit: 2,
+            maxHours: 23,
+            maxMinutesFirstDigit: 5,
+            maxMinutes: 60
+        };
+    },
+
+    getValidatedTime: function (value) {
+        var owner = this, result = '';
+
+        value = value.replace(/[^\d]/g, '');
+
+        var timeFormatOptions = owner.getTimeFormatOptions();
+
+        owner.blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    sub0 = sub.slice(0, 1),
+                    rest = value.slice(length);
+
+                switch (owner.timePattern[index]) {
+
+                case 'h':
+                    if (parseInt(sub0, 10) > timeFormatOptions.maxHourFirstDigit) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > timeFormatOptions.maxHours) {
+                        sub = timeFormatOptions.maxHours + '';
+                    }
+
+                    break;
+
+                case 'm':
+                case 's':
+                    if (parseInt(sub0, 10) > timeFormatOptions.maxMinutesFirstDigit) {
+                        sub = '0' + sub0;
+                    } else if (parseInt(sub, 10) > timeFormatOptions.maxMinutes) {
+                        sub = timeFormatOptions.maxMinutes + '';
+                    }
+                    break;
+                }
+
+                result += sub;
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return this.getFixedTimeString(result);
+    },
+
+    getFixedTimeString: function (value) {
+        var owner = this, timePattern = owner.timePattern, time = [],
+            secondIndex = 0, minuteIndex = 0, hourIndex = 0,
+            secondStartIndex = 0, minuteStartIndex = 0, hourStartIndex = 0,
+            second, minute, hour;
+
+        if (value.length === 6) {
+            timePattern.forEach(function (type, index) {
+                switch (type) {
+                case 's':
+                    secondIndex = index * 2;
+                    break;
+                case 'm':
+                    minuteIndex = index * 2;
+                    break;
+                case 'h':
+                    hourIndex = index * 2;
+                    break;
+                }
+            });
+
+            hourStartIndex = hourIndex;
+            minuteStartIndex = minuteIndex;
+            secondStartIndex = secondIndex;
+
+            second = parseInt(value.slice(secondStartIndex, secondStartIndex + 2), 10);
+            minute = parseInt(value.slice(minuteStartIndex, minuteStartIndex + 2), 10);
+            hour = parseInt(value.slice(hourStartIndex, hourStartIndex + 2), 10);
+
+            time = this.getFixedTime(hour, minute, second);
+        }
+
+        if (value.length === 4 && owner.timePattern.indexOf('s') < 0) {
+            timePattern.forEach(function (type, index) {
+                switch (type) {
+                case 'm':
+                    minuteIndex = index * 2;
+                    break;
+                case 'h':
+                    hourIndex = index * 2;
+                    break;
+                }
+            });
+
+            hourStartIndex = hourIndex;
+            minuteStartIndex = minuteIndex;
+
+            second = 0;
+            minute = parseInt(value.slice(minuteStartIndex, minuteStartIndex + 2), 10);
+            hour = parseInt(value.slice(hourStartIndex, hourStartIndex + 2), 10);
+
+            time = this.getFixedTime(hour, minute, second);
+        }
+
+        owner.time = time;
+
+        return time.length === 0 ? value : timePattern.reduce(function (previous, current) {
+            switch (current) {
+            case 's':
+                return previous + owner.addLeadingZero(time[2]);
+            case 'm':
+                return previous + owner.addLeadingZero(time[1]);
+            case 'h':
+                return previous + owner.addLeadingZero(time[0]);
+            }
+        }, '');
+    },
+
+    getFixedTime: function (hour, minute, second) {
+        second = Math.min(parseInt(second || 0, 10), 60);
+        minute = Math.min(minute, 60);
+        hour = Math.min(hour, 60);
+
+        return [hour, minute, second];
+    },
+
+    addLeadingZero: function (number) {
+        return (number < 10 ? '0' : '') + number;
+    }
+};
+
+var TimeFormatter_1 = TimeFormatter;
+
+var PhoneFormatter = function (formatter, delimiter) {
+    var owner = this;
+
+    owner.delimiter = (delimiter || delimiter === '') ? delimiter : ' ';
+    owner.delimiterRE = delimiter ? new RegExp('\\' + delimiter, 'g') : '';
+
+    owner.formatter = formatter;
+};
+
+PhoneFormatter.prototype = {
+    setFormatter: function (formatter) {
+        this.formatter = formatter;
+    },
+
+    format: function (phoneNumber) {
+        var owner = this;
+
+        owner.formatter.clear();
+
+        // only keep number and +
+        phoneNumber = phoneNumber.replace(/[^\d+]/g, '');
+
+        // strip non-leading +
+        phoneNumber = phoneNumber.replace(/^\+/, 'B').replace(/\+/g, '').replace('B', '+');
+
+        // strip delimiter
+        phoneNumber = phoneNumber.replace(owner.delimiterRE, '');
+
+        var result = '', current, validated = false;
+
+        for (var i = 0, iMax = phoneNumber.length; i < iMax; i++) {
+            current = owner.formatter.inputDigit(phoneNumber.charAt(i));
+
+            // has ()- or space inside
+            if (/[\s()-]/g.test(current)) {
+                result = current;
+
+                validated = true;
+            } else {
+                if (!validated) {
+                    result = current;
+                }
+                // else: over length input
+                // it turns to invalid number again
+            }
+        }
+
+        // strip ()
+        // e.g. US: 7161234567 returns (716) 123-4567
+        result = result.replace(/[()]/g, '');
+        // replace library delimiter with user customized delimiter
+        result = result.replace(/[\s-]/g, owner.delimiter);
+
+        return result;
+    }
+};
+
+var PhoneFormatter_1 = PhoneFormatter;
+
+var CreditCardDetector = {
+    blocks: {
+        uatp:          [4, 5, 6],
+        amex:          [4, 6, 5],
+        diners:        [4, 6, 4],
+        discover:      [4, 4, 4, 4],
+        mastercard:    [4, 4, 4, 4],
+        dankort:       [4, 4, 4, 4],
+        instapayment:  [4, 4, 4, 4],
+        jcb15:         [4, 6, 5],
+        jcb:           [4, 4, 4, 4],
+        maestro:       [4, 4, 4, 4],
+        visa:          [4, 4, 4, 4],
+        mir:           [4, 4, 4, 4],
+        unionPay:      [4, 4, 4, 4],
+        general:       [4, 4, 4, 4]
+    },
+
+    re: {
+        // starts with 1; 15 digits, not starts with 1800 (jcb card)
+        uatp: /^(?!1800)1\d{0,14}/,
+
+        // starts with 34/37; 15 digits
+        amex: /^3[47]\d{0,13}/,
+
+        // starts with 6011/65/644-649; 16 digits
+        discover: /^(?:6011|65\d{0,2}|64[4-9]\d?)\d{0,12}/,
+
+        // starts with 300-305/309 or 36/38/39; 14 digits
+        diners: /^3(?:0([0-5]|9)|[689]\d?)\d{0,11}/,
+
+        // starts with 51-55/2221–2720; 16 digits
+        mastercard: /^(5[1-5]\d{0,2}|22[2-9]\d{0,1}|2[3-7]\d{0,2})\d{0,12}/,
+
+        // starts with 5019/4175/4571; 16 digits
+        dankort: /^(5019|4175|4571)\d{0,12}/,
+
+        // starts with 637-639; 16 digits
+        instapayment: /^63[7-9]\d{0,13}/,
+
+        // starts with 2131/1800; 15 digits
+        jcb15: /^(?:2131|1800)\d{0,11}/,
+
+        // starts with 2131/1800/35; 16 digits
+        jcb: /^(?:35\d{0,2})\d{0,12}/,
+
+        // starts with 50/56-58/6304/67; 16 digits
+        maestro: /^(?:5[0678]\d{0,2}|6304|67\d{0,2})\d{0,12}/,
+
+        // starts with 22; 16 digits
+        mir: /^220[0-4]\d{0,12}/,
+
+        // starts with 4; 16 digits
+        visa: /^4\d{0,15}/,
+
+        // starts with 62/81; 16 digits
+        unionPay: /^(62|81)\d{0,14}/
+    },
+
+    getStrictBlocks: function (block) {
+      var total = block.reduce(function (prev, current) {
+        return prev + current;
+      }, 0);
+
+      return block.concat(19 - total);
+    },
+
+    getInfo: function (value, strictMode) {
+        var blocks = CreditCardDetector.blocks,
+            re = CreditCardDetector.re;
+
+        // Some credit card can have up to 19 digits number.
+        // Set strictMode to true will remove the 16 max-length restrain,
+        // however, I never found any website validate card number like
+        // this, hence probably you don't want to enable this option.
+        strictMode = !!strictMode;
+
+        for (var key in re) {
+            if (re[key].test(value)) {
+                var matchedBlocks = blocks[key];
+                return {
+                    type: key,
+                    blocks: strictMode ? this.getStrictBlocks(matchedBlocks) : matchedBlocks
+                };
+            }
+        }
+
+        return {
+            type: 'unknown',
+            blocks: strictMode ? this.getStrictBlocks(blocks.general) : blocks.general
+        };
+    }
+};
+
+var CreditCardDetector_1 = CreditCardDetector;
+
+var Util = {
+    noop: function () {
+    },
+
+    strip: function (value, re) {
+        return value.replace(re, '');
+    },
+
+    getPostDelimiter: function (value, delimiter, delimiters) {
+        // single delimiter
+        if (delimiters.length === 0) {
+            return value.slice(-delimiter.length) === delimiter ? delimiter : '';
+        }
+
+        // multiple delimiters
+        var matchedDelimiter = '';
+        delimiters.forEach(function (current) {
+            if (value.slice(-current.length) === current) {
+                matchedDelimiter = current;
+            }
+        });
+
+        return matchedDelimiter;
+    },
+
+    getDelimiterREByDelimiter: function (delimiter) {
+        return new RegExp(delimiter.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'g');
+    },
+
+    getNextCursorPosition: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+      // If cursor was at the end of value, just place it back.
+      // Because new value could contain additional chars.
+      if (oldValue.length === prevPos) {
+          return newValue.length;
+      }
+
+      return prevPos + this.getPositionOffset(prevPos, oldValue, newValue, delimiter ,delimiters);
+    },
+
+    getPositionOffset: function (prevPos, oldValue, newValue, delimiter, delimiters) {
+        var oldRawValue, newRawValue, lengthOffset;
+
+        oldRawValue = this.stripDelimiters(oldValue.slice(0, prevPos), delimiter, delimiters);
+        newRawValue = this.stripDelimiters(newValue.slice(0, prevPos), delimiter, delimiters);
+        lengthOffset = oldRawValue.length - newRawValue.length;
+
+        return (lengthOffset !== 0) ? (lengthOffset / Math.abs(lengthOffset)) : 0;
+    },
+
+    stripDelimiters: function (value, delimiter, delimiters) {
+        var owner = this;
+
+        // single delimiter
+        if (delimiters.length === 0) {
+            var delimiterRE = delimiter ? owner.getDelimiterREByDelimiter(delimiter) : '';
+
+            return value.replace(delimiterRE, '');
+        }
+
+        // multiple delimiters
+        delimiters.forEach(function (current) {
+            current.split('').forEach(function (letter) {
+                value = value.replace(owner.getDelimiterREByDelimiter(letter), '');
+            });
+        });
+
+        return value;
+    },
+
+    headStr: function (str, length) {
+        return str.slice(0, length);
+    },
+
+    getMaxLength: function (blocks) {
+        return blocks.reduce(function (previous, current) {
+            return previous + current;
+        }, 0);
+    },
+
+    // strip prefix
+    // Before type  |   After type    |     Return value
+    // PEFIX-...    |   PEFIX-...     |     ''
+    // PREFIX-123   |   PEFIX-123     |     123
+    // PREFIX-123   |   PREFIX-23     |     23
+    // PREFIX-123   |   PREFIX-1234   |     1234
+    getPrefixStrippedValue: function (value, prefix, prefixLength, prevResult, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix) {
+        // No prefix
+        if (prefixLength === 0) {
+          return value;
+        }
+
+        // Value is prefix
+        if (value === prefix && value !== '') {
+          return '';
+        }
+
+        if (signBeforePrefix && (value.slice(0, 1) == '-')) {
+            var prev = (prevResult.slice(0, 1) == '-') ? prevResult.slice(1) : prevResult;
+            return '-' + this.getPrefixStrippedValue(value.slice(1), prefix, prefixLength, prev, delimiter, delimiters, noImmediatePrefix, tailPrefix, signBeforePrefix);
+        }
+
+        // Pre result prefix string does not match pre-defined prefix
+        if (prevResult.slice(0, prefixLength) !== prefix && !tailPrefix) {
+            // Check if the first time user entered something
+            if (noImmediatePrefix && !prevResult && value) return value;
+            return '';
+        } else if (prevResult.slice(-prefixLength) !== prefix && tailPrefix) {
+            // Check if the first time user entered something
+            if (noImmediatePrefix && !prevResult && value) return value;
+            return '';
+        }
+
+        var prevValue = this.stripDelimiters(prevResult, delimiter, delimiters);
+
+        // New value has issue, someone typed in between prefix letters
+        // Revert to pre value
+        if (value.slice(0, prefixLength) !== prefix && !tailPrefix) {
+            return prevValue.slice(prefixLength);
+        } else if (value.slice(-prefixLength) !== prefix && tailPrefix) {
+            return prevValue.slice(0, -prefixLength - 1);
+        }
+
+        // No issue, strip prefix for new value
+        return tailPrefix ? value.slice(0, -prefixLength) : value.slice(prefixLength);
+    },
+
+    getFirstDiffIndex: function (prev, current) {
+        var index = 0;
+
+        while (prev.charAt(index) === current.charAt(index)) {
+            if (prev.charAt(index++) === '') {
+                return -1;
+            }
+        }
+
+        return index;
+    },
+
+    getFormattedValue: function (value, blocks, blocksLength, delimiter, delimiters, delimiterLazyShow) {
+        var result = '',
+            multipleDelimiters = delimiters.length > 0,
+            currentDelimiter = '';
+
+        // no options, normal input
+        if (blocksLength === 0) {
+            return value;
+        }
+
+        blocks.forEach(function (length, index) {
+            if (value.length > 0) {
+                var sub = value.slice(0, length),
+                    rest = value.slice(length);
+
+                if (multipleDelimiters) {
+                    currentDelimiter = delimiters[delimiterLazyShow ? (index - 1) : index] || currentDelimiter;
+                } else {
+                    currentDelimiter = delimiter;
+                }
+
+                if (delimiterLazyShow) {
+                    if (index > 0) {
+                        result += currentDelimiter;
+                    }
+
+                    result += sub;
+                } else {
+                    result += sub;
+
+                    if (sub.length === length && index < blocksLength - 1) {
+                        result += currentDelimiter;
+                    }
+                }
+
+                // update remaining string
+                value = rest;
+            }
+        });
+
+        return result;
+    },
+
+    // move cursor to the end
+    // the first time user focuses on an input with prefix
+    fixPrefixCursor: function (el, prefix, delimiter, delimiters) {
+        if (!el) {
+            return;
+        }
+
+        var val = el.value,
+            appendix = delimiter || (delimiters[0] || ' ');
+
+        if (!el.setSelectionRange || !prefix || (prefix.length + appendix.length) <= val.length) {
+            return;
+        }
+
+        var len = val.length * 2;
+
+        // set timeout to avoid blink
+        setTimeout(function () {
+            el.setSelectionRange(len, len);
+        }, 1);
+    },
+
+    // Check if input field is fully selected
+    checkFullSelection: function(value) {
+      try {
+        var selection = window.getSelection() || document.getSelection() || {};
+        return selection.toString().length === value.length;
+      } catch (ex) {
+        // Ignore
+      }
+
+      return false;
+    },
+
+    setSelection: function (element, position, doc) {
+        if (element !== this.getActiveElement(doc)) {
+            return;
+        }
+
+        // cursor is already in the end
+        if (element && element.value.length <= position) {
+          return;
+        }
+
+        if (element.createTextRange) {
+            var range = element.createTextRange();
+
+            range.move('character', position);
+            range.select();
+        } else {
+            try {
+                element.setSelectionRange(position, position);
+            } catch (e) {
+                // eslint-disable-next-line
+                console.warn('The input element type does not support selection');
+            }
+        }
+    },
+
+    getActiveElement: function(parent) {
+        var activeElement = parent.activeElement;
+        if (activeElement && activeElement.shadowRoot) {
+            return this.getActiveElement(activeElement.shadowRoot);
+        }
+        return activeElement;
+    },
+
+    isAndroid: function () {
+        return navigator && /android/i.test(navigator.userAgent);
+    },
+
+    // On Android chrome, the keyup and keydown events
+    // always return key code 229 as a composition that
+    // buffers the user’s keystrokes
+    // see https://github.com/nosir/cleave.js/issues/147
+    isAndroidBackspaceKeydown: function (lastInputValue, currentInputValue) {
+        if (!this.isAndroid() || !lastInputValue || !currentInputValue) {
+            return false;
+        }
+
+        return currentInputValue === lastInputValue.slice(0, -1);
+    }
+};
+
+var Util_1 = Util;
+
+/**
+ * Props Assignment
+ *
+ * Separate this, so react module can share the usage
+ */
+var DefaultProperties = {
+    // Maybe change to object-assign
+    // for now just keep it as simple
+    assign: function (target, opts) {
+        target = target || {};
+        opts = opts || {};
+
+        // credit card
+        target.creditCard = !!opts.creditCard;
+        target.creditCardStrictMode = !!opts.creditCardStrictMode;
+        target.creditCardType = '';
+        target.onCreditCardTypeChanged = opts.onCreditCardTypeChanged || (function () {});
+
+        // phone
+        target.phone = !!opts.phone;
+        target.phoneRegionCode = opts.phoneRegionCode || 'AU';
+        target.phoneFormatter = {};
+
+        // time
+        target.time = !!opts.time;
+        target.timePattern = opts.timePattern || ['h', 'm', 's'];
+        target.timeFormat = opts.timeFormat || '24';
+        target.timeFormatter = {};
+
+        // date
+        target.date = !!opts.date;
+        target.datePattern = opts.datePattern || ['d', 'm', 'Y'];
+        target.dateMin = opts.dateMin || '';
+        target.dateMax = opts.dateMax || '';
+        target.dateFormatter = {};
+
+        // numeral
+        target.numeral = !!opts.numeral;
+        target.numeralIntegerScale = opts.numeralIntegerScale > 0 ? opts.numeralIntegerScale : 0;
+        target.numeralDecimalScale = opts.numeralDecimalScale >= 0 ? opts.numeralDecimalScale : 2;
+        target.numeralDecimalMark = opts.numeralDecimalMark || '.';
+        target.numeralThousandsGroupStyle = opts.numeralThousandsGroupStyle || 'thousand';
+        target.numeralPositiveOnly = !!opts.numeralPositiveOnly;
+        target.stripLeadingZeroes = opts.stripLeadingZeroes !== false;
+        target.signBeforePrefix = !!opts.signBeforePrefix;
+        target.tailPrefix = !!opts.tailPrefix;
+
+        // others
+        target.swapHiddenInput = !!opts.swapHiddenInput;
+        
+        target.numericOnly = target.creditCard || target.date || !!opts.numericOnly;
+
+        target.uppercase = !!opts.uppercase;
+        target.lowercase = !!opts.lowercase;
+
+        target.prefix = (target.creditCard || target.date) ? '' : (opts.prefix || '');
+        target.noImmediatePrefix = !!opts.noImmediatePrefix;
+        target.prefixLength = target.prefix.length;
+        target.rawValueTrimPrefix = !!opts.rawValueTrimPrefix;
+        target.copyDelimiter = !!opts.copyDelimiter;
+
+        target.initValue = (opts.initValue !== undefined && opts.initValue !== null) ? opts.initValue.toString() : '';
+
+        target.delimiter =
+            (opts.delimiter || opts.delimiter === '') ? opts.delimiter :
+                (opts.date ? '/' :
+                    (opts.time ? ':' :
+                        (opts.numeral ? ',' :
+                            (opts.phone ? ' ' :
+                                ' '))));
+        target.delimiterLength = target.delimiter.length;
+        target.delimiterLazyShow = !!opts.delimiterLazyShow;
+        target.delimiters = opts.delimiters || [];
+
+        target.blocks = opts.blocks || [];
+        target.blocksLength = target.blocks.length;
+
+        target.root = (typeof commonjsGlobal === 'object' && commonjsGlobal) ? commonjsGlobal : window;
+        target.document = opts.document || target.root.document;
+
+        target.maxLength = 0;
+
+        target.backspace = false;
+        target.result = '';
+
+        target.onValueChanged = opts.onValueChanged || (function () {});
+
+        return target;
+    }
+};
+
+var DefaultProperties_1 = DefaultProperties;
+
+/**
+ * Construct a new Cleave instance by passing the configuration object
+ *
+ * @param {String | HTMLElement} element
+ * @param {Object} opts
+ */
+var Cleave = function (element, opts) {
+    var owner = this;
+    var hasMultipleElements = false;
+
+    if (typeof element === 'string') {
+        owner.element = document.querySelector(element);
+        hasMultipleElements = document.querySelectorAll(element).length > 1;
+    } else {
+      if (typeof element.length !== 'undefined' && element.length > 0) {
+        owner.element = element[0];
+        hasMultipleElements = element.length > 1;
+      } else {
+        owner.element = element;
+      }
+    }
+
+    if (!owner.element) {
+        throw new Error('[cleave.js] Please check the element');
+    }
+
+    if (hasMultipleElements) {
+      try {
+        // eslint-disable-next-line
+        console.warn('[cleave.js] Multiple input fields matched, cleave.js will only take the first one.');
+      } catch (e) {
+        // Old IE
+      }
+    }
+
+    opts.initValue = owner.element.value;
+
+    owner.properties = Cleave.DefaultProperties.assign({}, opts);
+
+    owner.init();
+};
+
+Cleave.prototype = {
+    init: function () {
+        var owner = this, pps = owner.properties;
+
+        // no need to use this lib
+        if (!pps.numeral && !pps.phone && !pps.creditCard && !pps.time && !pps.date && (pps.blocksLength === 0 && !pps.prefix)) {
+            owner.onInput(pps.initValue);
+
+            return;
+        }
+
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+
+        owner.isAndroid = Cleave.Util.isAndroid();
+        owner.lastInputValue = '';
+        owner.isBackward = '';
+
+        owner.onChangeListener = owner.onChange.bind(owner);
+        owner.onKeyDownListener = owner.onKeyDown.bind(owner);
+        owner.onFocusListener = owner.onFocus.bind(owner);
+        owner.onCutListener = owner.onCut.bind(owner);
+        owner.onCopyListener = owner.onCopy.bind(owner);
+
+        owner.initSwapHiddenInput();
+
+        owner.element.addEventListener('input', owner.onChangeListener);
+        owner.element.addEventListener('keydown', owner.onKeyDownListener);
+        owner.element.addEventListener('focus', owner.onFocusListener);
+        owner.element.addEventListener('cut', owner.onCutListener);
+        owner.element.addEventListener('copy', owner.onCopyListener);
+
+
+        owner.initPhoneFormatter();
+        owner.initDateFormatter();
+        owner.initTimeFormatter();
+        owner.initNumeralFormatter();
+
+        // avoid touch input field if value is null
+        // otherwise Firefox will add red box-shadow for <input required />
+        if (pps.initValue || (pps.prefix && !pps.noImmediatePrefix)) {
+            owner.onInput(pps.initValue);
+        }
+    },
+
+    initSwapHiddenInput: function () {
+        var owner = this, pps = owner.properties;
+        if (!pps.swapHiddenInput) return;
+
+        var inputFormatter = owner.element.cloneNode(true);
+        owner.element.parentNode.insertBefore(inputFormatter, owner.element);
+
+        owner.elementSwapHidden = owner.element;
+        owner.elementSwapHidden.type = 'hidden';
+
+        owner.element = inputFormatter;
+        owner.element.id = '';
+    },
+
+    initNumeralFormatter: function () {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.numeral) {
+            return;
+        }
+
+        pps.numeralFormatter = new Cleave.NumeralFormatter(
+            pps.numeralDecimalMark,
+            pps.numeralIntegerScale,
+            pps.numeralDecimalScale,
+            pps.numeralThousandsGroupStyle,
+            pps.numeralPositiveOnly,
+            pps.stripLeadingZeroes,
+            pps.prefix,
+            pps.signBeforePrefix,
+            pps.tailPrefix,
+            pps.delimiter
+        );
+    },
+
+    initTimeFormatter: function() {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.time) {
+            return;
+        }
+
+        pps.timeFormatter = new Cleave.TimeFormatter(pps.timePattern, pps.timeFormat);
+        pps.blocks = pps.timeFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+    },
+
+    initDateFormatter: function () {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.date) {
+            return;
+        }
+
+        pps.dateFormatter = new Cleave.DateFormatter(pps.datePattern, pps.dateMin, pps.dateMax);
+        pps.blocks = pps.dateFormatter.getBlocks();
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Cleave.Util.getMaxLength(pps.blocks);
+    },
+
+    initPhoneFormatter: function () {
+        var owner = this, pps = owner.properties;
+
+        if (!pps.phone) {
+            return;
+        }
+
+        // Cleave.AsYouTypeFormatter should be provided by
+        // external google closure lib
+        try {
+            pps.phoneFormatter = new Cleave.PhoneFormatter(
+                new pps.root.Cleave.AsYouTypeFormatter(pps.phoneRegionCode),
+                pps.delimiter
+            );
+        } catch (ex) {
+            throw new Error('[cleave.js] Please include phone-type-formatter.{country}.js lib');
+        }
+    },
+
+    onKeyDown: function (event) {
+        var owner = this,
+            charCode = event.which || event.keyCode;
+
+        owner.lastInputValue = owner.element.value;
+        owner.isBackward = charCode === 8;
+    },
+
+    onChange: function (event) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util;
+
+        owner.isBackward = owner.isBackward || event.inputType === 'deleteContentBackward';
+
+        var postDelimiter = Util.getPostDelimiter(owner.lastInputValue, pps.delimiter, pps.delimiters);
+
+        if (owner.isBackward && postDelimiter) {
+            pps.postDelimiterBackspace = postDelimiter;
+        } else {
+            pps.postDelimiterBackspace = false;
+        }
+
+        this.onInput(this.element.value);
+    },
+
+    onFocus: function () {
+        var owner = this,
+            pps = owner.properties;
+        owner.lastInputValue = owner.element.value;
+
+        if (pps.prefix && pps.noImmediatePrefix && !owner.element.value) {
+            this.onInput(pps.prefix);
+        }
+
+        Cleave.Util.fixPrefixCursor(owner.element, pps.prefix, pps.delimiter, pps.delimiters);
+    },
+
+    onCut: function (e) {
+        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
+        this.copyClipboardData(e);
+        this.onInput('');
+    },
+
+    onCopy: function (e) {
+        if (!Cleave.Util.checkFullSelection(this.element.value)) return;
+        this.copyClipboardData(e);
+    },
+
+    copyClipboardData: function (e) {
+        var owner = this,
+            pps = owner.properties,
+            Util = Cleave.Util,
+            inputValue = owner.element.value,
+            textToCopy = '';
+
+        if (!pps.copyDelimiter) {
+            textToCopy = Util.stripDelimiters(inputValue, pps.delimiter, pps.delimiters);
+        } else {
+            textToCopy = inputValue;
+        }
+
+        try {
+            if (e.clipboardData) {
+                e.clipboardData.setData('Text', textToCopy);
+            } else {
+                window.clipboardData.setData('Text', textToCopy);
+            }
+
+            e.preventDefault();
+        } catch (ex) {
+            //  empty
+        }
+    },
+
+    onInput: function (value) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util;
+
+        // case 1: delete one more character "4"
+        // 1234*| -> hit backspace -> 123|
+        // case 2: last character is not delimiter which is:
+        // 12|34* -> hit backspace -> 1|34*
+        // note: no need to apply this for numeral mode
+        var postDelimiterAfter = Util.getPostDelimiter(value, pps.delimiter, pps.delimiters);
+        if (!pps.numeral && pps.postDelimiterBackspace && !postDelimiterAfter) {
+            value = Util.headStr(value, value.length - pps.postDelimiterBackspace.length);
+        }
+
+        // phone formatter
+        if (pps.phone) {
+            if (pps.prefix && (!pps.noImmediatePrefix || value.length)) {
+                pps.result = pps.prefix + pps.phoneFormatter.format(value).slice(pps.prefix.length);
+            } else {
+                pps.result = pps.phoneFormatter.format(value);
+            }
+            owner.updateValueState();
+
+            return;
+        }
+
+        // numeral formatter
+        if (pps.numeral) {
+            // Do not show prefix when noImmediatePrefix is specified
+            // This mostly because we need to show user the native input placeholder
+            if (pps.prefix && pps.noImmediatePrefix && value.length === 0) {
+                pps.result = '';
+            } else {
+                pps.result = pps.numeralFormatter.format(value);
+            }
+            owner.updateValueState();
+
+            return;
+        }
+
+        // date
+        if (pps.date) {
+            value = pps.dateFormatter.getValidatedDate(value);
+        }
+
+        // time
+        if (pps.time) {
+            value = pps.timeFormatter.getValidatedTime(value);
+        }
+
+        // strip delimiters
+        value = Util.stripDelimiters(value, pps.delimiter, pps.delimiters);
+
+        // strip prefix
+        value = Util.getPrefixStrippedValue(value, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
+
+        // strip non-numeric characters
+        value = pps.numericOnly ? Util.strip(value, /[^\d]/g) : value;
+
+        // convert case
+        value = pps.uppercase ? value.toUpperCase() : value;
+        value = pps.lowercase ? value.toLowerCase() : value;
+
+        // prevent from showing prefix when no immediate option enabled with empty input value
+        if (pps.prefix) {
+            if (pps.tailPrefix) {
+                value = value + pps.prefix;
+            } else {
+                value = pps.prefix + value;
+            }
+
+
+            // no blocks specified, no need to do formatting
+            if (pps.blocksLength === 0) {
+                pps.result = value;
+                owner.updateValueState();
+
+                return;
+            }
+        }
+
+        // update credit card props
+        if (pps.creditCard) {
+            owner.updateCreditCardPropsByValue(value);
+        }
+
+        // strip over length characters
+        value = Util.headStr(value, pps.maxLength);
+
+        // apply blocks
+        pps.result = Util.getFormattedValue(
+            value,
+            pps.blocks, pps.blocksLength,
+            pps.delimiter, pps.delimiters, pps.delimiterLazyShow
+        );
+
+        owner.updateValueState();
+    },
+
+    updateCreditCardPropsByValue: function (value) {
+        var owner = this, pps = owner.properties,
+            Util = Cleave.Util,
+            creditCardInfo;
+
+        // At least one of the first 4 characters has changed
+        if (Util.headStr(pps.result, 4) === Util.headStr(value, 4)) {
+            return;
+        }
+
+        creditCardInfo = Cleave.CreditCardDetector.getInfo(value, pps.creditCardStrictMode);
+
+        pps.blocks = creditCardInfo.blocks;
+        pps.blocksLength = pps.blocks.length;
+        pps.maxLength = Util.getMaxLength(pps.blocks);
+
+        // credit card type changed
+        if (pps.creditCardType !== creditCardInfo.type) {
+            pps.creditCardType = creditCardInfo.type;
+
+            pps.onCreditCardTypeChanged.call(owner, pps.creditCardType);
+        }
+    },
+
+    updateValueState: function () {
+        var owner = this,
+            Util = Cleave.Util,
+            pps = owner.properties;
+
+        if (!owner.element) {
+            return;
+        }
+
+        var endPos = owner.element.selectionEnd;
+        var oldValue = owner.element.value;
+        var newValue = pps.result;
+
+        endPos = Util.getNextCursorPosition(endPos, oldValue, newValue, pps.delimiter, pps.delimiters);
+
+        // fix Android browser type="text" input field
+        // cursor not jumping issue
+        if (owner.isAndroid) {
+            window.setTimeout(function () {
+                owner.element.value = newValue;
+                Util.setSelection(owner.element, endPos, pps.document, false);
+                owner.callOnValueChanged();
+            }, 1);
+
+            return;
+        }
+
+        owner.element.value = newValue;
+        if (pps.swapHiddenInput) owner.elementSwapHidden.value = owner.getRawValue();
+
+        Util.setSelection(owner.element, endPos, pps.document, false);
+        owner.callOnValueChanged();
+    },
+
+    callOnValueChanged: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        pps.onValueChanged.call(owner, {
+            target: {
+                name: owner.element.name,
+                value: pps.result,
+                rawValue: owner.getRawValue()
+            }
+        });
+    },
+
+    setPhoneRegionCode: function (phoneRegionCode) {
+        var owner = this, pps = owner.properties;
+
+        pps.phoneRegionCode = phoneRegionCode;
+        owner.initPhoneFormatter();
+        owner.onChange();
+    },
+
+    setRawValue: function (value) {
+        var owner = this, pps = owner.properties;
+
+        value = value !== undefined && value !== null ? value.toString() : '';
+
+        if (pps.numeral) {
+            value = value.replace('.', pps.numeralDecimalMark);
+        }
+
+        pps.postDelimiterBackspace = false;
+
+        owner.element.value = value;
+        owner.onInput(value);
+    },
+
+    getRawValue: function () {
+        var owner = this,
+            pps = owner.properties,
+            Util = Cleave.Util,
+            rawValue = owner.element.value;
+
+        if (pps.rawValueTrimPrefix) {
+            rawValue = Util.getPrefixStrippedValue(rawValue, pps.prefix, pps.prefixLength, pps.result, pps.delimiter, pps.delimiters, pps.noImmediatePrefix, pps.tailPrefix, pps.signBeforePrefix);
+        }
+
+        if (pps.numeral) {
+            rawValue = pps.numeralFormatter.getRawValue(rawValue);
+        } else {
+            rawValue = Util.stripDelimiters(rawValue, pps.delimiter, pps.delimiters);
+        }
+
+        return rawValue;
+    },
+
+    getISOFormatDate: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.date ? pps.dateFormatter.getISOFormatDate() : '';
+    },
+
+    getISOFormatTime: function () {
+        var owner = this,
+            pps = owner.properties;
+
+        return pps.time ? pps.timeFormatter.getISOFormatTime() : '';
+    },
+
+    getFormattedValue: function () {
+        return this.element.value;
+    },
+
+    destroy: function () {
+        var owner = this;
+
+        owner.element.removeEventListener('input', owner.onChangeListener);
+        owner.element.removeEventListener('keydown', owner.onKeyDownListener);
+        owner.element.removeEventListener('focus', owner.onFocusListener);
+        owner.element.removeEventListener('cut', owner.onCutListener);
+        owner.element.removeEventListener('copy', owner.onCopyListener);
+    },
+
+    toString: function () {
+        return '[Cleave Object]';
+    }
+};
+
+Cleave.NumeralFormatter = NumeralFormatter_1;
+Cleave.DateFormatter = DateFormatter_1;
+Cleave.TimeFormatter = TimeFormatter_1;
+Cleave.PhoneFormatter = PhoneFormatter_1;
+Cleave.CreditCardDetector = CreditCardDetector_1;
+Cleave.Util = Util_1;
+Cleave.DefaultProperties = DefaultProperties_1;
+
+// for angular directive
+((typeof commonjsGlobal === 'object' && commonjsGlobal) ? commonjsGlobal : window)['Cleave'] = Cleave;
+
+// CommonJS
+var Cleave_1 = Cleave;
+
+/* harmony default export */ __webpack_exports__["default"] = (Cleave_1);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../bluesnap/icdlp/node_modules/webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingACH.js":
+/*!*****************************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingACH.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * clears the BlueSnap ACH/ECP form
+ */
+function clearBluesnapACHForm() {
+    $('input[name$="_vaultACH"]').val('none');
+    $('input[name$="_routingNumber"]').val('');
+    $('input[name$="_accountNumber"]').val('');
+    $('select[name$="_accountType"]').val('CONSUMER_CHECKING');
+}
+
+/**
+ * Init the BlueSnap ACH payment tab
+ */
+function initBluesnapACHTab() {
+    var vaultShopper = 'none';
+    if (!$('.user-bluesnapach-instruments').hasClass('checkout-hidden')) {
+        vaultShopper = $('.saved-vaultedshopperach-instrument.selected-payment').data('vaultach');
+    }
+    $('input[name$="_vaultACH"]').val(vaultShopper);
+}
+
+module.exports = {
+    selectVaultedShopperAch: function () {
+        $(document).on('click', '.saved-vaultedshopperach-instrument', function (e) {
+            e.preventDefault();
+            $('.saved-vaultedshopperach-instrument').removeClass('selected-payment');
+            $(this).addClass('selected-payment');
+            var vaultAch = $(this).data('vaultach');
+            $('input[name$="_vaultACH"]').val(vaultAch);
+        });
+    },
+
+    addNewVaultedShopperAch: function () {
+        $('.btn.add-payment-vaultedshopperach').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', true);
+            clearBluesnapACHForm();
+            $('.bluesnapach-form').removeClass('checkout-hidden');
+            $('.user-bluesnapach-instruments').addClass('checkout-hidden');
+        });
+    },
+
+    cancelNewVaultedShopperAch: function () {
+        $('.cancel-new-bluesnapach-payment').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', false);
+            clearBluesnapACHForm();
+            $('.user-bluesnapach-instruments').removeClass('checkout-hidden');
+            $('.bluesnapach-form').addClass('checkout-hidden');
+            initBluesnapACHTab();
+        });
+    },
+
+    handleAchAccountType: function () {
+        $('.accountType.custom-select').on('change', function () {
+            var accountType = $(this).val();
+            if (accountType && accountType.includes('CORPORATE')) {
+                $('form input[name$="_companyName"]').prop('disabled', false);
+            } else {
+                $('form input[name$="_companyName"]').prop('disabled', true);
+            }
+        });
+    },
+
+    initBluesnapACHTab: function () {
+        initBluesnapACHTab();
+        $('.accountType.custom-select').trigger('change');
+    }
+};
+
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingCreditCard.js":
+/*!************************************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingCreditCard.js ***!
+  \************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var cleave = __webpack_require__(/*! base/components/cleave */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/cleave.js");
+
+/**
+ * clears the BlueSnap credit card form
+ */
+function clearBluesnapCreditCardForm() {
+    if (!$('#blusnapHostedData').length) {
+        $('input[name$="bluesnapcreditcardFields_vaultCreditCard"]').val('none');
+        $('input[name$="bluesnapcreditcardFields_number"]').data('cleave').setRawValue('');
+        $('select[name$="bluesnapcreditcardFields_expiration_month"]').val('');
+        $('select[name$="bluesnapcreditcardFields_expiration_year"]').val('');
+        $('input[name$="bluesnapcreditcardFields_cvn"]').val('');
+    }
+    $('input[name$="_vaultCreditCard"]').val('none');
+}
+
+/**
+ * Init the BlueSnap Credit Card payment tab
+ */
+function initCreditCardTab() {
+    var vaultShopper = 'none';
+    if (!$('.user-bluesnapcreditcard-instruments').hasClass('checkout-hidden')) {
+        vaultShopper = $('.saved-vaultedshoppercard-instrument.selected-payment').data('vaultcreditcard');
+    }
+    $('input[name$="_vaultCreditCard"]').val(vaultShopper);
+}
+
+module.exports = {
+    selectVaultedShopperCard: function () {
+        $(document).on('click', '.saved-vaultedshoppercard-instrument', function (e) {
+            e.preventDefault();
+            $('.saved-vaultedshoppercard-security-code').val('');
+            $('.saved-vaultedshoppercard-instrument').removeClass('selected-payment');
+            $(this).addClass('selected-payment');
+            $('.saved-vaultedshoppercard-instrument .card-image').removeClass('checkout-hidden');
+            $('.saved-vaultedshoppercard-instrument .security-code-input').addClass('checkout-hidden');
+            $('.saved-vaultedshoppercard-instrument.selected-payment' +
+                ' .card-image').addClass('checkout-hidden');
+            $('.saved-vaultedshoppercard-instrument.selected-payment' +
+                ' .security-code-input').removeClass('checkout-hidden');
+            var vaultShopperCard = $(this).data('vaultcreditcard');
+            $('input[name$="_vaultCreditCard"]').val(vaultShopperCard);
+        });
+    },
+
+    addNewVaultedShopperCard: function () {
+        $('.btn.add-payment-vaultedshoppercard').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', true);
+            clearBluesnapCreditCardForm();
+            $('.bluesnapcreditcard-form').removeClass('checkout-hidden');
+            $('.user-bluesnapcreditcard-instruments').addClass('checkout-hidden');
+        });
+    },
+
+    cancelNewVaultedShopperCard: function () {
+        $('.cancel-new-bluesnapcreditcard-payment').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', false);
+            clearBluesnapCreditCardForm();
+            $('.user-bluesnapcreditcard-instruments').removeClass('checkout-hidden');
+            $('.bluesnapcreditcard-form').addClass('checkout-hidden');
+            initCreditCardTab();
+        });
+    },
+
+    handleCreditCardNumber: function () {
+        if ($('#bluesnapCardNumber').length && $('#bluesnapCardType').length) {
+            cleave.handleCreditCardNumber('#bluesnapCardNumber', '#bluesnapCardType');
+        }
+    },
+
+    initCreditCardTab: initCreditCardTab()
+};
+
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingLatam.js":
+/*!*******************************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingLatam.js ***!
+  \*******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var cleave = __webpack_require__(/*! base/components/cleave */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/cleave.js");
+
+/**
+ * clears the BlueSnap credit card form
+ */
+function clearBluesnapLatamCreditCardForm() {
+    $('input[name$="BSlatAm_vaultLatamCard"]').val('none');
+    $('input[name$="BSlatAm_number"]').data('cleave').setRawValue('');
+    $('select[name$="BSlatAm_expiration_month"]').val('');
+    $('select[name$="BSlatAm_expiration_year"]').val('');
+    $('input[name$="BSlatAm_cvn"]').val('');
+    $('input[name$="BSlatAm_personalIdentificationNumber"]').val('');
+}
+
+/**
+ * Init the BlueSnap LatAm Credit Card payment tab
+ */
+function initLatamCardTab() {
+    var vaultShopper = 'none';
+    if (!$('.user-bluesnaplatamcard-instruments').hasClass('checkout-hidden')) {
+        vaultShopper = $('.saved-vaultedshopperlatamcard-instrument.selected-payment').data('vaultcreditcard');
+    }
+    $('input[name$="_vaultLatamCard"]').val(vaultShopper);
+}
+
+module.exports = {
+    selectVaultedShopperCard: function () {
+        $(document).on('click', '.saved-vaultedshopperlatamcard-instrument', function (e) {
+            e.preventDefault();
+            $('.saved-vaultedshopperlatamcard-security-code').val('');
+            $('.saved-vaultedshopperlatamcard-instrument').removeClass('selected-payment');
+            $(this).addClass('selected-payment');
+            $('.saved-vaultedshopperlatamcard-instrument .card-image').removeClass('checkout-hidden');
+            $('.saved-vaultedshopperlatamcard-instrument .security-code-input').addClass('checkout-hidden');
+            $('.saved-vaultedshopperlatamcard-instrument.selected-payment' +
+                ' .card-image').addClass('checkout-hidden');
+            $('.saved-vaultedshopperlatamcard-instrument.selected-payment' +
+                ' .security-code-input').removeClass('checkout-hidden');
+            var vaultShopperCard = $(this).data('vaultcreditcard');
+            $('input[name$="_vaultLatamCard"]').val(vaultShopperCard);
+        });
+    },
+
+    addNewVaultedShopperCard: function () {
+        $('.btn.add-payment-vaultedshopperlatam').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', true);
+            clearBluesnapLatamCreditCardForm();
+            $('.bluesnaplatamcard-form').removeClass('checkout-hidden');
+            $('.user-bluesnaplatamcard-instruments').addClass('checkout-hidden');
+        });
+    },
+
+    cancelNewVaultedShopperCard: function () {
+        $('.cancel-new-bluesnaplatamcard-payment').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', false);
+            clearBluesnapLatamCreditCardForm();
+            $('.user-bluesnaplatamcard-instruments').removeClass('checkout-hidden');
+            $('.bluesnaplatamcard-form').addClass('checkout-hidden');
+            initLatamCardTab();
+        });
+    },
+    handleCreditCardNumber: function () {
+        if ($('#bluesnapLatamCardNumber').length && $('#bluesnapLatamCardType').length) {
+            cleave.handleCreditCardNumber('#bluesnapLatamCardNumber', '#bluesnapLatamCardType');
+        }
+    },
+
+    initCreditCardTab: initLatamCardTab()
+};
+
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingSEPA.js":
+/*!******************************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingSEPA.js ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * clears the BlueSnap SEPA form
+ */
+function clearBluesnapSEPAForm() {
+    $('input[name$="_vaultSEPA"]').val('none');
+    $('input[name$="_iban"]').val('');
+}
+
+/**
+ * Init the BlueSnap SEPA payment tab
+ */
+function initBluesnapACHTab() {
+    var vaultShopper = 'none';
+    if (!$('.user-bluesnapsepa-instruments').hasClass('checkout-hidden')) {
+        vaultShopper = $('.saved-vaultedshoppersepa-instrument.selected-payment').data('vaultsepa');
+    }
+    $('input[name$="_vaultSEPA"]').val(vaultShopper);
+}
+
+
+module.exports = {
+    selectVaultedShopperSepa: function () {
+        $(document).on('click', '.saved-vaultedshoppersepa-instrument', function (e) {
+            e.preventDefault();
+            $('.saved-vaultedshoppersepa-instrument').removeClass('selected-payment');
+            $(this).addClass('selected-payment');
+            var vaultSepa = $(this).data('vaultsepa');
+            $('input[name$="_vaultSEPA"]').val(vaultSepa);
+        });
+    },
+
+    addNewVaultedShopperSepa: function () {
+        $('.btn.add-payment-vaultedshoppersepa').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', true);
+            clearBluesnapSEPAForm();
+            $('.bluesnapsepa-form').removeClass('checkout-hidden');
+            $('.user-bluesnapsepa-instruments').addClass('checkout-hidden');
+        });
+    },
+
+    cancelNewVaultedShopperSepa: function () {
+        $('.cancel-new-bluesnapsepa-payment').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', false);
+            clearBluesnapSEPAForm();
+            $('.user-bluesnapsepa-instruments').removeClass('checkout-hidden');
+            $('.bluesnapsepa-form').addClass('checkout-hidden');
+            initBluesnapACHTab();
+        });
+    },
+
+    initBluesnapACHTab: initBluesnapACHTab()
+};
+
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout.js":
+/*!******************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var processInclude = __webpack_require__(/*! base/util */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/util.js");
+
+$(document).ready(function () {
+    processInclude(__webpack_require__(/*! ./checkout/checkout */ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout/checkout.js"));
+    processInclude(__webpack_require__(/*! ./bluesnap/billingCreditCard */ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingCreditCard.js"));
+    processInclude(__webpack_require__(/*! ./bluesnap/billingACH */ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingACH.js"));
+    processInclude(__webpack_require__(/*! ./bluesnap/billingSEPA */ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingSEPA.js"));
+    processInclude(__webpack_require__(/*! ./bluesnap/billingLatam */ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/bluesnap/billingLatam.js"));
+});
+
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout/billing.js":
+/*!**************************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout/billing.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var addressHelpers = __webpack_require__(/*! base/checkout/address */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/address.js");
+var cleave = __webpack_require__(/*! base/components/cleave */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/cleave.js");
+
+/**
+ * updates the billing address selector within billing forms
+ * @param {Object} order - the order model
+ * @param {Object} customer - the customer model
+ */
+function updateBillingAddressSelector(order, customer) {
+    var shippings = order.shipping;
+
+    var form = $('form[name$=billing]')[0];
+    var $billingAddressSelector = $('.addressSelector', form);
+    var hasSelectedAddress = false;
+
+    if ($billingAddressSelector && $billingAddressSelector.length === 1) {
+        $billingAddressSelector.empty();
+        // Add New Address option
+        $billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+            null,
+            false,
+            order,
+            { type: 'billing' }));
+
+        // Separator -
+        $billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+            order.resources.shippingAddresses, false, order, {
+                // className: 'multi-shipping',
+                type: 'billing'
+            }
+        ));
+
+        shippings.forEach(function (aShipping) {
+            var isSelected = order.billing.matchingAddressId === aShipping.UUID;
+            hasSelectedAddress = hasSelectedAddress || isSelected;
+            // Shipping Address option
+            $billingAddressSelector.append(
+                addressHelpers.methods.optionValueForAddress(aShipping, isSelected, order,
+                    {
+                        // className: 'multi-shipping',
+                        type: 'billing'
+                    }
+                )
+            );
+        });
+
+        if (customer.addresses && customer.addresses.length > 0) {
+            $billingAddressSelector.append(addressHelpers.methods.optionValueForAddress(
+                order.resources.accountAddresses, false, order));
+            customer.addresses.forEach(function (address) {
+                var isSelected = order.billing.matchingAddressId === address.ID;
+                hasSelectedAddress = hasSelectedAddress || isSelected;
+                // Customer Address option
+                $billingAddressSelector.append(
+                    addressHelpers.methods.optionValueForAddress({
+                        UUID            : 'ab_' + address.ID,
+                        shippingAddress : address
+                    }, isSelected, order, { type: 'billing' })
+                );
+            });
+        }
+    }
+
+    if (hasSelectedAddress
+        || (!order.billing.matchingAddressId && order.billing.billingAddress.address)) {
+        // show
+        $(form).attr('data-address-mode', 'edit');
+    } else {
+        $(form).attr('data-address-mode', 'new');
+    }
+
+    $billingAddressSelector.show();
+}
+
+/**
+ * Updates the billing address form values within payment forms without any payment instrument validation
+ * @param {Object} order - the order model
+ */
+function updateBillingAddress(order) {
+    var billing = order.billing;
+    if (!billing.billingAddress || !billing.billingAddress.address) return;
+
+    var form = $('form[name=dwfrm_billing]');
+    if (!form) return;
+
+    $('input[name$=_firstName]', form).val(billing.billingAddress.address.firstName);
+    $('input[name$=_lastName]', form).val(billing.billingAddress.address.lastName);
+    $('input[name$=_address1]', form).val(billing.billingAddress.address.address1);
+    $('input[name$=_address2]', form).val(billing.billingAddress.address.address2);
+    $('input[name$=_city]', form).val(billing.billingAddress.address.city);
+    $('input[name$=_postalCode]', form).val(billing.billingAddress.address.postalCode);
+    $('select[name$=_stateCode],input[name$=_stateCode]', form)
+        .val(billing.billingAddress.address.stateCode);
+    $('select[name$=_country]', form).val(billing.billingAddress.address.countryCode.value);
+    $('input[name$=_phone]', form).val(billing.billingAddress.address.phone);
+    $('input[name$=_email]', form).val(order.orderEmail);
+}
+
+/**
+ * Validate and update payment instrument form fields
+ * @param {Object} order - the order model
+ */
+function validateAndUpdateBillingPaymentInstrument(order) {
+    var billing = order.billing;
+    if (!billing.payment || !billing.payment.selectedPaymentInstruments
+        || billing.payment.selectedPaymentInstruments.length <= 0) return;
+
+    var form = $('form[name=dwfrm_billing]');
+    if (!form) return;
+
+    var instrument = billing.payment.selectedPaymentInstruments[0];
+    $('select[name$=expirationMonth]', form).val(instrument.expirationMonth);
+    $('select[name$=expirationYear]', form).val(instrument.expirationYear);
+    // Force security code and card number clear
+    $('input[name$=securityCode]', form).val('');
+    $('input[name$=cardNumber]').data('cleave').setRawValue('');
+}
+
+/**
+ * Updates the billing address form values within payment forms
+ * @param {Object} order - the order model
+ */
+function updateBillingAddressFormValues(order) {
+    module.exports.methods.updateBillingAddress(order);
+    module.exports.methods.validateAndUpdateBillingPaymentInstrument(order);
+}
+
+/**
+ * clears the billing address form values
+ */
+function clearBillingAddressFormValues() {
+    updateBillingAddressFormValues({
+        billing: {
+            billingAddress: {
+                address: {
+                    countryCode: {}
+                }
+            }
+        }
+    });
+}
+
+/**
+ * update billing address summary and contact information
+ * @param {Object} order - checkout model to use as basis of new truth
+ */
+function updateBillingAddressSummary(order) {
+    // update billing address summary
+    addressHelpers.methods.populateAddressSummary('.billing .address-summary',
+        order.billing.billingAddress.address);
+
+    // update billing parts of order summary
+    $('.order-summary-email').text(order.orderEmail);
+
+    if (order.billing.billingAddress.address) {
+        $('.order-summary-phone').text(order.billing.billingAddress.address.phone);
+    }
+}
+
+/**
+ * Updates the billing information in checkout, based on the supplied order model
+ * @param {Object} order - checkout model to use as basis of new truth
+ * @param {Object} customer - customer model to use as basis of new truth
+ * @param {Object} [options] - options
+ */
+function updateBillingInformation(order, customer) {
+    updateBillingAddressSelector(order, customer);
+
+    // update billing address form
+    updateBillingAddressFormValues(order);
+
+    // update billing address summary and billing parts of order summary
+    updateBillingAddressSummary(order);
+}
+
+/**
+ * Updates the payment information in checkout, based on the supplied order model
+ * @param {Object} order - checkout model to use as basis of new truth
+ */
+function updatePaymentInformation(order) {
+    // update payment details
+    var $paymentSummary = $('.payment-details');
+    var htmlToAppend = '';
+
+    if (order.billing.payment && order.billing.payment.selectedPaymentInstruments
+        && order.billing.payment.selectedPaymentInstruments.length > 0) {
+        switch (order.billing.payment.selectedPaymentInstruments[0].paymentMethod) {
+        case 'BLUESNAP_ACH_PAYMENT':
+            htmlToAppend += '<span>' + order.resources.bluesnap.achPaymentMethod + '</span>'
+            + '<div><span>' + order.resources.bluesnap.bankAccountNumber + ' '
+            + order.billing.payment.selectedPaymentInstruments[0].bankAccountNumberLastDigits
+            + '</span></div>'
+            + '<div><span>' + order.resources.bluesnap.bankRoutingNumber + ' '
+            + order.billing.payment.selectedPaymentInstruments[0].bankRoutingNumber
+            + '</span></div>';
+            break;
+        case 'BLUESNAP_SEPA_PAYMENT':
+            htmlToAppend += '<span>' + order.resources.bluesnap.sepaPaymentMethod + '</span>'
+            + '<div><span>' + order.resources.bluesnap.iban + ' '
+            + order.billing.payment.selectedPaymentInstruments[0].iban
+            + '</span></div>';
+            break;
+        case 'BLUESNAP_GOOGLE_PAY':
+            htmlToAppend += order.resources.bluesnap.googlePay;
+            $('.btn.place-order').attr('disabled', true);
+            break;
+        case 'BLUESNAP_APPLE_PAY':
+            htmlToAppend += order.resources.bluesnap.applePay;
+            $('.btn.place-order').attr('disabled', true);
+            break;
+        case 'BLUESNAP_VISA_CHECKOUT':
+            htmlToAppend += order.resources.bluesnap.visacheCkout;
+            $('.btn.place-order').attr('disabled', true);
+            break;
+        default:
+            htmlToAppend += '<span>' + order.resources.cardType + ' '
+            + order.billing.payment.selectedPaymentInstruments[0].type
+            + '</span>';
+
+            if (order.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber) {
+                htmlToAppend += '<div>'
+                + order.billing.payment.selectedPaymentInstruments[0].maskedCreditCardNumber
+                + '</div>';
+            }
+
+            if (order.billing.payment.selectedPaymentInstruments[0].expirationMonth) {
+                htmlToAppend += '<div><span>'
+                + order.resources.cardEnding + ' '
+                + order.billing.payment.selectedPaymentInstruments[0].expirationMonth
+                + '/' + order.billing.payment.selectedPaymentInstruments[0].expirationYear
+                + '</span></div>';
+            }
+
+            break;
+        }
+    }
+
+    $paymentSummary.empty().append(htmlToAppend);
+}
+
+/**
+ * clears the credit card form
+ */
+function clearCreditCardForm() {
+    $('input[name$="_cardNumber"]').data('cleave').setRawValue('');
+    $('select[name$="_expirationMonth"]').val('');
+    $('select[name$="_expirationYear"]').val('');
+    $('input[name$="_securityCode"]').val('');
+}
+
+module.exports = {
+    methods: {
+        updateBillingAddressSelector: updateBillingAddressSelector,
+        updateBillingAddressFormValues: updateBillingAddressFormValues,
+        clearBillingAddressFormValues: clearBillingAddressFormValues,
+        updateBillingInformation: updateBillingInformation,
+        updatePaymentInformation: updatePaymentInformation,
+        clearCreditCardForm: clearCreditCardForm,
+        updateBillingAddress: updateBillingAddress,
+        validateAndUpdateBillingPaymentInstrument: validateAndUpdateBillingPaymentInstrument,
+        updateBillingAddressSummary: updateBillingAddressSummary
+    },
+
+    showBillingDetails: function () {
+        $('.btn-show-billing-details').on('click', function () {
+            $(this).parents('[data-address-mode]').attr('data-address-mode', 'new');
+        });
+    },
+
+    hideBillingDetails: function () {
+        $('.btn-hide-billing-details').on('click', function () {
+            $(this).parents('[data-address-mode]').attr('data-address-mode', 'shipment');
+        });
+    },
+
+    selectBillingAddress: function () {
+        $('.payment-form .addressSelector').on('change', function () {
+            var form = $(this).parents('form')[0];
+            var selectedOption = $('option:selected', this);
+            var optionID = selectedOption[0].value;
+
+            if (optionID === 'new') {
+                // Show Address
+                $(form).attr('data-address-mode', 'new');
+            } else {
+                // Hide Address
+                $(form).attr('data-address-mode', 'shipment');
+            }
+
+            // Copy fields
+            var attrs = selectedOption.data();
+            var element;
+
+            Object.keys(attrs).forEach(function (attr) {
+                element = attr === 'countryCode' ? 'country' : attr;
+                if (element === 'cardNumber') {
+                    $('.cardNumber').data('cleave').setRawValue(attrs[attr]);
+                } else {
+                    $('[name$=' + element + ']', form).val(attrs[attr]);
+                }
+            });
+        });
+    },
+
+    handleCreditCardNumber: function () {
+        cleave.handleCreditCardNumber('.cardNumber', '#cardType');
+    },
+
+    santitizeForm: function () {
+        $('body').on('checkout:serializeBilling', function (e, data) {
+            var serializedForm = cleave.serializeData(data.form);
+
+            data.callback(serializedForm);
+        });
+    },
+
+    selectSavedPaymentInstrument: function () {
+        $(document).on('click', '.saved-payment-instrument', function (e) {
+            e.preventDefault();
+            $('.saved-payment-security-code').val('');
+            $('.saved-payment-instrument').removeClass('selected-payment');
+            $(this).addClass('selected-payment');
+            $('.saved-payment-instrument .card-image').removeClass('checkout-hidden');
+            $('.saved-payment-instrument .security-code-input').addClass('checkout-hidden');
+            $('.saved-payment-instrument.selected-payment' +
+                ' .card-image').addClass('checkout-hidden');
+            $('.saved-payment-instrument.selected-payment ' +
+                '.security-code-input').removeClass('checkout-hidden');
+        });
+    },
+
+    addNewPaymentInstrument: function () {
+        $('.btn.add-payment').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', true);
+            clearCreditCardForm();
+            $('.credit-card-form').removeClass('checkout-hidden');
+            $('.user-payment-instruments').addClass('checkout-hidden');
+        });
+    },
+
+    cancelNewPayment: function () {
+        $('.cancel-new-payment').on('click', function (e) {
+            e.preventDefault();
+            $('.payment-information').data('is-new-payment', false);
+            clearCreditCardForm();
+            $('.user-payment-instruments').removeClass('checkout-hidden');
+            $('.credit-card-form').addClass('checkout-hidden');
+        });
+    },
+
+    clearBillingForm: function () {
+        $('body').on('checkout:clearBillingForm', function () {
+            clearBillingAddressFormValues();
+        });
+    },
+
+    paymentTabs: function () {
+        $('.payment-options .nav-item').on('click', function (e) {
+            e.preventDefault();
+            var methodID = $(this).data('method-id');
+            $('.payment-information').data('payment-method-id', methodID);
+        });
+    }
+};
+
+
+/***/ }),
+
+/***/ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout/checkout.js":
+/*!***************************************************************************************!*\
+  !*** ./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout/checkout.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var customerHelpers = __webpack_require__(/*! base/checkout/customer */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/customer.js");
+var addressHelpers = __webpack_require__(/*! base/checkout/address */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/address.js");
+var shippingHelpers = __webpack_require__(/*! base/checkout/shipping */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/shipping.js");
+var billingHelpers = __webpack_require__(/*! ./billing */ "./cartridges/int_bluesnap_sfra/cartridge/client/default/js/checkout/billing.js");
+var summaryHelpers = __webpack_require__(/*! base/checkout/summary */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/summary.js");
+var formHelpers = __webpack_require__(/*! base/checkout/formErrors */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/checkout/formErrors.js");
+var scrollAnimate = __webpack_require__(/*! base/components/scrollAnimate */ "../../storefront-reference-architecture/cartridges/app_storefront_base/cartridge/client/default/js/components/scrollAnimate.js");
+
+
+/**
+ * Create the jQuery Checkout Plugin.
+ *
+ * This jQuery plugin will be registered on the dom element in checkout.isml with the
+ * id of "checkout-main".
+ *
+ * The checkout plugin will handle the different state the user interface is in as the user
+ * progresses through the varying forms such as shipping and payment.
+ *
+ * Billing info and payment info are used a bit synonymously in this code.
+ *
+ */
+(function ($) {
+    $.fn.checkout = function () { // eslint-disable-line
+        var plugin = this;
+
+        //
+        // Collect form data from user input
+        //
+        var formData = {
+            // Customer Data
+            customer: {},
+
+            // Shipping Address
+            shipping: {},
+
+            // Billing Address
+            billing: {},
+
+            // Payment
+            payment: {},
+
+            // Gift Codes
+            giftCode: {}
+        };
+
+        //
+        // The different states/stages of checkout
+        //
+        var checkoutStages = [
+            'customer',
+            'shipping',
+            'payment',
+            'placeOrder',
+            'submitted'
+        ];
+
+        /**
+         * Updates the URL to determine stage
+         * @param {number} currentStage - The current stage the user is currently on in the checkout
+         */
+        function updateUrl(currentStage) {
+            history.pushState(
+                checkoutStages[currentStage],
+                document.title,
+                location.pathname
+                + '?stage='
+                + checkoutStages[currentStage]
+                + '#'
+                + checkoutStages[currentStage]
+            );
+        }
+
+        //
+        // Local member methods of the Checkout plugin
+        //
+        var members = {
+
+            // initialize the currentStage variable for the first time
+            currentStage: 0,
+
+            /**
+             * Set or update the checkout stage (AKA the shipping, billing, payment, etc... steps)
+             * @returns {Object} a promise
+             */
+            updateStage: function () {
+                var stage = checkoutStages[members.currentStage];
+                var defer = $.Deferred(); // eslint-disable-line
+
+                if (stage === 'customer') {
+                    //
+                    // Clear Previous Errors
+                    //
+                    customerHelpers.methods.clearErrors();
+                    //
+                    // Submit the Customer Form
+                    //
+                    var customerFormSelector = customerHelpers.methods.isGuestFormActive() ? customerHelpers.vars.GUEST_FORM : customerHelpers.vars.REGISTERED_FORM;
+                    var customerForm = $(customerFormSelector);
+                    $.ajax({
+                        url: customerForm.attr('action'),
+                        type: 'post',
+                        data: customerForm.serialize(),
+                        success: function (data) {
+                            if (data.redirectUrl) {
+                                window.location.href = data.redirectUrl;
+                            } else {
+                                customerHelpers.methods.customerFormResponse(defer, data);
+                            }
+                        },
+                        error: function (err) {
+                            if (err.responseJSON && err.responseJSON.redirectUrl) {
+                                window.location.href = err.responseJSON.redirectUrl;
+                            }
+                            // Server error submitting form
+                            defer.reject(err.responseJSON);
+                        }
+                    });
+                    return defer;
+                } else if (stage === 'shipping') {
+                    //
+                    // Clear Previous Errors
+                    //
+                    formHelpers.clearPreviousErrors('.shipping-form');
+
+                    //
+                    // Submit the Shipping Address Form
+                    //
+                    var isMultiShip = $('#checkout-main').hasClass('multi-ship');
+                    var formSelector = isMultiShip ?
+                        '.multi-shipping .active form' : '.single-shipping .shipping-form';
+                    var form = $(formSelector);
+
+                    if (isMultiShip && form.length === 0) {
+                        // disable the next:Payment button here
+                        $('body').trigger('checkout:disableButton', '.next-step-button button');
+                        // in case the multi ship form is already submitted
+                        var url = $('#checkout-main').attr('data-checkout-get-url');
+                        $.ajax({
+                            url     : url,
+                            method  : 'GET',
+                            success : function (data) {
+                                // enable the next:Payment button here
+                                $('body').trigger('checkout:enableButton', '.next-step-button button');
+                                if (!data.error) {
+                                    $('body').trigger('checkout:updateCheckoutView',
+                                        { order: data.order, customer: data.customer });
+                                    defer.resolve();
+                                } else if (data.message && $('.shipping-error .alert-danger').length < 1) {
+                                    var errorMsg = data.message;
+                                    var errorHtml = '<div class="alert alert-danger alert-dismissible valid-cart-error ' +
+                                        'fade show" role="alert">' +
+                                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                                        '<span aria-hidden="true">&times;</span>' +
+                                        '</button>' + errorMsg + '</div>';
+                                    $('.shipping-error').append(errorHtml);
+                                    scrollAnimate($('.shipping-error'));
+                                    defer.reject();
+                                } else if (data.redirectUrl) {
+                                    window.location.href = data.redirectUrl;
+                                }
+                            },
+                            error: function () {
+                                // enable the next:Payment button here
+                                $('body').trigger('checkout:enableButton', '.next-step-button button');
+                                // Server error submitting form
+                                defer.reject();
+                            }
+                        });
+                    } else {
+                        var shippingFormData = form.serialize();
+
+                        $('body').trigger('checkout:serializeShipping', {
+                            form     : form,
+                            data     : shippingFormData,
+                            callback : function (data) {
+                                shippingFormData = data;
+                            }
+                        });
+                        // disable the next:Payment button here
+                        $('body').trigger('checkout:disableButton', '.next-step-button button');
+                        $.ajax({
+                            url     : form.attr('action'),
+                            type    : 'post',
+                            data    : shippingFormData,
+                            success : function (data) {
+                                // enable the next:Payment button here
+                                $('body').trigger('checkout:enableButton', '.next-step-button button');
+                                shippingHelpers.methods.shippingFormResponse(defer, data);
+                            },
+                            error: function (err) {
+                                // enable the next:Payment button here
+                                $('body').trigger('checkout:enableButton', '.next-step-button button');
+                                if (err.responseJSON && err.responseJSON.redirectUrl) {
+                                    window.location.href = err.responseJSON.redirectUrl;
+                                }
+                                // Server error submitting form
+                                defer.reject(err.responseJSON);
+                            }
+                        });
+                    }
+                    return defer;
+                } else if (stage === 'payment') {
+                    //
+                    // Submit the Billing Address Form
+                    //
+
+                    formHelpers.clearPreviousErrors('.payment-form');
+
+                    var billingAddressForm = $('#dwfrm_billing .billing-address-block :input').serialize();
+
+                    $('body').trigger('checkout:serializeBilling', {
+                        form     : $('#dwfrm_billing .billing-address-block'),
+                        data     : billingAddressForm,
+                        callback : function (data) {
+                            if (data) {
+                                billingAddressForm = data;
+                            }
+                        }
+                    });
+
+                    var contactInfoForm = $('#dwfrm_billing .contact-info-block :input').serialize();
+
+                    $('body').trigger('checkout:serializeBilling', {
+                        form     : $('#dwfrm_billing .contact-info-block'),
+                        data     : contactInfoForm,
+                        callback : function (data) {
+                            if (data) {
+                                contactInfoForm = data;
+                            }
+                        }
+                    });
+
+                    var activeTabId = $('.tab-pane.active').attr('id');
+                    var paymentInfoSelector = '#dwfrm_billing .' + activeTabId + ' .payment-form-fields :input';
+                    var paymentInfoForm = $(paymentInfoSelector).serialize();
+
+                    $('body').trigger('checkout:serializeBilling', {
+                        form     : $(paymentInfoSelector),
+                        data     : paymentInfoForm,
+                        callback : function (data) {
+                            if (data) {
+                                paymentInfoForm = data;
+                            }
+                        }
+                    });
+
+                    var paymentForm = billingAddressForm + '&' + contactInfoForm + '&' + paymentInfoForm;
+
+                    if ($('.data-checkout-stage').data('customer-type') === 'registered') {
+                        var cvvCode = null;
+                        var cvvElement = null;
+                        switch ($('.payment-information').data('payment-method-id')) {
+                        // if payment method is credit card
+                        case 'CREDIT_CARD':
+                            if (!($('.payment-information').data('is-new-payment'))) {
+                                cvvCode = $('.saved-payment-instrument.' +
+                                    'selected-payment .saved-payment-security-code').val();
+
+                                if (cvvCode === '') {
+                                    cvvElement = $('.saved-payment-instrument.' +
+                                        'selected-payment ' +
+                                        '.form-control');
+                                    cvvElement.addClass('is-invalid');
+                                    scrollAnimate(cvvElement);
+                                    defer.reject();
+                                    return defer;
+                                }
+
+                                var $savedPaymentInstrument = $('.saved-payment-instrument' +
+                                    '.selected-payment'
+                                );
+
+                                paymentForm += '&storedPaymentUUID=' +
+                                    $savedPaymentInstrument.data('uuid');
+
+                                paymentForm += '&securityCode=' + cvvCode;
+                            }
+                            break;
+                        // if payment method is Vaulted Shopper credit card
+                        case 'BLUESNAP_CREDIT_DEBIT':
+                            if (!($('.payment-information').data('is-new-payment'))) {
+                                cvvCode = $('.saved-vaultedshoppercard-instrument.' +
+                                    'selected-payment .saved-vaultedshoppercard-security-code').val();
+
+                                if (cvvCode === '') {
+                                    cvvElement = $('.saved-vaultedshoppercard-instrument.' +
+                                        'selected-payment ' +
+                                        '.form-control');
+                                    cvvElement.addClass('is-invalid');
+                                    scrollAnimate(cvvElement);
+                                    defer.reject();
+                                    return defer;
+                                }
+
+                                paymentForm += '&securityCode=' + cvvCode;
+                            }
+                            break;
+                        // if payment method is Vaulted Shopper LatAm credit card
+                        case 'BLUESNAP_LATAM':
+                            if (!($('.payment-information').data('is-new-payment'))) {
+                                cvvCode = $('.saved-vaultedshopperlatamcard-instrument.' +
+                                    'selected-payment .saved-vaultedshopperlatamcard-security-code').val();
+
+                                if (cvvCode === '') {
+                                    cvvElement = $('.saved-vaultedshopperlatamcard-instrument.' +
+                                        'selected-payment ' +
+                                        '.saved-vaultedshopperlatamcard-security-code');
+                                    cvvElement.addClass('is-invalid');
+                                    scrollAnimate(cvvElement);
+                                    defer.reject();
+                                    return defer;
+                                }
+
+                                paymentForm += '&securityCode=' + cvvCode;
+                            }
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    // disable the next:Place Order button here
+                    $('body').trigger('checkout:disableButton', '.next-step-button button');
+
+                    $.ajax({
+                        url     : $('#dwfrm_billing').attr('action'),
+                        method  : 'POST',
+                        data    : paymentForm,
+                        success : function (data) {
+                            // enable the next:Place Order button here
+                            $('body').trigger('checkout:enableButton', '.next-step-button button');
+                            // look for field validation errors
+                            if (data.error) {
+                                if (data.fieldErrors.length) {
+                                    data.fieldErrors.forEach(function (error) {
+                                        if (Object.keys(error).length) {
+                                            formHelpers.loadFormErrors('.payment-form', error);
+                                        }
+                                    });
+                                }
+
+                                if (data.serverErrors.length) {
+                                    data.serverErrors.forEach(function (error) {
+                                        $('.error-message').show();
+                                        $('.error-message-text').text(error);
+                                        scrollAnimate($('.error-message'));
+                                    });
+                                }
+
+                                if (data.cartError) {
+                                    window.location.href = data.redirectUrl;
+                                }
+
+                                defer.reject();
+                            } else {
+                                //
+                                // Populate the Address Summary
+                                //
+                                $('body').trigger('checkout:updateCheckoutView',
+                                    { order: data.order, customer: data.customer });
+
+                                if (data.renderedPaymentInstruments) {
+                                    $('.stored-payments').empty().html(
+                                        data.renderedPaymentInstruments
+                                    );
+                                }
+
+                                if (data.customer.registeredUser
+                                    && data.customer.customerPaymentInstruments.length
+                                ) {
+                                    $('.cancel-new-payment').removeClass('checkout-hidden');
+                                }
+
+                                scrollAnimate();
+                                defer.resolve(data);
+                            }
+                        },
+                        error: function (err) {
+                            // enable the next:Place Order button here
+                            $('body').trigger('checkout:enableButton', '.next-step-button button');
+                            if (err.responseJSON && err.responseJSON.redirectUrl) {
+                                window.location.href = err.responseJSON.redirectUrl;
+                            }
+                        }
+                    });
+
+                    // Load payment button
+                    var paymentMethod = $('.payment-information').data('payment-method-id');
+                    if (paymentMethod == 'BLUESNAP_GOOGLE_PAY'
+                        || paymentMethod == 'BLUESNAP_APPLE_PAY'
+                        || paymentMethod == 'BLUESNAP_VISA_CHECKOUT') {
+                        // $('body').trigger('checkout:disableButton', '.next-step-button button');
+                        $.ajax({
+                            url     : $('#bluesnap-payment-buttons').data('url'),
+                            method  : 'POST',
+                            data    : { payment: paymentMethod },
+                            success : function (data) {
+                                $('#bluesnap-payment-buttons').empty().append(data);
+                            },
+                            error: function () {
+                            }
+                        });
+                    } else {
+                        $('#bluesnap-payment-buttons').empty();
+                    }
+
+                    return defer;
+                } else if (stage === 'placeOrder') {
+                    // disable the placeOrder button here
+                    $('body').trigger('checkout:disableButton', '.next-step-button button');
+                    $.ajax({
+                        url     : $('.place-order').data('action'),
+                        method  : 'POST',
+                        success : function (data) {
+                            // enable the placeOrder button here
+                            $('body').trigger('checkout:enableButton', '.next-step-button button');
+                            if (data.error) {
+                                if (data.cartError) {
+                                    window.location.href = data.redirectUrl;
+                                    defer.reject();
+                                } else {
+                                    // go to appropriate stage and display error message
+                                    defer.reject(data);
+                                }
+                            } else {
+                                var redirect = $('<form>')
+                                    .appendTo(document.body)
+                                    .attr({
+                                        method: 'POST',
+                                        action: data.continueUrl
+                                    });
+
+                                $('<input>')
+                                    .appendTo(redirect)
+                                    .attr({
+                                        name: 'orderID',
+                                        value: data.orderID
+                                    });
+
+                                $('<input>')
+                                    .appendTo(redirect)
+                                    .attr({
+                                        name: 'orderToken',
+                                        value: data.orderToken
+                                    });
+
+                                redirect.submit();
+                                defer.resolve(data);
+                            }
+                        },
+                        error: function () {
+                            // enable the placeOrder button here
+                            $('body').trigger('checkout:enableButton', $('.next-step-button button'));
+                        }
+                    });
+
+                    return defer;
+                }
+                var p = $('<div>').promise(); // eslint-disable-line
+                setTimeout(function () {
+                    p.done(); // eslint-disable-line
+                }, 500);
+                return p; // eslint-disable-line
+            },
+
+            /**
+             * Initialize the checkout stage.
+             *
+             */
+            initialize: function () {
+                // set the initial state of checkout
+                members.currentStage = checkoutStages
+                    .indexOf($('.data-checkout-stage').data('checkout-stage'));
+                $(plugin).attr('data-checkout-stage', checkoutStages[members.currentStage]);
+
+                $('body').on('click', '.submit-customer-login', function (e) {
+                    e.preventDefault();
+                    members.nextStage();
+                });
+
+                $('body').on('click', '.submit-customer', function (e) {
+                    e.preventDefault();
+                    members.nextStage();
+                });
+
+                //
+                // Handle Payment option selection
+                //
+                $('input[name$="paymentMethod"]', plugin).on('change', function () {
+                    $('.credit-card-form').toggle($(this).val() === 'CREDIT_CARD');
+                });
+
+                //
+                // Handle Next State button click
+                //
+                $(plugin).on('click', '.next-step-button button', function () {
+                    members.nextStage();
+                });
+
+                //
+                // Handle Edit buttons on shipping and payment summary cards
+                //
+                $('.customer-summary .edit-button', plugin).on('click', function () {
+                    members.gotoStage('customer');
+                });
+
+                $('.shipping-summary .edit-button', plugin).on('click', function () {
+                    if (!$('#checkout-main').hasClass('multi-ship')) {
+                        $('body').trigger('shipping:selectSingleShipping');
+                    }
+
+                    members.gotoStage('shipping');
+                });
+
+                $('.payment-summary .edit-button', plugin).on('click', function () {
+                    members.gotoStage('payment');
+                });
+
+                //
+                // remember stage (e.g. shipping)
+                //
+                updateUrl(members.currentStage);
+
+                //
+                // Listen for foward/back button press and move to correct checkout-stage
+                //
+                $(window).on('popstate', function (e) {
+                    //
+                    // Back button when event state less than current state in ordered
+                    // checkoutStages array.
+                    //
+                    if (e.state === null ||
+                        checkoutStages.indexOf(e.state) < members.currentStage) {
+                        members.handlePrevStage(false);
+                    } else if (checkoutStages.indexOf(e.state) > members.currentStage) {
+                        // Forward button  pressed
+                        members.handleNextStage(false);
+                    }
+                });
+
+                //
+                // Set the form data
+                //
+                plugin.data('formData', formData);
+            },
+
+            /**
+             * The next checkout state step updates the css for showing correct buttons etc...
+             */
+            nextStage: function () {
+                var promise = members.updateStage();
+
+                promise.done(function () {
+                    // Update UI with new stage
+                    $('.error-message').hide();
+                    members.handleNextStage(true);
+                });
+
+                promise.fail(function (data) {
+                    // show errors
+                    if (data) {
+                        if (data.errorStage) {
+                            members.gotoStage(data.errorStage.stage);
+
+                            if (data.errorStage.step === 'billingAddress') {
+                                var $billingAddressSameAsShipping = $(
+                                    'input[name$="_shippingAddressUseAsBillingAddress"]'
+                                );
+                                if ($billingAddressSameAsShipping.is(':checked')) {
+                                    $billingAddressSameAsShipping.prop('checked', false);
+                                }
+                            }
+                        }
+
+                        if (data.errorMessage) {
+                            $('.error-message').show();
+                            $('.error-message-text').text(data.errorMessage);
+                        }
+                    }
+                });
+            },
+
+            /**
+             * The next checkout state step updates the css for showing correct buttons etc...
+             *
+             * @param {boolean} bPushState - boolean when true pushes state using the history api.
+             */
+            handleNextStage: function (bPushState) {
+                if (members.currentStage < checkoutStages.length - 1) {
+                    // move stage forward
+                    members.currentStage++;
+
+                    //
+                    // show new stage in url (e.g.payment)
+                    //
+                    if (bPushState) {
+                        updateUrl(members.currentStage);
+                    }
+                }
+
+                // Set the next stage on the DOM
+                $(plugin).attr('data-checkout-stage', checkoutStages[members.currentStage]);
+            },
+
+            /**
+             * Previous State
+             */
+            handlePrevStage: function () {
+                if (members.currentStage > 0) {
+                    // move state back
+                    members.currentStage--;
+                    updateUrl(members.currentStage);
+                }
+
+                $(plugin).attr('data-checkout-stage', checkoutStages[members.currentStage]);
+            },
+
+            /**
+             * Use window history to go to a checkout stage
+             * @param {string} stageName - the checkout state to goto
+             */
+            gotoStage: function (stageName) {
+                members.currentStage = checkoutStages.indexOf(stageName);
+                updateUrl(members.currentStage);
+                $(plugin).attr('data-checkout-stage', checkoutStages[members.currentStage]);
+            }
+        };
+
+        //
+        // Initialize the checkout
+        //
+        members.initialize();
+
+        return this;
+    };
+}(jQuery));
+
+
+var exports = {
+    initialize: function () {
+        $('#checkout-main').checkout();
+    },
+
+    updateCheckoutView: function () {
+        $('body').on('checkout:updateCheckoutView', function (e, data) {
+            if (data.csrfToken) {
+                $("input[name*='csrf_token']").val(data.csrfToken);
+            }
+            customerHelpers.methods.updateCustomerInformation(data.customer, data.order);
+            shippingHelpers.methods.updateMultiShipInformation(data.order);
+            summaryHelpers.updateTotals(data.order.totals);
+            data.order.shipping.forEach(function (shipping) {
+                shippingHelpers.methods.updateShippingInformation(
+                    shipping,
+                    data.order,
+                    data.customer,
+                    data.options
+                );
+            });
+            billingHelpers.methods.updateBillingInformation(
+                data.order,
+                data.customer,
+                data.options
+            );
+            billingHelpers.methods.updatePaymentInformation(data.order, data.options);
+            summaryHelpers.updateOrderProductSummaryInformation(data.order, data.options);
+        });
+    },
+
+    disableButton: function () {
+        $('body').on('checkout:disableButton', function (e, button) {
+            $(button).prop('disabled', true);
+        });
+    },
+
+    enableButton: function () {
+        $('body').on('checkout:enableButton', function (e, button) {
+            $(button).prop('disabled', false);
+        });
+    }
+
+
+};
+
+[customerHelpers, billingHelpers, shippingHelpers, addressHelpers].forEach(function (library) {
+    Object.keys(library).forEach(function (item) {
+        if (typeof library[item] === 'object') {
+            exports[item] = $.extend({}, exports[item], library[item]);
+        } else {
+            exports[item] = library[item];
+        }
+    });
+});
+
+module.exports = exports;
+
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/global.js":
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=checkout.js.map

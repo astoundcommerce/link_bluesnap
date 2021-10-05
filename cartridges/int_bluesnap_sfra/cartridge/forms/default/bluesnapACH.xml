@@ -23,6 +23,6 @@
 	    missing-error="ACH.companyName.error.missing" range-error="ACH.companyName.error.range"/>
 
 	<field formid="storeInBluesnapVault" label="ach.storeInBluesnapVault.label" binding="storeInBluesnapVault" type="boolean" mandatory="false" checked="false" />
-    <field formid="authorizeACH" label="ACH.authorize" binding="authorizeACH" type="boolean" mandatory="true" checked="false" value-error="ACH.authorize.error.value" />
+    <field formid="authorizeACH" label="ACH.authorize" binding="authorizeACH" type="boolean" mandatory="false" checked="false" value-error="ACH.authorize.error.value" />
 
 </form>

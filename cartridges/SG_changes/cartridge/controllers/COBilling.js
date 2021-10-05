@@ -499,7 +499,6 @@ function billing() {
             return;
         },
         paymentSelect: function () {
-            // ToDo - pass parameter ?
             publicStart();
             return;
         },
